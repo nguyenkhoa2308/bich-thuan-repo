@@ -1,0 +1,110 @@
+[{
+  "_id": {
+    "$oid": "67bb84324259716d0ddcb1dc"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "fullName": "Nguyễn Thị Tính",
+  "phone": "0399703845",
+  "city": "Thành phố Hà Nội",
+  "district": "Huyện Đông Anh",
+  "ward": "Xã Liên Hà",
+  "detailAddress": "Đình làng Hà Hương",
+  "typeAddress": null,
+  "isDefault": false,
+  "createdAt": {
+    "$date": "2025-02-23T20:25:22.912Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-24T15:19:49.762Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67bc1de8e54c111c3e87a966"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "fullName": "Nguyễn Đức Khoa",
+  "phone": "0964896098",
+  "city": "Thành phố Hà Nội",
+  "district": "Huyện Đông Anh",
+  "ward": "Xã Liên Hà",
+  "detailAddress": "Nhà văn hóa thôn Hà Hương",
+  "typeAddress": null,
+  "isDefault": true,
+  "createdAt": {
+    "$date": "2025-02-24T07:21:12.513Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-24T15:18:29.361Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67bc20cd1f283e7621075a58"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "fullName": "Khoa",
+  "phone": "0964896098",
+  "city": "Thành phố Hà Nội",
+  "district": "Huyện Đông Anh",
+  "ward": "Xã Liên Hà",
+  "detailAddress": "Hà Hương",
+  "typeAddress": "office",
+  "isDefault": false,
+  "createdAt": {
+    "$date": "2025-02-24T07:33:33.364Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-24T15:20:07.574Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67bcbb5cb53f31a5805f1890"
+  },
+  "user": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "fullName": "Nguyễn Thị Tính",
+  "phone": "0399703845",
+  "city": "Thành phố Hà Nội",
+  "district": "Huyện Đông Anh",
+  "ward": "Xã Liên Hà",
+  "detailAddress": "Hà Hương",
+  "typeAddress": "home",
+  "isDefault": true,
+  "createdAt": {
+    "$date": "2025-02-24T18:33:00.445Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-24T18:33:00.445Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "682af16c12e6bd93ba1e7a2c"
+  },
+  "user": {
+    "$oid": "67ba9828d3f20d4a0dd7b160"
+  },
+  "fullName": "Nguyễn Đức Khoa",
+  "phone": "0399703845",
+  "city": "Thành phố Hà Nội",
+  "district": "Huyện Đông Anh",
+  "ward": "Thị trấn Đông Anh",
+  "detailAddress": "Hà Hương",
+  "typeAddress": "home",
+  "isDefault": true,
+  "createdAt": {
+    "$date": "2025-05-19T08:53:00.919Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-19T08:53:00.919Z"
+  }
+}]

@@ -1,0 +1,132 @@
+[{
+  "_id": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "email": "khoa@gmail.com",
+  "password": "$2b$10$zF1.YTTK0QPaTmB5WWMp4.fKE8DraSkKwtdEb0/jeYLQvc5NtzF.y",
+  "firstName": "Khoa",
+  "lastName": "Nguyen",
+  "displayName": "Khoa Nguyen",
+  "gender": true,
+  "birthDate": "23/08/2003",
+  "createdAt": {
+    "$date": "2025-01-30T18:06:33.577Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-25T17:03:48.635Z"
+  },
+  "role": "customer",
+  "avatar": "https://res.cloudinary.com/dezywk7nm/image/upload/v1743777314/default-avatar_stq3ir.jpg"
+},
+{
+  "_id": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "email": "hai",
+  "password": "$2b$10$tbJoJg6wc43AAt..IdhqsOY.sj0sWCTLbOYHjwSHGjo2B86mtZDta",
+  "firstName": "Phúc Hải",
+  "lastName": "Nguyễn",
+  "displayName": "Ninne",
+  "gender": false,
+  "birthDate": "04/10/2003",
+  "createdAt": {
+    "$date": "2025-01-30T19:41:49.491Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-08T04:24:14.260Z"
+  },
+  "role": "admin",
+  "resetPasswordExpires": {
+    "$date": "2025-04-21T13:53:22.574Z"
+  },
+  "resetPasswordToken": "4e00bed0a2f73531245656b8346944b7b4409ad0182b2c7df8ec397c3d15d66b",
+  "wishlists": [
+    {
+      "$oid": "67c1e828937d345e091638d2"
+    },
+    {
+      "$oid": "67c1ea0d937d345e09163bab"
+    }
+  ],
+  "avatar": "https://res.cloudinary.com/dbjtf1pxl/image/upload/v1745395162/avatars/lsxsmd6lv6auzmlzzyw4.jpg"
+},
+{
+  "_id": {
+    "$oid": "67ba9828d3f20d4a0dd7b160"
+  },
+  "email": "ngkhoa.dev@gmail.com",
+  "password": "$2b$10$boowvM4EB9HAQc9M/pyjvu8M2JfBo.fSCLNkSW/1RlKJFtl6Cu/lW",
+  "firstName": "Nguyễn",
+  "lastName": "Khoa",
+  "displayName": "Nguyễn Khoa",
+  "gender": false,
+  "birthDate": "23/08/2003",
+  "role": "customer",
+  "createdAt": {
+    "$date": "2025-02-23T03:38:16.646Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-25T16:59:43.875Z"
+  },
+  "avatar": "https://res.cloudinary.com/dezywk7nm/image/upload/v1743777314/default-avatar_stq3ir.jpg"
+},
+{
+  "_id": {
+    "$oid": "67c0c77add8d465eceff32ff"
+  },
+  "email": "khoa1@gmail.com",
+  "password": "$2b$10$nyh.pZ237MP4z8jjiKvrIeyQnMTD6aAeMnLeQwYUVXn4KDYM7vy/m",
+  "firstName": "Nguyen",
+  "lastName": "Khoa",
+  "displayName": "Nguyen Khoa",
+  "gender": true,
+  "birthDate": "02/02/2025",
+  "role": "customer",
+  "createdAt": {
+    "$date": "2025-02-27T20:13:46.711Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T20:13:46.711Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c0c7e99b6485a7458e4f37"
+  },
+  "email": "test@test.com",
+  "password": "$2b$10$UxqhOojmMnZG/9d5y6K6.OCFXpo6YXsffmpENuknt99so2Jh271NO",
+  "firstName": "Ne",
+  "lastName": "Khoa",
+  "displayName": "Ne Khoa",
+  "gender": true,
+  "birthDate": "02/02/2025",
+  "role": "customer",
+  "createdAt": {
+    "$date": "2025-02-27T20:15:37.192Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T20:15:37.192Z"
+  },
+  "avatar": "https://res.cloudinary.com/dezywk7nm/image/upload/v1743777314/default-avatar_stq3ir.jpg"
+},
+{
+  "_id": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "email": "cskh",
+  "password": "$2b$10$0juRsYK6d5q9rXgJoX31o.0SX1qyK7wWogw.MNhGaq33SyguRStGO",
+  "firstName": "CSKH",
+  "lastName": "Admin",
+  "displayName": "Admin CSKH",
+  "gender": true,
+  "birthDate": "23/08/2003",
+  "role": "admin",
+  "createdAt": {
+    "$date": "2025-03-23T04:40:20.397Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T17:01:19.709Z"
+  },
+  "avatar": "https://res.cloudinary.com/dezywk7nm/image/upload/v1743777314/default-avatar_stq3ir.jpg",
+  "wishlists": []
+}]

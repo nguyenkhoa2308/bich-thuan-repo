@@ -1,0 +1,159 @@
+[{
+  "_id": {
+    "$oid": "6801973fb9d5492998bbaea8"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 4,
+  "createdAt": {
+    "$date": "2025-04-18T00:05:19.009Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T00:05:19.009Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68019c2c24d1a4336113903b"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 5,
+  "content": "<p>xin chao tôi là <strong>Ninne</strong></p>",
+  "createdAt": {
+    "$date": "2025-04-18T00:26:20.286Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T00:26:20.286Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68019e5924d1a43361139085"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 4,
+  "content": "<p>Hello</p>",
+  "createdAt": {
+    "$date": "2025-04-18T00:35:37.604Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T00:35:37.604Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6801a1fb8e7c45ff537ae678"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 5,
+  "content": "<p>123</p>",
+  "createdAt": {
+    "$date": "2025-04-18T00:51:07.457Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T00:51:07.457Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6801a25379e1b88249be9442"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 4,
+  "content": "<p>123</p>",
+  "createdAt": {
+    "$date": "2025-04-18T00:52:35.074Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T00:52:35.074Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6801a309a122cac48e40316a"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 3,
+  "content": "<p>Hé lô mấy cưng</p>",
+  "createdAt": {
+    "$date": "2025-04-18T00:55:37.716Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T00:55:37.716Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6801a4d7a122cac48e4031ae"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 5,
+  "content": "<p>123</p>",
+  "createdAt": {
+    "$date": "2025-04-18T01:03:19.018Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T01:03:19.018Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6801af63a122cac48e403d0f"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 5,
+  "content": "<p><strong>Sản phẩm tốt</strong></p>",
+  "createdAt": {
+    "$date": "2025-04-18T01:48:19.461Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T01:48:19.461Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6801afa9a122cac48e403d52"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 5,
+  "content": "<p><strong>Sản phẩm tốt</strong></p>",
+  "createdAt": {
+    "$date": "2025-04-18T01:49:29.446Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-18T01:49:29.446Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6805fefbe21d28d6cb5cc1e1"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "rating": 5,
+  "content": "<p>Sản phẩm xịn lắm</p>",
+  "createdAt": {
+    "$date": "2025-04-21T08:16:59.298Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-21T08:16:59.298Z"
+  }
+}]

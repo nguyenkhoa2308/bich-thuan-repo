@@ -14,6 +14,7 @@ const getAllOrder = async (req, res) => {
         }
 
         const orders = await Order.find(filter)
+            .sort({ createdAt: -1 })
             .populate('user', '-password')
             .populate({ path: 'items', populate: { path: 'product' } })
             .populate('shippingAddress')
@@ -105,6 +106,7 @@ const getOrderByUserId = async (req, res) => {
         if (!req.user.id) return res.status(401).json({ message: 'Người dùng cần đăng nhập' })
 
         const orders = await Order.find({ user: req.user.id })
+            .sort({ createdAt: -1 })
             .populate('user', '-password')
             .populate({ path: 'items', populate: { path: 'product' } })
             .populate('shippingAddress')

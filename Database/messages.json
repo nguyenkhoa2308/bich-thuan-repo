@@ -1,0 +1,209 @@
+[{
+  "_id": {
+    "$oid": "680a65c9e8e185f46f30ee99"
+  },
+  "senderId": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "receiverId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "text": "Xin chào admin",
+  "seen": true,
+  "createdAt": {
+    "$date": "2025-04-24T16:24:41.273Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-24T16:27:21.806Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680a6c0b0144fa48a4f60bf9"
+  },
+  "senderId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "receiverId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "text": "ahahahahahahah",
+  "seen": true,
+  "createdAt": {
+    "$date": "2025-04-24T16:51:23.737Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T02:53:06.961Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680a79840144fa48a4f61994"
+  },
+  "senderId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "receiverId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "text": "https://github.com/manojjha86/quick-chat-app/blob/main/client/src/pages/home/components/userList.js",
+  "seen": true,
+  "createdAt": {
+    "$date": "2025-04-24T17:48:52.101Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T02:53:06.961Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680af9161b53b5137af229af"
+  },
+  "senderId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "receiverId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "text": "https://github.com/manojjha86/quick-chat-app/blob/main/client/src/pages/home/components/userList.js",
+  "seen": false,
+  "createdAt": {
+    "$date": "2025-04-25T02:53:10.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T02:53:10.994Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680afb8f1b53b5137af22b06"
+  },
+  "senderId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "receiverId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "text": "https://github.com/manojjha86/quick-chat-app/blob/main/client/src/pages/home/fasdfasdfasdfsadfasdhfakjlsdfhjkashdfjkahsdfkjasdffasdfajsdfjasdkfjasdkf;ja;sdfjasdfafasdfjaskdfj;ákdjfakl;sjfkal;sdjf;lkasjdfklasdj;f",
+  "seen": false,
+  "createdAt": {
+    "$date": "2025-04-25T03:03:43.078Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T03:03:43.078Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680b0e3a1b53b5137af22cb7"
+  },
+  "senderId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "receiverId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "text": "Nếu bạn cần làm cho link có thể click hoặc muốn format link như Facebook (ví dụ hiển thị dạng preview), thì cần xử lý ở phần JavaScript hoặc backend nữa. Nhưng về CSS thì phần trên sẽ đảm bảo layout không bị vỡ.",
+  "seen": false,
+  "createdAt": {
+    "$date": "2025-04-25T04:23:22.880Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T04:23:22.880Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680b10731b53b5137af230b4"
+  },
+  "senderId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "receiverId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "text": "https://github.com/manojjha86/quick-chat-app/blob/main/client/src/pages/home/fasdfasdfasdfsadfasdhfakjlsdfhjkashdfjkahsdfkjasdffasdfajsdfjasdkfjasdkf;ja;sdfjasdfafasdfjaskdfj;ákdjfakl;sjfkal;sdjf;lkasjdfklasdj;f",
+  "seen": true,
+  "createdAt": {
+    "$date": "2025-04-25T04:32:51.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T04:32:52.056Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "680b10ee1b53b5137af230b7"
+  },
+  "senderId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "receiverId": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "text": "https://github.com/manojjha86/quick-chat-app/blob",
+  "seen": false,
+  "createdAt": {
+    "$date": "2025-04-25T04:34:54.875Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T04:34:54.875Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68177e075fed095a1db86e5a"
+  },
+  "senderId": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "receiverId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "text": "123",
+  "seen": true,
+  "createdAt": {
+    "$date": "2025-05-04T14:47:35.652Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-04T14:47:36.757Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68177e175fed095a1db86e65"
+  },
+  "senderId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "receiverId": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "text": "123",
+  "seen": false,
+  "createdAt": {
+    "$date": "2025-05-04T14:47:51.162Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-04T14:47:51.162Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "682af22a12e6bd93ba1e8453"
+  },
+  "senderId": {
+    "$oid": "67ba9828d3f20d4a0dd7b160"
+  },
+  "receiverId": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "text": "Xin chào admin",
+  "seen": false,
+  "createdAt": {
+    "$date": "2025-05-19T08:56:10.214Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-19T08:56:10.214Z"
+  }
+}]

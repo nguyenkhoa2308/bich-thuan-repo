@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "67876806284af6c148d13631"
+  },
+  "name": "Beds",
+  "createdAt": {
+    "$date": "2025-01-15T07:47:18.864Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-25T16:36:10.034Z"
+  },
+  "slug": "beds",
+  "displayName": "Giường"
+},
+{
+  "_id": {
+    "$oid": "6787680d284af6c148d13633"
+  },
+  "name": "Desk",
+  "createdAt": {
+    "$date": "2025-01-15T07:47:25.947Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:47:25.947Z"
+  },
+  "slug": "desk",
+  "displayName": "Bàn"
+},
+{
+  "_id": {
+    "$oid": "67876812284af6c148d13635"
+  },
+  "name": "Sofa",
+  "createdAt": {
+    "$date": "2025-01-15T07:47:30.847Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-25T16:48:19.448Z"
+  },
+  "slug": "sofa",
+  "displayName": "Sofa"
+},
+{
+  "_id": {
+    "$oid": "67876816284af6c148d13637"
+  },
+  "name": "Chair",
+  "createdAt": {
+    "$date": "2025-01-15T07:47:34.583Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:47:34.583Z"
+  },
+  "slug": "chair",
+  "displayName": "Ghế"
+},
+{
+  "_id": {
+    "$oid": "6787681e284af6c148d13639"
+  },
+  "name": "Bedding",
+  "createdAt": {
+    "$date": "2025-01-15T07:47:42.995Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-25T16:36:20.596Z"
+  },
+  "slug": "bedding",
+  "displayName": "Chăn ga gối"
+},
+{
+  "_id": {
+    "$oid": "6787682a284af6c148d1363b"
+  },
+  "name": "Store Organization",
+  "createdAt": {
+    "$date": "2025-01-15T07:47:54.094Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:47:54.094Z"
+  },
+  "slug": "store-organization",
+  "displayName": "Tủ kệ"
+},
+{
+  "_id": {
+    "$oid": "67876831284af6c148d1363d"
+  },
+  "name": "Office",
+  "createdAt": {
+    "$date": "2025-01-15T07:48:01.819Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:48:01.819Z"
+  },
+  "slug": "office",
+  "displayName": "Nội thất văn phòng"
+},
+{
+  "_id": {
+    "$oid": "67876837284af6c148d1363f"
+  },
+  "name": "Decor",
+  "createdAt": {
+    "$date": "2025-01-15T07:48:07.511Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:48:07.511Z"
+  },
+  "slug": "decor",
+  "displayName": "Trang trí"
+},
+{
+  "_id": {
+    "$oid": "6787683d284af6c148d13641"
+  },
+  "name": "Kitchen",
+  "createdAt": {
+    "$date": "2025-01-15T07:48:13.354Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:48:13.354Z"
+  },
+  "slug": "kitchen",
+  "displayName": "Nhà bếp"
+},
+{
+  "_id": {
+    "$oid": "67876842284af6c148d13643"
+  },
+  "name": "Bathroom",
+  "createdAt": {
+    "$date": "2025-01-15T07:48:18.561Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-15T07:48:18.561Z"
+  },
+  "slug": "bathroom",
+  "displayName": "Phòng tắm"
+},
+{
+  "_id": {
+    "$oid": "67cc32c3ce9adbae6cbb28b7"
+  },
+  "name": "test case",
+  "displayName": "test",
+  "createdAt": {
+    "$date": "2025-03-08T12:06:27.920Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-08T12:06:37.096Z"
+  },
+  "slug": "test-case"
+}]

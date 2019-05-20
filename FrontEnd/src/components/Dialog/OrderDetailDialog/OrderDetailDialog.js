@@ -52,6 +52,9 @@ const OrderDetailDialog = ({ show, handleClose, order }) => {
                     {order.banking === 1 ? 'Thanh toán qua ngân hàng' : 'Thanh toán khi nhận hàng'}
                 </p>
                 <p>
+                    <strong>Thời gian đặt hàng:</strong> {new Date(order.createdAt).toLocaleString('vi-VN')}
+                </p>
+                <p>
                     <strong>Trạng thái:</strong> {getOrderStatusLabel(order.status)}
                 </p>
 

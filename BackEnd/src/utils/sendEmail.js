@@ -21,7 +21,7 @@ const sendEmail = async (to, subject, resetPasswordLink) => {
                 <div style="color: #777;">
                     Click vào đường dẫn dưới đây để thiết lập mật khẩu tài khoản của bạn tại <span><a
                             href="${process.env.FRONTEND_URL}"
-                            style="text-decoration: none; display: inline-block; color: #007bff;">NinFurniture</a></span>.
+                            style="text-decoration: none; display: inline-block; color: #007bff;">Bích Thuận Furniture</a></span>.
                     Nếu bạn không có yêu
                     cầu thay
                     đổi mật khẩu, xin hãy xóa email này để bảo mật thông tin.</div>

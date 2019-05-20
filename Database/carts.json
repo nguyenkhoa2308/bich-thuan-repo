@@ -1,0 +1,110 @@
+[{
+  "_id": {
+    "$oid": "67bdf9cdd0a32a784033e99c"
+  },
+  "user": {
+    "$oid": "67bdf9c5d0a32a784033e996"
+  },
+  "items": [],
+  "totalPriceFinal": 0,
+  "totalPriceOriginal": 0,
+  "createdAt": {
+    "$date": "2025-02-25T17:11:41.304Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-25T17:11:41.304Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c0c8a6987d2c65b54c7ac6"
+  },
+  "user": {
+    "$oid": "67c0c77add8d465eceff32ff"
+  },
+  "items": [
+    {
+      "$oid": "68176c1b784267c972f45e02"
+    }
+  ],
+  "totalPriceFinal": 1990,
+  "totalPriceOriginal": 2590,
+  "createdAt": {
+    "$date": "2025-02-27T20:18:46.807Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-04T13:31:07.345Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67df90b73899a512b6e0a484"
+  },
+  "user": {
+    "$oid": "67df90b43899a512b6e0a47f"
+  },
+  "items": [
+    {
+      "$oid": "681b1efb12bc02fb5ac8402b"
+    }
+  ],
+  "totalPriceFinal": 2990,
+  "totalPriceOriginal": 2990,
+  "createdAt": {
+    "$date": "2025-03-23T04:40:23.953Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-07T08:51:07.999Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68229e165dfa26a189dd1618"
+  },
+  "user": {
+    "$oid": "679bd5fdc018816001ab3f15"
+  },
+  "items": [],
+  "totalPriceFinal": 0,
+  "totalPriceOriginal": 0,
+  "createdAt": {
+    "$date": "2025-05-13T01:19:18.481Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-13T01:19:18.481Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "682af11112e6bd93ba1e76b2"
+  },
+  "user": {
+    "$oid": "679bbfa96a0eaff5e6cd4c03"
+  },
+  "items": [],
+  "totalPriceFinal": 0,
+  "totalPriceOriginal": 0,
+  "createdAt": {
+    "$date": "2025-05-19T08:51:29.007Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-19T08:51:29.007Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "682af1ed12e6bd93ba1e816d"
+  },
+  "user": {
+    "$oid": "67ba9828d3f20d4a0dd7b160"
+  },
+  "items": [],
+  "totalPriceFinal": 0,
+  "totalPriceOriginal": 0,
+  "createdAt": {
+    "$date": "2025-05-19T08:55:09.041Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-19T08:55:09.041Z"
+  }
+}]

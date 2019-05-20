@@ -6,6 +6,7 @@ import httpRequest from '~/utils/httpRequest'
 import Button from '~/components/Button'
 import OrderDetailDialog from '~/components/Dialog/OrderDetailDialog'
 import { CartContext } from '~/contexts/CartContext'
+import CustomPagination from '~/components/CustomPagination'
 
 const cx = classNames.bind(styles)
 
@@ -14,6 +15,14 @@ function PurchasePage() {
     const [selectedOrder, setSelectedOrder] = useState(null)
     const [updated, setUpdated] = useState(true)
     const [showDialog, setShowDialog] = useState(false)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 2
+    const totalPages = Math.ceil(orders.length / itemsPerPage)
+
+    const indexOfLastOrder = currentPage * itemsPerPage
+    const indexOfFirstOrder = indexOfLastOrder - itemsPerPage
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder)
 
     const { addMultipleToCart } = useContext(CartContext)
 
@@ -74,8 +83,8 @@ function PurchasePage() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                {orders.length > 0 ? (
-                    orders.map((order, index) => (
+                {currentOrders.length > 0 ? (
+                    currentOrders.map((order, index) => (
                         <div className={cx('order-card')} key={index}>
                             <div className={cx('order-info')}>
                                 <div className={cx('header')}>
@@ -161,6 +170,7 @@ function PurchasePage() {
                 )}
             </div>
             <OrderDetailDialog show={showDialog} handleClose={() => setShowDialog(false)} order={selectedOrder} />
+            <CustomPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
     )
 }
