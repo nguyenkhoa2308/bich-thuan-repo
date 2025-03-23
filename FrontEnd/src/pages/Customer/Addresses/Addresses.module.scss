@@ -1,0 +1,118 @@
+.wrapper {
+    background: var(--white);
+    width: 100%;
+}
+
+.container {
+    padding: 0 3rem 3rem;
+}
+
+.address-heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid #efefef;
+}
+
+.heading-title {
+    font-size: 1.8rem;
+    color: var(--shop-color-text);
+    margin-bottom: 0;
+}
+
+.add-btn {
+    border-radius: 4px;
+}
+
+.address-container {
+    padding-top: 12px;
+}
+
+.address-empty {
+    font-size: 1.6rem;
+    margin-top: 12px;
+}
+
+.address-title {
+    font-size: 1.8rem;
+    line-height: 28px;
+    margin-bottom: 8px;
+}
+
+.address-row {
+    padding: 18px 0 20px;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    }
+}
+
+.address-header {
+    justify-content: space-between;
+}
+
+.receiver-name {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    margin-right: 8px;
+    position: relative;
+    font-weight: 500;
+
+    &::after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        width: 0.5px;
+        height: 24px;
+        top: -2px;
+        background-color: rgba(0, 0, 0, 0.26);
+        margin-left: 8px;
+    }
+}
+
+.receiver-phone {
+    margin-left: 8px;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 500;
+}
+
+.address-info {
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: 500;
+}
+
+.update-action,
+.remove-action {
+    background: none;
+    border: 0;
+    color: #08f;
+    outline: none;
+    padding: 4px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.address-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.disable-btn {
+    cursor: not-allowed !important;
+    // pointer-events: none;
+    opacity: 0.7;
+}
+
+.default-label-container {
+    margin-top: 8px;
+}
+
+.default-label {
+    border: 1px solid var(--primary);
+    border-radius: 1px;
+    padding: 2px 4px;
+    color: var(--primary);
+}

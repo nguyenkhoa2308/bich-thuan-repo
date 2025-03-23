@@ -1,0 +1,112 @@
+// .search,
+// .search-result {
+//     width: 500px;
+// }
+
+// .search-title {
+//     height: 30px;
+//     padding: 5px 12px;
+//     font-size: 1.4rem;
+//     font-weight: 600;
+//     line-height: 18px;
+//     color: rgba(22, 24, 35, 0.5);
+// }
+
+.wrapper {
+    max-width: 680px;
+    flex: 1 1 auto;
+    margin: 0 auto;
+
+    --search-btn-width: 70px;
+}
+
+.search-result__item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: min(-156px + 100vh, 590px);
+    // min-height: 100px;
+    background: var(--white);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 12px;
+    border-radius: 8px;
+    // padding: 8px 0;
+}
+
+.view-more {
+    color: var(--shop-color-text);
+    text-align: center;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: 8px;
+
+    &:hover {
+        color: var(--primary);
+    }
+}
+
+.search {
+    position: relative;
+    border-radius: 4px;
+    display: flex;
+    border: 1.5px solid transparent;
+
+    input {
+        padding: 12px 50px 12px 15px;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #ececec;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+        display: inline-block;
+        border-radius: 4px;
+    }
+}
+.clear,
+.loading {
+    position: absolute;
+    right: calc(var(--search-btn-width) + 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--white);
+    color: rgba(22, 24, 35, 0.34);
+    font-size: 1.6rem;
+}
+
+.loading {
+    animation: spinner 1s linear infinite;
+}
+
+.loading {
+    @keyframes spinner {
+        from {
+            transform: translateY(-50%) rotate(0);
+        }
+        to {
+            transform: translateY(-50%) rotate(360deg);
+        }
+    }
+}
+
+.search-btn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: 3px;
+    border: 0;
+    border-radius: 4px;
+    width: var(--search-btn-width);
+    background-color: var(--primary);
+    color: var(--white);
+    font-size: 1.8rem;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(155, 11, 44, 0.9);
+    }
+
+    // &:active {
+    //     background-color: rgba(22, 24, 35, 0.06);
+    // }
+}

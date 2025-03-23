@@ -1,0 +1,101 @@
+.carousel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 540px;
+    margin: auto;
+    // overflow: hidden;
+
+    &:hover .arrow {
+        opacity: 1;
+
+        &.left {
+            display: block;
+            transform: translateX(3.2rem);
+        }
+
+        &.right {
+            transform: translateX(-3.2rem);
+        }
+    }
+}
+
+.slide {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0 0 7px #666;
+    opacity: 0;
+    transition: opacity 1.5s ease; /* Tăng thời gian từ 0.8s lên 1.5s */
+    z-index: 0;
+    animation-duration: 1.5s; /* Đồng bộ với thời gian fade */
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.slide:not(.hidden) {
+    opacity: 1;
+    z-index: 1; // Slide hiện tại nằm trên cùng
+    animation-name: fadeIn;
+}
+
+.hidden {
+    display: none;
+}
+
+.arrow {
+    position: absolute;
+    width: 3.2rem;
+    height: 3.2rem;
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    color: var(--primary);
+    z-index: 2;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.left {
+    left: 0;
+    transform: translateX(-10%);
+}
+
+.right {
+    right: 0;
+    transform: translateX(10%);
+}
+
+.indicators {
+    display: flex;
+    position: absolute;
+    bottom: 1.6rem;
+    z-index: 3;
+}
+
+.indicator {
+    background-color: gray;
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 100%;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px #555;
+    margin: 0 0.32rem;
+    cursor: pointer;
+
+    &.active {
+        background-color: var(--white);
+    }
+}

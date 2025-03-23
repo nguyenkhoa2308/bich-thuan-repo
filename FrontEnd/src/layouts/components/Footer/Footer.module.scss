@@ -1,0 +1,117 @@
+.wrapper {
+    margin-top: auto;
+    background-color: var(--white);
+    padding-top: 20px;
+    color: var(--dark-charcoal);
+}
+
+.wrapbox-newsletter {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.newsletter-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.newsletter-title h3 {
+    font-size: 2rem;
+}
+
+.newsletter-form {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.input-group {
+    height: 40px;
+    width: 100%;
+    position: relative;
+}
+
+.input-field {
+    height: 100%;
+    min-width: 290px;
+    outline: none;
+    font-size: 1.3rem;
+    // color: #677279;
+    color: #000;
+    border-radius: 20px;
+    border: 1px solid var(--primary);
+    padding: 0 10px 0 40px;
+
+    & ~ .input-icon {
+        position: absolute;
+        // color: #84abe7;
+        color: var(--primary);
+        font-size: 1.6rem;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+    }
+
+    &::placeholder {
+        // color: #84abe7;
+        color: var(--primary);
+        font-size: 1.4rem;
+    }
+
+    &:focus {
+        color: #000;
+
+        & ~ .input-icon {
+            color: var(--primary);
+        }
+
+        &::placeholder {
+            color: var(--primary);
+        }
+    }
+}
+
+.input-group-btn {
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.footer-copyright {
+    color: var(--dark-charcoal);
+    font-size: 1.3rem;
+    padding: 16px;
+    text-align: center;
+
+    & a {
+        color: var(--dark-charcoal);
+    }
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.social-link {
+    width: 32px;
+    height: 32px;
+    line-height: 30px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid var(--dark-charcoal);
+    color: var(--dark-charcoal);
+    display: block;
+    text-align: center;
+    border-radius: 50%;
+    transition: 0.4s;
+
+    &:hover {
+        background-color: var(--primary);
+        color: var(--white);
+        border: 1px solid var(--primary);
+    }
+}

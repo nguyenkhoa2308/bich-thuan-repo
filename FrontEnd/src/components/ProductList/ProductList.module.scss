@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+.product-item {
+    width: 25%;
+    flex: 0 0 25%;
+    position: relative;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-bottom: 14px;
+}

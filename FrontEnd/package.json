@@ -1,0 +1,70 @@
+{
+    "name": "nin-furniture",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/free-regular-svg-icons": "^6.7.2",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
+        "@fortawesome/react-fontawesome": "^0.2.2",
+        "@mui/base": "^5.0.0-beta.68",
+        "@mui/icons-material": "^6.4.0",
+        "@mui/material": "^6.4.0",
+        "@mui/x-date-pickers": "^7.23.6",
+        "@tippyjs/react": "^4.2.6",
+        "axios": "^1.7.9",
+        "bootstrap": "^5.3.3",
+        "chart.js": "^4.4.8",
+        "cra-template": "1.2.0",
+        "customize-cra": "^1.0.0",
+        "dayjs": "^1.11.13",
+        "moment": "^2.30.1",
+        "normalize.css": "^8.0.1",
+        "react": "^19.0.0",
+        "react-bootstrap": "^2.10.7",
+        "react-chartjs-2": "^5.3.0",
+        "react-dom": "^19.0.0",
+        "react-router-dom": "^7.1.1",
+        "react-scripts": "5.0.1",
+        "react-slick": "^0.30.3",
+        "react-toastify": "^11.0.3",
+        "slick-carousel": "^1.8.1",
+        "swiper": "^11.2.1",
+        "web-vitals": "^4.2.4"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "babel-plugin-module-resolver": "^5.0.2",
+        "react-app-rewired": "^2.2.1",
+        "sass": "^1.54.0",
+        "sass-loader": "^13.0.0",
+        "scss": "^0.2.4"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}

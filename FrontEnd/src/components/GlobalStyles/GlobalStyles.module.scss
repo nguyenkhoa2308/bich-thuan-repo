@@ -1,0 +1,83 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    // --primary: #003b95;
+    --primary: #9b0b2c;
+    --white: #fff;
+    --dark-charcoal: #333;
+    --shop-color-text: #252a2b;
+    --shop-color-border: #eae4e8;
+    --font-family: BlinkMacSystemFont, -apple-system, 'Quicksand', Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 1.4rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    overflow-y: overlay;
+    background-color: #f7f7f7;
+}
+
+button,
+input,
+[tabindex] {
+    border: none;
+    outline: none;
+    font-family: var(--font-family);
+}
+
+input::placeholder {
+    font-family: var(--font-family);
+}
+
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+    display: none;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+table {
+    border-spacing: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+ul,
+ol {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+// Scroll bar css
+html ::-webkit-scrollbar {
+    border-radius: 0px;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}

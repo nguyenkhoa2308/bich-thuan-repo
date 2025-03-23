@@ -1,0 +1,84 @@
+.login-inner {
+    font-size: 1.3rem;
+}
+
+.show-password-container {
+    right: 0px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    padding-inline-end: 16px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.show-password-icon {
+    line-height: 0;
+    margin-inline-start: 16px;
+    cursor: pointer;
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+.login-btn {
+    width: 100%;
+}
+
+.send-email-btn {
+    border-radius: 4px;
+}
+
+.login-btn,
+.send-email-btn {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    -webkit-user-select: none;
+    user-select: none;
+
+    &.disabled {
+        border: none;
+        color: rgba(22, 24, 35, 0.34);
+        background-color: rgba(22, 24, 35, 0.06);
+        pointer-events: none;
+    }
+}
+
+.forgot-password-link,
+.signup-link,
+.login-link {
+    display: inline;
+    color: var(--primary);
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.signup-text {
+    margin-top: 8px;
+}
+
+.login-text {
+    display: inline-flex;
+    margin-left: 12px;
+}
+
+.login-link {
+    margin-left: 4px;
+}
+
+.error-container {
+    margin-bottom: 8px;
+    font-weight: bold;
+    // font-size: 1.4rem;
+    color: red;
+}
+
+.error-message {
+    margin-left: 8px;
+}

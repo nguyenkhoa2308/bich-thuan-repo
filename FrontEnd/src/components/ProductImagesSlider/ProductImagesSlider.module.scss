@@ -1,0 +1,71 @@
+// .wrapper {
+//     padding: 32px 8px;
+//     margin-top: 32px;
+//     margin-bottom: 32px;
+// }
+
+// .thumb-container {
+//     max-height: 480px; /* Chiều cao cố định của container */
+//     overflow-y: auto;
+//     display: flex;
+//     flex-direction: column;
+// }
+
+// .thumb {
+//     width: 100px;
+//     height: 100px;
+//     object-fit: cover;
+//     cursor: pointer;
+// }
+
+// .active {
+//     width: 100%;
+//     height: 100%;
+//     // object-fit: cover;
+// }
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper {
+    width: 100%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.swiper-slide {
+    background-size: cover;
+    background-position: center;
+}
+
+.active-image {
+    height: 80%;
+    width: 100%;
+}
+
+.thumb-image {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}

@@ -1,0 +1,170 @@
+.wrapper {
+    width: 100%;
+}
+
+.order-card {
+    border-radius: 0.125rem;
+    margin: 12px 0;
+    background: var(--white);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.09);
+}
+
+.order-info,
+.order-price {
+    padding: 24px 24px 12px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 6px;
+}
+
+.order-code {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+.order-status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+
+    &.pending {
+        background: #ffeb3b;
+        color: #856404;
+    } // Vàng - Chờ duyệt
+    &.approved {
+        background: #17a2b8;
+        color: #fff;
+    } // Xanh biển - Đã duyệt
+    &.shipping {
+        background: #6f42c1;
+        color: #fff;
+    } // Xanh dương - Đang giao
+    &.delivered {
+        background: #28a745;
+        color: #fff;
+    } // Xanh lá - Đã giao
+    &.received {
+        background: #218838;
+        color: #fff;
+    } // Xám - Đã nhận
+    &.cancelled {
+        background: #fa5252;
+        color: #fff;
+    } // Đỏ - Đã hủy
+}
+
+.product-container {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.87);
+    flex-wrap: nowrap;
+    padding: 12px 0 0;
+    margin: 10px 0 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+.product-image > img {
+    background: #e1e1e1;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    flex-shrink: 0;
+    height: 80px;
+    width: 80px;
+}
+
+.product-detail {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    padding: 0 0 0 12px;
+    word-wrap: break-word;
+}
+
+.product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0 0 5px;
+    max-height: 48px;
+}
+
+.product-variant {
+    color: rgba(0, 0, 0, 0.54);
+    margin: 0 0 5px;
+}
+
+.product-quantity {
+    margin: 0 0 5px;
+}
+
+.price-original {
+    color: #000;
+    margin: 0 4px 0 0;
+    opacity: 0.26;
+    overflow: hidden;
+    text-decoration-line: line-through;
+    text-overflow: ellipsis;
+}
+
+.price-final {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.order-price {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    color: var(--primary);
+    font-size: 2.4rem;
+    font-weight: 600;
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+.order-price-title {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 10px 0 0;
+    font-weight: 500;
+}
+
+.order-action {
+    display: flex;
+    justify-content: end;
+    padding-right: 24px;
+    padding-bottom: 12px;
+}
+
+.buy-again-btn,
+.cancel-btn,
+.confirm-btn,
+.view-btn {
+    border-radius: 4px;
+    margin-left: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.cancel-btn,
+.view-btn {
+    &:hover {
+        color: var(--white);
+        background-color: var(--primary);
+    }
+}
+
+.no-orders {
+    background: var(--white);
+    font-size: 1.6rem;
+    padding: 24px;
+    font-weight: 600;
+}

@@ -1,0 +1,48 @@
+.stat-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 10px !important;
+}
+
+.card-icon {
+    padding: 8px;
+    margin-right: 16px;
+    font-size: 2rem;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.card-title {
+    color: gray;
+    font-size: 1.4rem;
+}
+
+.product-icon {
+    color: green;
+    background-color: rgba(0, 255, 0, 0.25);
+}
+
+.order-icon {
+    color: blue;
+    background-color: rgba(0, 0, 255, 0.25);
+}
+
+.user-icon {
+    color: purple;
+    background-color: rgba(0, 255, 255, 0.25);
+}
+
+.revenue-icon {
+    color: red;
+    background-color: rgba(255, 0, 0, 0.25);
+}
+
+.chart-title {
+    font-size: 1.6rem;
+    padding: 8px;
+    font-weight: bold;
+}
