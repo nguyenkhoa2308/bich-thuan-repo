@@ -1,6 +1,7 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react'
+import { io } from 'socket.io-client'
 
-import httpRequest from '~/utils/httpRequest';
+import httpRequest from '~/utils/httpRequest'
 
 export const AuthContext = createContext({
     isAuthenticated: false,
@@ -10,7 +11,8 @@ export const AuthContext = createContext({
         name: '',
         role: '',
     },
-});
+    socket: null,
+})
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({
@@ -21,20 +23,21 @@ export const AuthProvider = ({ children }) => {
             name: '',
             role: '',
         },
-    });
-    const [loading, setLoading] = useState(true); // 🔥 Thêm biến loading
+    })
+    const [socket, setSocket] = useState(null)
+    const [loading, setLoading] = useState(true) // 🔥 Thêm biến loading
 
     useEffect(() => {
         const fetchAccount = async () => {
-            const token = localStorage.getItem('access_token');
+            const token = localStorage.getItem('access_token')
             if (!token) {
-                setAuth({ isAuthenticated: false, user: null });
-                setLoading(false); // ✅ Đánh dấu đã load xong
-                return;
+                setAuth({ isAuthenticated: false, user: null })
+                setLoading(false) // ✅ Đánh dấu đã load xong
+                return
             }
 
             try {
-                const res = await httpRequest.get(`user/account`);
+                const res = await httpRequest.get(`user/account`)
                 if (res && !res.message) {
                     setAuth({
                         isAuthenticated: true,
@@ -44,18 +47,30 @@ export const AuthProvider = ({ children }) => {
                             name: res.name,
                             role: res.role,
                         },
-                    });
+                    })
                 } else {
-                    setAuth({ isAuthenticated: false, user: null });
+                    setAuth({ isAuthenticated: false, user: null })
                 }
             } catch (error) {
-                setAuth({ isAuthenticated: false, user: null });
+                setAuth({ isAuthenticated: false, user: null })
             }
-            setLoading(false); // ✅ Đánh dấu đã load xong
-        };
+            setLoading(false) // ✅ Đánh dấu đã load xong
+        }
 
-        fetchAccount();
-    }, []);
+        fetchAccount()
+    }, [])
 
-    return <AuthContext.Provider value={{ auth, loading, setAuth }}>{children}</AuthContext.Provider>;
-};
+    useEffect(() => {
+        if (auth.isAuthenticated && auth.user) {
+            const newSocket = io(process.env.REACT_APP_SOCKET_URL, {
+                query: { userId: auth.user.id }, // Gửi userId lên server
+            })
+
+            setSocket(newSocket)
+
+            return () => newSocket.disconnect() // Đóng kết nối khi user logout
+        }
+    }, [auth.isAuthenticated, auth.user])
+
+    return <AuthContext.Provider value={{ auth, loading, socket, setAuth }}>{children}</AuthContext.Provider>
+}

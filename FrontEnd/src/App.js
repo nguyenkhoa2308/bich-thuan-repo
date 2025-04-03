@@ -1,32 +1,33 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import './App.css';
+import './App.css'
 
 //User
-import DefaultLayout from '~/layouts/DefaultLayout';
-import Home from '~/pages/Customer/Home';
-import Login from '~/pages/Customer/Login';
-import SignUp from '~/pages/Customer/SignUp';
-import ResetPassword from '~/pages/Customer/ResetPassword';
-import CategoryPage from '~/pages/Customer/CategoryPage';
-import ProductDetail from '~/pages/Customer/ProductDetail';
-import AccountLayout from '~/layouts/AccountLayout';
-import Profile from '~/pages/Customer/Profile';
-import PurchasePage from '~/pages/Customer/PurchasePage';
-import Addresses from '~/pages/Customer/Addresses';
-import ChangePassword from '~/pages/Customer/ChangePassword';
-import Cart from '~/pages/Customer/Cart';
-import CheckOut from '~/pages/Customer/CheckOut';
-import SearchPage from '~/pages/Customer/SearchPage/SearchPage';
+import DefaultLayout from '~/layouts/DefaultLayout'
+import Home from '~/pages/Customer/Home'
+import Login from '~/pages/Customer/Login'
+import SignUp from '~/pages/Customer/SignUp'
+import ResetPassword from '~/pages/Customer/ResetPassword'
+import CategoryPage from '~/pages/Customer/CategoryPage'
+import ProductDetail from '~/pages/Customer/ProductDetail'
+import AccountLayout from '~/layouts/AccountLayout'
+import Profile from '~/pages/Customer/Profile'
+import PurchasePage from '~/pages/Customer/PurchasePage'
+import Addresses from '~/pages/Customer/Addresses'
+import ChangePassword from '~/pages/Customer/ChangePassword'
+import Cart from '~/pages/Customer/Cart'
+import CheckOut from '~/pages/Customer/CheckOut'
+import SearchPage from '~/pages/Customer/SearchPage/SearchPage'
 
 //Admin
-import ProtectedRoute from '~/routes/ProtectedRoute';
-import AdminDashboard from '~/pages/Admin/AdminDashboard';
-import AdminLayout from '~/layouts/AdminLayout';
-import UserManagement from '~/pages/Admin/UserManagement';
-import ProductManagement from '~/pages/Admin/ProductManagement';
-import OrderManagement from '~/pages/Admin/OrderManagement';
-import CategoryManagement from '~/pages/Admin/CategoryManagement';
+import ProtectedRoute from '~/routes/ProtectedRoute'
+import AdminDashboard from '~/pages/Admin/AdminDashboard'
+import AdminLayout from '~/layouts/AdminLayout'
+import UserManagement from '~/pages/Admin/UserManagement'
+import ProductManagement from '~/pages/Admin/ProductManagement'
+import OrderManagement from '~/pages/Admin/OrderManagement'
+import CategoryManagement from '~/pages/Admin/CategoryManagement'
+import AdminChat from '~/pages/Admin/AdminChat'
 
 function App() {
     return (
@@ -60,6 +61,7 @@ function App() {
                 >
                     <Route index element={<AdminDashboard />} />
                     {/* <Route index element={<ProductManagement />} /> */}
+                    <Route path="messages" element={<AdminChat />} />
                     <Route path="products" element={<ProductManagement />} />
                     <Route path="users" element={<UserManagement />}>
                         <Route path=":id" element={<UserManagement />} />
@@ -69,7 +71,7 @@ function App() {
                 </Route>
             </Routes>
         </Router>
-    );
+    )
 }
 
-export default App;
+export default App

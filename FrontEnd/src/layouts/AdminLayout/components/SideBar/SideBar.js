@@ -1,30 +1,34 @@
-import classnames from 'classnames/bind';
-import { Link, useLocation } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
-import { useContext } from 'react';
+import classnames from 'classnames/bind'
+import { Link, useLocation } from 'react-router-dom'
+import { Navbar, Nav } from 'react-bootstrap'
+import { useContext } from 'react'
 
-import styles from './SideBar.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward, faBoxOpen, faList, faTruck, faUser, faChartLine } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '~/contexts/AuthContext';
+import styles from './SideBar.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBackward, faBoxOpen, faList, faTruck, faUser, faChartLine } from '@fortawesome/free-solid-svg-icons'
+import { AuthContext } from '~/contexts/AuthContext'
+import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
 // import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 // eslint-disable-next-line
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function SideBar() {
-    const { auth } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext)
 
-    const location = useLocation();
+    const location = useLocation()
 
     const menuItems = [
         { path: '/admin', name: 'Dashboard', icon: <FontAwesomeIcon icon={faChartLine} /> },
+        ...(auth.user.id === '67df90b43899a512b6e0a47f'
+            ? [{ path: '/admin/messages', name: 'Tin nhắn', icon: <FontAwesomeIcon icon={faFacebookMessenger} /> }]
+            : []),
         { path: '/admin/products', name: 'Sản phẩm', icon: <FontAwesomeIcon icon={faBoxOpen} /> },
         { path: '/admin/orders', name: 'Đơn hàng', icon: <FontAwesomeIcon icon={faTruck} /> },
         { path: '/admin/users', name: 'Người dùng', icon: <FontAwesomeIcon icon={faUser} /> },
         { path: '/admin/categories', name: 'Danh mục', icon: <FontAwesomeIcon icon={faList} /> },
         { path: '/', name: 'Quay về trang chủ', icon: <FontAwesomeIcon icon={faBackward} /> },
-    ];
+    ]
 
     return (
         <Navbar
@@ -48,11 +52,11 @@ function SideBar() {
                             <span className={cx('icon')}>{item.icon}</span>
                             {item.name}
                         </Nav.Link>
-                    );
+                    )
                 })}
             </Nav>
         </Navbar>
-    );
+    )
 }
 
-export default SideBar;
+export default SideBar

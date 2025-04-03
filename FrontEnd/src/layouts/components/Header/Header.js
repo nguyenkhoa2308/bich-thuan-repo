@@ -1,20 +1,20 @@
-import classnames from 'classnames/bind';
-import { useState, useEffect, useContext } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressBook, faTrashCan, faUser } from '@fortawesome/free-regular-svg-icons';
-import { MenuItem } from '@mui/material';
-import { faAngleDown, faArrowRightFromBracket, faMinus, faPlus, faGauge } from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames/bind'
+import { useState, useEffect, useContext } from 'react'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAddressBook, faTrashCan, faUser } from '@fortawesome/free-regular-svg-icons'
+import { MenuItem } from '@mui/material'
+import { faAngleDown, faArrowRightFromBracket, faMinus, faPlus, faGauge } from '@fortawesome/free-solid-svg-icons'
 
-import styles from './Header.module.scss';
-import { AccountIcon, CartIcon, ClipBoardListIcon, ShoppingCartIcon } from '~/components/Icons/Icons';
-import Button from '~/components/Button';
-import Search from '../Search';
-import DropDownMenu from '~/components/DropDownMenu';
-import { AuthContext } from '~/contexts/AuthContext';
-import { CartContext } from '~/contexts/CartContext';
+import styles from './Header.module.scss'
+import { AccountIcon, CartIcon, ClipBoardListIcon, ShoppingCartIcon } from '~/components/Icons/Icons'
+import Button from '~/components/Button'
+import Search from '../Search'
+import DropDownMenu from '~/components/DropDownMenu'
+import { AuthContext } from '~/contexts/AuthContext'
+import { CartContext } from '~/contexts/CartContext'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 const HEADER_TAB = [
     { title: 'Sofa', slug: 'sofa' },
@@ -27,89 +27,89 @@ const HEADER_TAB = [
     { title: 'Trang trí', slug: 'decor' },
     { title: 'Nhà bếp', slug: 'kitchen' },
     { title: 'Phòng tắm', slug: 'bathroom' },
-];
+]
 
 function Header() {
-    const { auth, setAuth } = useContext(AuthContext);
-    const { cartItems, countItems, deleteCartItem, updateQuantityOfCartItem } = useContext(CartContext);
-    const navigate = useNavigate();
+    const { auth, setAuth } = useContext(AuthContext)
+    const { cartItems, countItems, deleteCartItem, updateQuantityOfCartItem } = useContext(CartContext)
+    const navigate = useNavigate()
 
-    const slug = useParams();
-    const location = useLocation();
+    const slug = useParams()
+    const location = useLocation()
     // eslint-disable-next-line
-    const [activeTab, setActiveTab] = useState(-1);
-    const [accountAnchorEl, setAccountAnchorEl] = useState(null);
-    const [cartAnchorEl, setCartAnchorEl] = useState(null);
-    const [accountOpen, setAccountOpen] = useState(false);
-    const [cartOpen, setCartOpen] = useState(false);
-    const [cartQuantities, setCartQuantities] = useState({});
-    const [pendingUpdate, setPendingUpdate] = useState(null);
+    const [activeTab, setActiveTab] = useState(-1)
+    const [accountAnchorEl, setAccountAnchorEl] = useState(null)
+    const [cartAnchorEl, setCartAnchorEl] = useState(null)
+    const [accountOpen, setAccountOpen] = useState(false)
+    const [cartOpen, setCartOpen] = useState(false)
+    const [cartQuantities, setCartQuantities] = useState({})
+    const [pendingUpdate, setPendingUpdate] = useState(null)
 
     const handleAccountClick = (event) => {
-        setAccountAnchorEl(event.currentTarget);
-        setAccountOpen(true);
-    };
+        setAccountAnchorEl(event.currentTarget)
+        setAccountOpen(true)
+    }
 
     const handleCartClick = (event) => {
-        setCartAnchorEl(event.currentTarget);
-        setCartOpen(true);
-    };
+        setCartAnchorEl(event.currentTarget)
+        setCartOpen(true)
+    }
 
     const handleClose = () => {
-        setAccountOpen(false);
-        setCartOpen(false);
-    };
+        setAccountOpen(false)
+        setCartOpen(false)
+    }
 
     const handleUpdate = (quantity, cartItemId) => {
         setCartQuantities((prev) => ({
             ...prev,
             [cartItemId]: quantity,
-        }));
+        }))
 
         // updateQuantityOfCartItem(quantity, cartItemId); // Gọi API để cập nhật số lượng
-        setPendingUpdate({ cartItemId });
-    };
+        setPendingUpdate({ cartItemId })
+    }
 
     const handleIncreaseQuantity = (stock, quantity, cartItemId) => {
-        const newQuantity = (cartQuantities[cartItemId] || quantity) + 1;
+        const newQuantity = (cartQuantities[cartItemId] || quantity) + 1
 
         // Chỉ tăng số lượng nếu newQuantity <= stock
         if (newQuantity <= stock) {
-            handleUpdate(newQuantity, cartItemId); // Gọi API để cập nhật số lượng
+            handleUpdate(newQuantity, cartItemId) // Gọi API để cập nhật số lượng
         }
-    };
+    }
 
     const handleDecreaseQuantity = (quantity, cartItemId) => {
-        const currentQuantity = cartQuantities[cartItemId] || quantity;
+        const currentQuantity = cartQuantities[cartItemId] || quantity
 
-        const newQuantity = currentQuantity > 1 ? currentQuantity - 1 : 1;
+        const newQuantity = currentQuantity > 1 ? currentQuantity - 1 : 1
 
         // Chỉ giảm số lượng nếu newQuantity < currentQuantity
         if (newQuantity !== currentQuantity) {
             // Kiểm tra nếu số lượng thay đổi
-            handleUpdate(newQuantity, cartItemId); // Gọi API để cập nhật số lượng
+            handleUpdate(newQuantity, cartItemId) // Gọi API để cập nhật số lượng
         }
-    };
+    }
 
     const handleRemoveItem = (cartItem) => {
         // eslint-disable-next-line
-        const delItemId = cartItem._id;
-        delete cartItems.delItemId;
-        deleteCartItem(cartItem._id);
-    };
+        const delItemId = cartItem._id
+        delete cartItems.delItemId
+        deleteCartItem(cartItem._id)
+    }
 
     // Dùng useEffect để gọi API sau 0.5s nếu không có thay đổi
     useEffect(() => {
-        if (!pendingUpdate) return;
+        if (!pendingUpdate) return
 
         const timer = setTimeout(() => {
-            const { cartItemId } = pendingUpdate;
-            updateQuantityOfCartItem(cartQuantities[cartItemId], cartItemId);
-            setPendingUpdate(null);
-        }, 500);
+            const { cartItemId } = pendingUpdate
+            updateQuantityOfCartItem(cartQuantities[cartItemId], cartItemId)
+            setPendingUpdate(null)
+        }, 500)
 
-        return () => clearTimeout(timer);
-    }, [pendingUpdate, cartQuantities, updateQuantityOfCartItem]);
+        return () => clearTimeout(timer)
+    }, [pendingUpdate, cartQuantities, updateQuantityOfCartItem])
 
     const USER_MENU = [
         {
@@ -117,7 +117,7 @@ function Header() {
             icon: <FontAwesomeIcon icon={faUser} />,
             value: 'view-profile',
             clickAction: () => {
-                navigate('/account');
+                navigate('/account')
             },
         },
         {
@@ -125,7 +125,7 @@ function Header() {
             icon: <FontAwesomeIcon icon={faAddressBook} />,
             value: 'address-list',
             clickAction: () => {
-                navigate('/account/addresses');
+                navigate('/account/addresses')
             },
         },
         {
@@ -133,7 +133,7 @@ function Header() {
             icon: <ClipBoardListIcon />,
             value: 'purchase',
             clickAction: () => {
-                navigate('/account/purchase');
+                navigate('/account/purchase')
             },
         },
         ...(auth?.user?.role === 'admin'
@@ -144,7 +144,7 @@ function Header() {
                       to: '/admin',
                       value: 'admin',
                       clickAction: () => {
-                          navigate('/admin');
+                          navigate('/admin')
                       },
                   },
               ]
@@ -153,7 +153,7 @@ function Header() {
             title: 'Đăng xuất',
             icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
             clickAction: () => {
-                localStorage.removeItem('access_token');
+                localStorage.removeItem('access_token')
                 setAuth({
                     isAuthenticated: false,
                     user: {
@@ -162,30 +162,30 @@ function Header() {
                         name: '',
                         role: '',
                     },
-                });
-                setAccountOpen(false);
-                navigate('/');
+                })
+                setAccountOpen(false)
+                navigate('/')
             },
             separate: true,
             value: 'logout',
         },
-    ];
+    ]
 
     useEffect(() => {
         if (location.pathname === '/') {
             // Kiểm tra nếu trang hiện tại là trang chủ
-            setActiveTab(-1); // Đặt lại activeTab thành -1 khi về trang chủ
+            setActiveTab(-1) // Đặt lại activeTab thành -1 khi về trang chủ
         }
-        setAccountOpen(false);
-        setCartOpen(false);
-    }, [location.pathname]);
+        setAccountOpen(false)
+        setCartOpen(false)
+    }, [location.pathname])
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('header-bar')}>
                     <Link to="/">
-                        <span className={cx('header-logo')}>NinFurniture</span>
+                        <span className={cx('header-logo')}>BichThuan</span>
                     </Link>
 
                     <div className={cx('header-action')}>
@@ -432,13 +432,13 @@ function Header() {
                                 >
                                     {item.title}
                                 </Button>
-                            );
+                            )
                         })}
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Header;
+export default Header

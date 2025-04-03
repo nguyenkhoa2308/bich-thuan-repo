@@ -69,6 +69,7 @@ function CategoryPage() {
     const [pageTitle, setPageTitle] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
+    // eslint-disable-next-line
     const [loading, setLoading] = useState(false);
 
     // Chuyển trang

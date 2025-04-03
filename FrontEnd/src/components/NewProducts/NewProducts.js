@@ -8,7 +8,6 @@ import styles from './NewProducts.module.scss';
 import ProductCard from '../ProductCard';
 import ProductDialog from '../Dialog/ProductDialog';
 import { CartContext } from '~/contexts/CartContext';
-import { ToastContainer } from 'react-toastify';
 
 const cx = classnames.bind(styles);
 
