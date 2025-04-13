@@ -8,12 +8,12 @@ export const getUsersForSidebar = async (req, res) => {
 
         // Tìm các tin nhắn liên quan đến admin (admin là sender hoặc receiver)
         const messages = await Message.find({
-            $or: [{ sender: adminId }, { receiver: adminId }],
-        }).select('sender receiver')
+            $or: [{ senderId: adminId }, { receiverId: adminId }],
+        }).select('senderId receiverId')
 
         // Lấy danh sách userId từ tin nhắn, bỏ trùng và bỏ adminId
         const userIds = [
-            ...new Set(messages.flatMap((msg) => [msg.sender.toString(), msg.receiver.toString()])),
+            ...new Set(messages.flatMap((msg) => [msg.senderId.toString(), msg.receiverId.toString()])),
         ].filter((id) => id !== adminId.toString())
 
         // Lấy thông tin user từ danh sách userId

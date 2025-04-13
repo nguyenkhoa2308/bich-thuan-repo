@@ -19,6 +19,8 @@ import Cart from '~/pages/Customer/Cart'
 import CheckOut from '~/pages/Customer/CheckOut'
 import SearchPage from '~/pages/Customer/SearchPage/SearchPage'
 
+import About from '~/pages/Customer/About/About'
+
 //Admin
 import ProtectedRoute from '~/routes/ProtectedRoute'
 import AdminDashboard from '~/pages/Admin/AdminDashboard'
@@ -43,6 +45,25 @@ function App() {
                     <Route path="cart" element={<Cart />} />
                     <Route path="checkout" element={<CheckOut />} />
                     <Route path="search" element={<SearchPage />} />
+                    <Route path="pages">
+                        <Route path="about" element={<About />} />
+                        <Route path="contact" element={<About />} />
+                        <Route path="blog" element={<About />} />
+
+                        {/* <Route path="faq" element={<FAQ />} /> */}
+
+                        {/* Purchase Guide */}
+                        {/* <Route path="order-guide" element={<OrderGuide />} />
+                        <Route path="momo-payment-guide" element={<MomoPaymentGuide />} /> */}
+
+                        {/* Policy & Shipping */}
+                        {/* <Route path="warranty-policy" element={<WarrantyPolicy />} />
+                        <Route path="shipping-cost" element={<ShippingCost />} />
+                        <Route path="return-and-refund-policy" element={<ReturnAndRefundPolicy />} />
+                        <Route path="shipping-policy" element={<ShippingPolicy />} />
+                        <Route path="payment-methods" element={<PaymentMethods />} />
+                        <Route path="privacy-policy" element={<PrivacyPolicy />} /> */}
+                    </Route>
                 </Route>
                 <Route path="account" element={<AccountLayout />}>
                     <Route path="" element={<Profile />}></Route>

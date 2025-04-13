@@ -1,8 +1,9 @@
 import express from 'express'
-const router = express.Router()
 
 import { auth, adminMiddleware } from '~/middlewares/auth'
-const { getUsersForSidebar, getMessages, sendMessage } = require('../controllers/message.controller')
+import { getUsersForSidebar, getMessages, sendMessage } from '../controllers/message.controller'
+
+const router = express.Router()
 
 router.get('/users', auth, adminMiddleware, getUsersForSidebar)
 router.get('/:id', auth, getMessages)

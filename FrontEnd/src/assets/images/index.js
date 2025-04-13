@@ -9,6 +9,7 @@ const images = {
     anh2: require('~/assets/images/anh2.jpg'),
     noImage: require('~/assets/images/no-image.png'),
     chatAvatar: require('~/assets/images/chat-avatar.png'),
+    defaultAvatar: require('~/assets/images/default-avatar.jpg'),
     // banner2: require('~/assets/images/banner2.jng'),
     // banner3: require('~/assets/images/banner3.png'),
 }

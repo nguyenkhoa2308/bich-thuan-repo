@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react'
+import { createContext, useState, useEffect, useContext, useCallback } from 'react'
 import httpRequest from '~/utils/httpRequest'
 import { AuthContext } from '~/contexts/AuthContext'
 
@@ -10,23 +10,24 @@ export const ChatProvider = ({ children }) => {
     const [selectedUser, setSelectedUser] = useState(null)
     const [messages, setMessages] = useState([])
 
-    const getUsers = async () => {
+    const getUsers = useCallback(async () => {
         try {
-            const res = await httpRequest.get(`/messages/users/${auth.user.id}`)
+            const res = await httpRequest.get(`/messages/users`)
+            // console.log(res)
             setUsers(res)
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [])
 
-    const getMessages = async (userId) => {
+    const getMessages = useCallback(async (userId) => {
         try {
             const res = await httpRequest.get(`/messages/${userId}`)
             setMessages(res)
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [])
 
     const sendMessage = async (messageText) => {
         // if (!selectedUser) return
@@ -53,16 +54,15 @@ export const ChatProvider = ({ children }) => {
 
     // 🟢 Lắng nghe tin nhắn mới từ WebSocket
     useEffect(() => {
-        if (!socket) return
+        if (!socket || !auth.user) return
 
         socket.on('newMessage', (newMessage) => {
-            // Nếu là admin, chỉ hiển thị tin nhắn của khách hàng đang chọn
-            if (auth.user.role === 'admin') {
+            if (auth.user.id === '67df90b43899a512b6e0a47f') {
+                // Chỉ cập nhật tin nhắn nếu tin nhắn thuộc về khách hàng đang chọn
                 if (selectedUser && newMessage.senderId === selectedUser._id) {
                     setMessages((prevMessages) => [...prevMessages, newMessage])
                 }
             } else {
-                // Nếu là khách hàng, tự động hiển thị tin nhắn từ admin
                 setMessages((prevMessages) => [...prevMessages, newMessage])
             }
         })
@@ -70,7 +70,7 @@ export const ChatProvider = ({ children }) => {
         return () => {
             socket.off('newMessage')
         }
-    }, [socket, selectedUser, auth.user?.role])
+    }, [socket, selectedUser, auth.user])
 
     return (
         <ChatContext.Provider

@@ -1,28 +1,29 @@
-import classnames from 'classnames/bind';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import classnames from 'classnames/bind'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import styles from './Home.module.scss';
-import images from '~/assets/images';
+import styles from './Home.module.scss'
+import images from '~/assets/images'
 // import Button from '~/components/Button';
-import HeroBanner from '~/components/HeroBanner/HeroBanner';
-import httpRequest from '~/utils/httpRequest';
-import NewProducts from '~/components/NewProducts/NewProducts';
-import BestSellerProducts from '~/components/BestSellerProducts/BestSellerProducts';
+import HeroBanner from '~/components/HeroBanner/HeroBanner'
+import httpRequest from '~/utils/httpRequest'
+import NewProducts from '~/components/NewProducts/NewProducts'
+import BestSellerProducts from '~/components/BestSellerProducts/BestSellerProducts'
+import Image from '~/components/Image'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function Home() {
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState(null)
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await httpRequest.get('/products');
+            const response = await httpRequest.get('/products')
             // setProducts(response.data);
-            setProducts(response);
-        };
-        fetchProducts();
-    }, []);
+            setProducts(response)
+        }
+        fetchProducts()
+    }, [])
 
     return (
         <div className={cx('wrapper')}>
@@ -127,10 +128,10 @@ function Home() {
                     <div className={cx('banner__inner--block', 'col-lg-6', 'col-md-12', 'col-12')}>
                         <div className={cx('banner__inner--img')}>
                             <div className={cx('banner-hover-effect')} aria-label="Nến thơm">
-                                <img
+                                <Image
                                     className={cx('image')}
-                                    src="//theme.hstatic.net/200000796751/1001266995/14/homebanner_2_img.jpg?v=83"
-                                    alt="Nến thơm"
+                                    src="https://theme.hstatic.net/200000796751/1001266995/14/homebanner_1_img.jpg?v=89"
+                                    alt="Chăn ga gối"
                                 />
                             </div>
                         </div>
@@ -138,18 +139,23 @@ function Home() {
                     <div className={cx('banner__inner--block', 'col-lg-6', 'col-md-12', 'col-12')}>
                         <div className={cx('banner__inner--img')}>
                             <div className={cx('banner-hover-effect')} aria-label="Nến thơm">
-                                <img
+                                <Image
                                     className={cx('image')}
-                                    src="//theme.hstatic.net/200000796751/1001266995/14/homebanner_2_img.jpg?v=83"
+                                    src="https://theme.hstatic.net/200000796751/1001266995/14/homebanner_2_img.jpg?v=83"
                                     alt="Nến thơm"
                                 />
                             </div>
                         </div>
                     </div>
-                </div>            
+                </div>
+
+                <div className={cx('blogs-container')}>
+                    <h2 className={cx('heading-title')}>Bài viết mới nhất</h2>
+                    {/* <BestSellerProducts products={products} /> */}
+                </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Home;
+export default Home
