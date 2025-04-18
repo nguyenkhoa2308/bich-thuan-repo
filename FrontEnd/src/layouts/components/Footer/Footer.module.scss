@@ -115,6 +115,10 @@
         padding-right: 10px;
         color: var(--footer-color-text);
     }
+
+    &:hover .link {
+        color: var(--primary);
+    }
 }
 
 .footer-copyright {

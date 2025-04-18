@@ -1,36 +1,43 @@
-import classnames from 'classnames/bind';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import classnames from 'classnames/bind'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
-import styles from './ProductDetail.module.scss';
-import { ToastContainer } from 'react-toastify';
-import ProductInfo from '~/components/ProductInfo';
-import Button from '~/components/Button';
+import styles from './ProductDetail.module.scss'
+import ProductInfo from '~/components/ProductInfo'
+import Button from '~/components/Button'
+import ReviewForm from '~/components/ReviewForm'
+import SliderProducts from '~/components/SliderProducts'
+import httpRequest from '~/utils/httpRequest'
+import ReviewList from '~/components/ReviewList'
+// import images from '~/assets/images'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function ProductDetail() {
-    const [product, setProduct] = useState();
-    const [isExpanded, setIsExpanded] = useState(false); // Trạng thái mở rộng mô tả
-    const slug = useParams();
+    const [product, setProduct] = useState()
+    const [relatedProduct, setRelatedProduct] = useState([])
+    const [isExpanded, setIsExpanded] = useState(false) // Trạng thái mở rộng mô tả
+    const [reviews, setReviews] = useState([])
+    const slug = useParams()
 
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await fetch(`http://localhost:410/api/products/${slug.slug}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                setProduct(data);
-            } catch (error) {
-                console.error('Error fetching product:', error);
-            }
-        };
-        fetchProduct();
-    }, [slug]);
+                const response = await httpRequest.get(`products/${slug.slug}`)
+                // console.log(response)
 
-    const description = product?.description || '';
+                setProduct(response.product)
+                setRelatedProduct(response.relatedProducts)
+                setReviews(response.product.reviews)
+            } catch (error) {
+                console.error('Error fetching product:', error)
+            }
+        }
+        fetchProduct()
+    }, [slug])
+
+    const description = product?.description || ''
 
     // Kiểm tra nếu mô tả trống
     const formatString =
@@ -43,10 +50,10 @@ function ProductDetail() {
                     <br />
                 </span>
             ))
-        );
+        )
 
     // Hiển thị nội dung rút gọn nếu chưa mở rộng
-    const shortDescription = description.length > 150 ? description.substring(0, 150) + '...' : description;
+    const shortDescription = description.length > 150 ? description.substring(0, 150) + '...' : description
 
     return (
         <div className={cx('wrapper')}>
@@ -73,13 +80,23 @@ function ProductDetail() {
                                 </div>
                             )}
                         </div>
+                        <div className={cx('related-product-container', 'p-0', 'mt-5')}>
+                            <h2 className={cx('heading-title')}>Có thể bạn cũng thích</h2>
+
+                            <SliderProducts products={relatedProduct} />
+                        </div>
+                        <div className={cx('review-container', 'mt-5', 'mb-4')}>
+                            <h2 className={cx('heading-title')}>Đánh giá sản phẩm</h2>
+                            <ReviewForm slug={slug.slug} setReviews={setReviews}/>
+
+                            <ReviewList reviews={reviews} />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={cx('product-related-container')}></div>
             <ToastContainer />
         </div>
-    );
+    )
 }
 
-export default ProductDetail;
+export default ProductDetail

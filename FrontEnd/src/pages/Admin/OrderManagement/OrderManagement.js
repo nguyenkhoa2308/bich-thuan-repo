@@ -1,36 +1,36 @@
-import classNames from 'classnames/bind';
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Form, Row, Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Zoom, toast, ToastContainer } from 'react-toastify';
+import classNames from 'classnames/bind'
+import React, { useEffect, useState } from 'react'
+import { Table, Button, Form, Row, Col } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-regular-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { Zoom, toast, ToastContainer } from 'react-toastify'
 
-import { useDebounce } from '~/hooks';
-import styles from './OrderManagement.module.scss';
-import httpRequest from '~/utils/httpRequest';
-import OrderDetailDialog from '~/components/Dialog/OrderDetailDialog';
-import CustomPagination from '~/components/CustomPagination';
-import ConfirmDialog from '~/components/Dialog/ConfirmDialog';
+import { useDebounce } from '~/hooks'
+import styles from './OrderManagement.module.scss'
+import httpRequest from '~/utils/httpRequest'
+import OrderDetailDialog from '~/components/Dialog/OrderDetailDialog'
+import CustomPagination from '~/components/CustomPagination'
+import ConfirmDialog from '~/components/Dialog/ConfirmDialog'
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 const OrderManagement = () => {
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState([])
     // eslint-disable-next-line
-    const [loading, setLoading] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [loading, setLoading] = useState(false)
+    const [selectedOrder, setSelectedOrder] = useState(null)
     // const [updated, setUpdated] = useState(true);
-    const [showDialog, setShowDialog] = useState(false);
-    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [showDialog, setShowDialog] = useState(false)
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
-    const [statusFilter, setStatusFilter] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
-    const debouncedValue = useDebounce(searchTerm, 1000);
+    const [statusFilter, setStatusFilter] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
+    const debouncedValue = useDebounce(searchTerm, 1000)
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 12;
-    const totalPages = Math.ceil(orders.length / itemsPerPage);
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 12
+    const totalPages = Math.ceil(orders.length / itemsPerPage)
 
     const statusMap = {
         Pending: { text: 'Duyệt đơn', next: 'Approved', variant: 'warning' },
@@ -38,7 +38,7 @@ const OrderManagement = () => {
         Shipping: { text: 'Đã giao', next: 'Delivered', variant: 'primary' },
         Delivered: { text: 'Đã nhận', next: 'Received', variant: 'success' },
         // Received: { text: 'Hoàn thành', next: 'Completed', variant: 'success' },
-    };
+    }
     const statusMapping = {
         Pending: { text: 'Chờ duyệt', className: 'pending' },
         Approved: { text: 'Đã duyệt', className: 'approved' },
@@ -46,51 +46,51 @@ const OrderManagement = () => {
         Delivered: { text: 'Đã giao', className: 'delivered' },
         Received: { text: 'Hoàn thành', className: 'completed' },
         Cancelled: { text: 'Đã hủy', className: 'cancelled' },
-    };
+    }
 
     useEffect(() => {
-        fetchOrders();
+        fetchOrders()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debouncedValue, statusFilter]);
+    }, [debouncedValue, statusFilter])
 
     // // 🛒 Lấy danh sách đơn hàng từ API
     const fetchOrders = async () => {
-        const queryParams = new URLSearchParams();
-        if (statusFilter) queryParams.append('status', statusFilter);
-        if (debouncedValue) queryParams.append('search', debouncedValue);
+        const queryParams = new URLSearchParams()
+        if (statusFilter) queryParams.append('status', statusFilter)
+        if (debouncedValue) queryParams.append('search', debouncedValue)
 
         try {
-            const res = await httpRequest.get(`/order?${queryParams.toString()}`);
-            setOrders(res);
+            const res = await httpRequest.get(`/order?${queryParams.toString()}`)
+            setOrders(res)
         } catch (error) {
-            console.error('Lỗi khi lấy đơn hàng:', error);
+            console.error('Lỗi khi lấy đơn hàng:', error)
         }
-    };
+    }
 
     // ✅ Duyệt đơn hàng
     const updateOrderStatus = async (orderId, status) => {
         try {
-            console.log(status);
+            console.log(status)
 
             await httpRequest.put(`/order/${orderId}/status`, {
                 status,
-            });
-            fetchOrders();
+            })
+            fetchOrders()
         } catch (error) {
-            console.error('Lỗi khi duyệt đơn hàng:', error);
+            console.error('Lỗi khi duyệt đơn hàng:', error)
         }
-    };
+    }
 
     const handleViewDetail = (order) => {
-        setShowDialog(true);
-        setSelectedOrder(order);
-    };
+        setShowDialog(true)
+        setSelectedOrder(order)
+    }
 
     const handleDelete = async () => {
-        setShowConfirmDialog(false);
+        setShowConfirmDialog(false)
 
         try {
-            const res = await httpRequest.delete(`/order/delete/${selectedOrder._id}`);
+            const res = await httpRequest.delete(`/order/delete/${selectedOrder._id}`)
             if (res.status === 200) {
                 toast.success('Xóa đơn hàng thành công!', {
                     position: 'top-right',
@@ -102,21 +102,13 @@ const OrderManagement = () => {
                     progress: undefined,
                     theme: 'light',
                     transition: Zoom,
-                });
-                fetchOrders();
+                })
+                fetchOrders()
             }
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    };
-
-    // Chuyển trang
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-
-        // Cuộn trang về vị trí danh sách sản phẩm (hoặc vị trí mong muốn)
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    }
 
     return (
         <div>
@@ -221,8 +213,8 @@ const OrderManagement = () => {
                                     <Button
                                         className={cx('view-detail')}
                                         onClick={() => {
-                                            setShowConfirmDialog(true);
-                                            setSelectedOrder(order);
+                                            setShowConfirmDialog(true)
+                                            setSelectedOrder(order)
                                         }}
                                         variant="danger"
                                     >
@@ -235,7 +227,7 @@ const OrderManagement = () => {
                 </Table>
             )}
             <OrderDetailDialog show={showDialog} handleClose={() => setShowDialog(false)} order={selectedOrder} />
-            <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} />
+            <CustomPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
             <ConfirmDialog
                 isOpen={showConfirmDialog}
                 onConfirm={handleDelete}
@@ -244,7 +236,7 @@ const OrderManagement = () => {
             />
             <ToastContainer />
         </div>
-    );
-};
+    )
+}
 
-export default OrderManagement;
+export default OrderManagement

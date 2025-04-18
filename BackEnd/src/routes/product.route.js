@@ -1,4 +1,5 @@
 import express from 'express'
+import { auth } from '~/middlewares/auth'
 
 const router = express.Router()
 
@@ -12,6 +13,7 @@ const {
     searchProduct,
     updateProductById,
     deleteProduct,
+    addReview,
 } = require('~/controllers/product.controller')
 
 router.get('/search', searchProduct)
@@ -22,6 +24,7 @@ router.get('/:slug', getProductBySlug)
 router.get('/category/:categoryOrRoom', getProductsByCategoryOrRoom)
 
 router.post('/add', createProduct)
+router.post('/:slug/addReview', auth, addReview)
 
 router.put('/:id', updateProductById)
 

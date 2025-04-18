@@ -80,6 +80,7 @@ export const ChatProvider = ({ children }) => {
                 selectedUser,
                 // isUsersLoading,
                 // isMessagesLoading,
+                setMessages,
                 getUsers,
                 getMessages,
                 sendMessage,

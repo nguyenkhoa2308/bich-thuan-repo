@@ -62,14 +62,6 @@ function UserManagement() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-    // Chuyển trang
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-
-        // Cuộn trang về vị trí danh sách sản phẩm (hoặc vị trí mong muốn)
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     const handleEditClick = (user) => {
         // navigate(`/admin/users/${id}`);
 
@@ -185,7 +177,7 @@ function UserManagement() {
                 title="Bạn có chắc chắn xóa người dùng này?"
             />
 
-            <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} />
+            <CustomPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
     );
 }

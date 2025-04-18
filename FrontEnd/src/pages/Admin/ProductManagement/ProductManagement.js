@@ -103,14 +103,6 @@ const ProductManagement = () => {
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-    // Chuyển trang
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-
-        // Cuộn trang về vị trí danh sách sản phẩm (hoặc vị trí mong muốn)
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     return (
         <Container>
             <h2 className="my-4">Quản lý sản phẩm</h2>
@@ -213,7 +205,7 @@ const ProductManagement = () => {
                 title="Bạn chắc chắn muốn xóa sản phẩm này?"
             />
 
-            <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} />
+            <CustomPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </Container>
     );
 };

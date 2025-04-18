@@ -1,17 +1,17 @@
-import classnames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faCheck, faX } from '@fortawesome/free-solid-svg-icons';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState, useCallback } from 'react';
+import classnames from 'classnames/bind'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFilter, faCheck, faX } from '@fortawesome/free-solid-svg-icons'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState, useCallback } from 'react'
 
-import styles from './CategoryPage.module.scss';
-import Button from '~/components/Button';
-import ProductList from '~/components/ProductList';
-import httpRequest from '~/utils/httpRequest';
-import { ToastContainer } from 'react-toastify';
-import { Spinner } from 'react-bootstrap';
+import styles from './CategoryPage.module.scss'
+import Button from '~/components/Button'
+import ProductList from '~/components/ProductList'
+import httpRequest from '~/utils/httpRequest'
+import { ToastContainer } from 'react-toastify'
+import { Spinner } from 'react-bootstrap'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 const SORT_MENU = [
     {
@@ -42,7 +42,7 @@ const SORT_MENU = [
         title: 'Bán chạy nhất',
         value: 'best_seller',
     },
-];
+]
 
 const ROOM_MAP = {
     'living-room': 'Phòng khách',
@@ -50,7 +50,7 @@ const ROOM_MAP = {
     office: 'Nội thất văn phòng',
     bathroom: 'Phòng tắm',
     kitchen: 'Phòng bếp',
-};
+}
 
 const priceOptions = [
     { label: 'Dưới 1.000.000₫', value: '<1000000' },
@@ -58,51 +58,37 @@ const priceOptions = [
     { label: '2.000.000₫ - 3.000.000₫', value: '2000000-3000000' },
     { label: '3.000.000₫ - 4.000.000₫', value: '3000000-4000000' },
     { label: 'Trên 4.000.000₫', value: '>4000000' },
-];
+]
 
 function CategoryPage() {
-    const [selectedValue, setSelectedValue] = useState('price_asc');
-    const [productCount, setProductCount] = useState(0); // Để lưu số lượng sản phẩm
-    const [brands, setBrands] = useState([]);
-    const [selectedBrands, setSelectedBrands] = useState([]);
-    const [selectedPrices, setSelectedPrices] = useState([]);
-    const [pageTitle, setPageTitle] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedValue, setSelectedValue] = useState('price_asc')
+    const [productCount, setProductCount] = useState(0) // Để lưu số lượng sản phẩm
+    const [brands, setBrands] = useState([])
+    const [selectedBrands, setSelectedBrands] = useState([])
+    const [selectedPrices, setSelectedPrices] = useState([])
+    const [pageTitle, setPageTitle] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
 
     // eslint-disable-next-line
-    const [loading, setLoading] = useState(false);
-
-    // Chuyển trang
-    const paginate = (pageNumber) => {
-        // setLoading(true);
-        setCurrentPage(pageNumber);
-
-        // Cuộn trang về vị trí danh sách sản phẩm (hoặc vị trí mong muốn)
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 500);
-    };
-
-    const slug = useParams();
+    const [loading, setLoading] = useState(false)
+    const slug = useParams()
 
     // Callback function để nhận số lượng sản phẩm từ ProductList
     const handleProductCount = useCallback((count) => {
-        setProductCount(count);
-    }, []);
+        setProductCount(count)
+    }, [])
 
     const handleBrandChange = useCallback((brands) => {
-        setBrands(brands);
-    }, []);
+        setBrands(brands)
+    }, [])
 
     // Xử lý khi chọn brand
     const handleBrandSelect = (brand) => {
         setSelectedBrands((prevSelected) =>
             prevSelected.includes(brand) ? prevSelected.filter((item) => item !== brand) : [...prevSelected, brand],
-        );
-        setCurrentPage(1);
-    };
+        )
+        setCurrentPage(1)
+    }
 
     // Xử lý khi chọn khoảng giá
     const handlePriceSelect = (priceRange) => {
@@ -110,17 +96,17 @@ function CategoryPage() {
             prevSelected.includes(priceRange)
                 ? prevSelected.filter((item) => item !== priceRange)
                 : [...prevSelected, priceRange],
-        );
-        setCurrentPage(1);
-    };
+        )
+        setCurrentPage(1)
+    }
 
     useEffect(() => {
-        setCurrentPage(1);
+        setCurrentPage(1)
         // setLoading(true);
 
         if (ROOM_MAP[slug.slug]) {
             // Nếu là room, setCategory thành tên tiếng Việt
-            setPageTitle(ROOM_MAP[slug.slug]);
+            setPageTitle(ROOM_MAP[slug.slug])
             // setTimeout(() => {
             //     setLoading(false);
             // }, 350);
@@ -128,18 +114,18 @@ function CategoryPage() {
             // Nếu không, gọi API để lấy category
             const fetchData = async () => {
                 try {
-                    const res = await httpRequest.get(`categories/${slug.slug}`);
-                    setPageTitle(res.displayName);
+                    const res = await httpRequest.get(`categories/${slug.slug}`)
+                    setPageTitle(res.displayName)
                     // setTimeout(() => {
                     //     setLoading(false);
                     // }, 300);
                 } catch (err) {
-                    console.log(err);
+                    console.log(err)
                 }
-            };
-            fetchData();
+            }
+            fetchData()
         }
-    }, [slug]);
+    }, [slug])
 
     const renderMenu = () => {
         return SORT_MENU.map((item, index) => {
@@ -156,9 +142,9 @@ function CategoryPage() {
                 >
                     <span className={cx('menu-item--title')}>{item.title}</span>
                 </Button>
-            );
-        });
-    };
+            )
+        })
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -196,7 +182,7 @@ function CategoryPage() {
                                                             {item}
                                                         </label>
                                                     </li>
-                                                );
+                                                )
                                             })}
                                         </ul>
                                     </div>
@@ -272,7 +258,7 @@ function CategoryPage() {
                                                     <span key={index}>
                                                         {index >= 1 ? ', ' : ''} {value}
                                                     </span>
-                                                );
+                                                )
                                             })}
                                         </b>
                                         <span className={cx('remove-tag')} onClick={() => setSelectedBrands([])}>
@@ -287,12 +273,12 @@ function CategoryPage() {
                                         Giá:{' '}
                                         <b>
                                             {selectedPrices.map((value, index) => {
-                                                const label = priceOptions.find((p) => p.value === value)?.label;
+                                                const label = priceOptions.find((p) => p.value === value)?.label
                                                 return (
                                                     <span key={index}>
                                                         {index >= 1 ? ', ' : ''} {label}
                                                     </span>
-                                                );
+                                                )
                                             })}
                                         </b>
                                         <span className={cx('remove-tag')} onClick={() => setSelectedPrices([])}>
@@ -304,8 +290,8 @@ function CategoryPage() {
                                             opened: selectedBrands.length > 0 && selectedPrices.length > 0,
                                         })}
                                         onClick={() => {
-                                            setSelectedPrices([]);
-                                            setSelectedBrands([]);
+                                            setSelectedPrices([])
+                                            setSelectedBrands([])
                                         }}
                                     >
                                         <span>Xóa hết</span>
@@ -320,7 +306,7 @@ function CategoryPage() {
                                     selectedBrands={selectedBrands}
                                     selectedPrices={selectedPrices}
                                     currentPage={currentPage}
-                                    paginate={paginate}
+                                    setCurrentPage={setCurrentPage}
                                 />
                             </div>
                         </div>
@@ -329,7 +315,7 @@ function CategoryPage() {
             </div>
             <ToastContainer />
         </div>
-    );
+    )
 }
 
-export default CategoryPage;
+export default CategoryPage

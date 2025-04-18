@@ -1,53 +1,41 @@
-import classnames from 'classnames/bind';
-import { useContext, useEffect, useState } from 'react';
-import Slider from 'react-slick';
+import classnames from 'classnames/bind'
+import { useContext, useState } from 'react'
+import Slider from 'react-slick'
 
 // import
-import './slider.scss';
-import styles from './NewProducts.module.scss';
-import ProductCard from '../ProductCard';
-import ProductDialog from '../Dialog/ProductDialog';
-import { CartContext } from '~/contexts/CartContext';
+import './slider.scss'
+import styles from './SliderProducts.module.scss'
+import ProductCard from '../ProductCard'
+import ProductDialog from '../Dialog/ProductDialog'
+import { CartContext } from '~/contexts/CartContext'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function NewProducts({ products }) {
-    const { addToCart } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext)
 
-    const [newProducts, setNewProducts] = useState([]);
-    const [isDragging, setIsDragging] = useState(false);
-    const [showProductDialogOpen, setShowProductDialogOpen] = useState(false);
-    const [currentProduct, setCurrentProduct] = useState(null);
+    const [isDragging, setIsDragging] = useState(false)
+    const [showProductDialogOpen, setShowProductDialogOpen] = useState(false)
+    const [currentProduct, setCurrentProduct] = useState(null)
 
-    const handleBeforeChange = () => setIsDragging(true);
-    const handleAfterChange = () => setIsDragging(false);
+    const handleBeforeChange = () => setIsDragging(true)
+    const handleAfterChange = () => setIsDragging(false)
 
     const handleClick = (e) => {
         if (isDragging) {
-            e.preventDefault();
+            e.preventDefault()
         }
-    };
+    }
 
     const handleOpenDialog = async (product) => {
-        setCurrentProduct(product);
-        setShowProductDialogOpen(true);
+        setCurrentProduct(product)
+        setShowProductDialogOpen(true)
 
         if (product.variant.length <= 1) {
-            setShowProductDialogOpen(false);
-            await addToCart(product._id, 1, product.variant[0]?._id);
+            setShowProductDialogOpen(false)
+            await addToCart(product._id, 1, product.variant[0]?._id)
         }
-    };
-
-    useEffect(() => {
-        if (!Array.isArray(products) || products.length === 0) return;
-
-        const sortedNewProducts = [...products]
-            .filter((product) => product.createdAt !== undefined) // Đảm bảo có createdAt
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sắp xếp từ mới -> cũ
-            .slice(0, 10);
-
-        setNewProducts(sortedNewProducts);
-    }, [products]);
+    }
 
     const settings = {
         dots: false,
@@ -84,14 +72,14 @@ function NewProducts({ products }) {
                 },
             },
         ],
-    };
+    }
     // console.log(bestSellingProducts);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <Slider {...settings} className={cx('slider')}>
-                    {newProducts.map((item, index) => {
+                    {products?.map((item, index) => {
                         return (
                             <ProductCard
                                 product={item}
@@ -100,7 +88,7 @@ function NewProducts({ products }) {
                                 isHome={true}
                                 openDialog={handleOpenDialog}
                             />
-                        );
+                        )
                     })}
                 </Slider>
                 <ProductDialog
@@ -108,13 +96,13 @@ function NewProducts({ products }) {
                     isOpen={showProductDialogOpen}
                     onClose={() => setShowProductDialogOpen(false)}
                     onConfirm={() => {
-                        setShowProductDialogOpen(false);
+                        setShowProductDialogOpen(false)
                     }}
                 />
                 {/* <ToastContainer /> */}
             </div>
         </div>
-    );
+    )
 }
 
-export default NewProducts;
+export default NewProducts

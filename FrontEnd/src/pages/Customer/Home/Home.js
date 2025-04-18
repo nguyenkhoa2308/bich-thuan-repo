@@ -7,14 +7,15 @@ import images from '~/assets/images'
 // import Button from '~/components/Button';
 import HeroBanner from '~/components/HeroBanner/HeroBanner'
 import httpRequest from '~/utils/httpRequest'
-import NewProducts from '~/components/NewProducts/NewProducts'
-import BestSellerProducts from '~/components/BestSellerProducts/BestSellerProducts'
+import SliderProducts from '~/components/SliderProducts'
 import Image from '~/components/Image'
 
 const cx = classnames.bind(styles)
 
 function Home() {
     const [products, setProducts] = useState(null)
+    const [newProducts, setNewProducts] = useState(null)
+    const [bestSellerProducts, setBestSellerProducts] = useState(null)
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -24,6 +25,24 @@ function Home() {
         }
         fetchProducts()
     }, [])
+
+    useEffect(() => {
+        if (!Array.isArray(products) || products.length === 0) return // Kiểm tra products trước khi xử lý
+
+        const sortedBestSellingProducts = [...products]
+            .filter((product) => product.sold !== undefined) // Đảm bảo product có thuộc tính sold
+            .sort((a, b) => (b.sold || 0) - (a.sold || 0)) // Sắp xếp theo sold, tránh lỗi undefined
+            .slice(0, 10)
+
+        setBestSellerProducts(sortedBestSellingProducts)
+
+        const sortedNewProducts = [...products]
+            .filter((product) => product.createdAt !== undefined) // Đảm bảo có createdAt
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sắp xếp từ mới -> cũ
+            .slice(0, 10)
+
+        setNewProducts(sortedNewProducts)
+    }, [products])
 
     return (
         <div className={cx('wrapper')}>
@@ -116,12 +135,12 @@ function Home() {
                 {/* <ProductItem /> */}
                 <div className={cx('new-product-container')}>
                     <h2 className={cx('heading-title')}>Sản phẩm mới nhất</h2>
-                    <NewProducts products={products} />
+                    <SliderProducts products={newProducts} />
                 </div>
 
                 <div className={cx('best-seller-product-container')}>
                     <h2 className={cx('heading-title')}>Sản phẩm bán chạy</h2>
-                    <BestSellerProducts products={products} />
+                    <SliderProducts products={bestSellerProducts} />
                 </div>
 
                 <div className={cx('sale-banner', 'row')}>

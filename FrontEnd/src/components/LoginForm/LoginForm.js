@@ -1,61 +1,61 @@
-import classnames from 'classnames/bind';
-import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer, Zoom, toast } from 'react-toastify';
-import { Spinner } from 'react-bootstrap';
+import classnames from 'classnames/bind'
+import { Link, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { ToastContainer, Zoom, toast } from 'react-toastify'
+import { Spinner } from 'react-bootstrap'
 
 // Material UI Imports
-import { TextField, InputAdornment, FormControl, InputLabel, IconButton, OutlinedInput } from '@mui/material';
+import { TextField, InputAdornment, FormControl, InputLabel, IconButton, OutlinedInput } from '@mui/material'
 
 // Material UI Icon Imports
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-import styles from './LoginForm.module.scss';
-import Button from '~/components/Button';
-import { login } from '~/services/authService';
-import { AuthContext } from '~/contexts/AuthContext';
-import { CartContext } from '~/contexts/CartContext';
-import { useAddress } from '~/contexts/AddressContext';
-import httpRequest from '~/utils/httpRequest';
+import styles from './LoginForm.module.scss'
+import Button from '~/components/Button'
+import { login } from '~/services/authService'
+import { AuthContext } from '~/contexts/AuthContext'
+import { CartContext } from '~/contexts/CartContext'
+import { useAddress } from '~/contexts/AddressContext'
+import httpRequest from '~/utils/httpRequest'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function LoginForm() {
-    const navigate = useNavigate();
-    const { setAuth } = useContext(AuthContext);
-    const { getCart } = useContext(CartContext);
-    const { getAddresses } = useAddress();
+    const navigate = useNavigate()
+    const { setAuth } = useContext(AuthContext)
+    const { getCart } = useContext(CartContext)
+    const { getAddresses } = useAddress()
     // const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     //Inputs
-    const [emailInput, setEmailInput] = useState('');
-    const [forgotEmail, setForgotEmail] = useState('');
-    const [passwordInput, setPasswordInput] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [emailInput, setEmailInput] = useState('')
+    const [forgotEmail, setForgotEmail] = useState('')
+    const [passwordInput, setPasswordInput] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
 
-    const [isForgotPassword, setIsForgotPassword] = useState(false);
+    const [isForgotPassword, setIsForgotPassword] = useState(false)
 
     // Handles Display and Hide Password
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowPassword = () => setShowPassword((show) => !show)
     const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleMouseUpPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleLogin = async () => {
-        const res = await login(emailInput, passwordInput);
+        const res = await login(emailInput, passwordInput)
 
         if (res && res.EC === 0) {
-            localStorage.setItem('access_token', res.access_token);
+            localStorage.setItem('access_token', res.access_token)
             setAuth({
                 isAuthenticated: true,
                 user: {
@@ -64,45 +64,45 @@ function LoginForm() {
                     name: res?.user?.name ?? '',
                     role: res?.user?.role ?? '',
                 },
-            });
-            getCart();
-            getAddresses();
-            // console.log(res);
-            navigate('/');
+            })
+            getCart()
+            getAddresses()
+            console.log(res.user.id)
+            navigate('/')
         } else {
-            setError(res.EM);
+            setError(res.EM)
         }
-    };
+    }
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Ngừng hành động mặc định của Enter
+            event.preventDefault() // Ngừng hành động mặc định của Enter
             if (isForgotPassword && forgotEmail) {
-                handleForgotPassword();
+                handleForgotPassword()
             }
             if (!isForgotPassword && emailInput && passwordInput) {
-                handleLogin();
+                handleLogin()
             } // Gọi hàm đăng nhập nếu có đủ thông tin
         }
-    };
+    }
 
     const handleBackLogin = () => {
-        setEmailInput('');
-        setForgotEmail('');
-        setPasswordInput('');
-        setIsForgotPassword(false);
-    };
+        setEmailInput('')
+        setForgotEmail('')
+        setPasswordInput('')
+        setIsForgotPassword(false)
+    }
 
     const handleForgotPassword = async () => {
-        setLoading(true);
+        setLoading(true)
         try {
             const res = await httpRequest.post('/user/forgot-password', {
                 email: forgotEmail,
-            });
+            })
 
             if (res.status === 200) {
-                setIsForgotPassword(false);
-                setForgotEmail('');
+                setIsForgotPassword(false)
+                setForgotEmail('')
 
                 toast.success(
                     <div>
@@ -119,7 +119,7 @@ function LoginForm() {
                         theme: 'light',
                         transition: Zoom,
                     },
-                );
+                )
             }
         } catch (error) {
             toast.error(
@@ -137,11 +137,11 @@ function LoginForm() {
                     theme: 'light',
                     transition: Zoom,
                 },
-            );
+            )
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -172,7 +172,7 @@ function LoginForm() {
                                 },
                             }}
                             onChange={(event) => {
-                                setEmailInput(event.target.value);
+                                setEmailInput(event.target.value)
                             }}
                         />
                         <FormControl
@@ -220,7 +220,7 @@ function LoginForm() {
                                 label="Password"
                                 value={passwordInput}
                                 onChange={(event) => {
-                                    setPasswordInput(event.target.value);
+                                    setPasswordInput(event.target.value)
                                 }}
                             />
                         </FormControl>
@@ -277,7 +277,7 @@ function LoginForm() {
                                 },
                             }}
                             onChange={(event) => {
-                                setForgotEmail(event.target.value);
+                                setForgotEmail(event.target.value)
                             }}
                         />
                         <Button
@@ -300,7 +300,7 @@ function LoginForm() {
             </div>
             <ToastContainer />
         </div>
-    );
+    )
 }
 
-export default LoginForm;
+export default LoginForm

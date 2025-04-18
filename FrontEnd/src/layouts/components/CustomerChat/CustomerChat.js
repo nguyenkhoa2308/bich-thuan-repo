@@ -1,20 +1,21 @@
 import classNames from 'classnames/bind'
 import { useContext, useEffect, useRef, useState } from 'react'
-// import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faMessage, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './CustomerChat.module.scss'
-// import Button from '~/components/Button'
 import Image from '~/components/Image'
 import images from '~/assets/images'
+import MessageInput from '~/components/MessageInput'
+import Button from '~/components/Button'
 import { ChatContext } from '~/contexts/ChatContext'
 import { AuthContext } from '~/contexts/AuthContext'
-import MessageInput from '~/components/MessageInput'
 
 const cx = classNames.bind(styles)
 
 function CustomerChat() {
+    const navigate = useNavigate()
     const { messages, getMessages } = useContext(ChatContext)
     const { auth } = useContext(AuthContext)
 
@@ -22,8 +23,10 @@ function CustomerChat() {
     const [showChat, setShowChat] = useState(false)
 
     useEffect(() => {
-        getMessages('67df90b43899a512b6e0a47f')
-    }, [getMessages])
+        if (auth?.isAuthenticated) {
+            getMessages('67df90b43899a512b6e0a47f')
+        }
+    }, [auth?.isAuthenticated, getMessages])
 
     useEffect(() => {
         if (messageEndRef.current && messages) {
@@ -39,9 +42,13 @@ function CustomerChat() {
         })
     }
 
+    const handleLogin = () => {
+        navigate('/login')
+        setShowChat(false)
+    }
+
     return (
         <div className={cx('customer-chat', { 'show-chat': showChat })}>
-            {/* <h2>Customer Chat</h2> */}
             <div className={cx('chat-toggler')} onClick={() => setShowChat((prev) => !prev)}>
                 <span>
                     <FontAwesomeIcon icon={faMessage} />
@@ -54,7 +61,7 @@ function CustomerChat() {
                 <div className={cx('chat-header')}>
                     <div className={cx('header-info')}>
                         <div className={cx('admin-avatar')}>
-                            <Image src={images.chatAvatar} className={cx('avatar-image')}></Image>
+                            <Image src={images.chatAvatar} className={cx('avatar-image')} />
                         </div>
                         <div className={cx('info-title')}>
                             Admin - CSKH
@@ -65,10 +72,15 @@ function CustomerChat() {
                         <FontAwesomeIcon icon={faAngleDown} className={cx('close-chat')} />
                     </div>
                 </div>
-                <div className={cx('chat-body')}>
+
+                {/* Overlay blur */}
+                {!auth?.isAuthenticated && <div className={cx('overlay')} />}
+
+                {/* Chat Body */}
+                <div className={cx('chat-body', { blur: !auth?.isAuthenticated })}>
                     <div className={cx('message', 'admin-message')}>
                         <div className={cx('admin-avatar')}>
-                            <Image src={images.chatAvatar} className={cx('avatar-image')}></Image>
+                            <Image src={images.chatAvatar} className={cx('avatar-image')} />
                         </div>
                         <p className={cx('message-text')}>Xin chào! Bạn cần hỗ trợ gì hôm nay?</p>
                     </div>
@@ -84,7 +96,7 @@ function CustomerChat() {
                             {message.senderId !== auth.user.id && (
                                 <div className="chat-image avatar">
                                     <div className="size-10 rounded-full">
-                                        <Image src={images.chatAvatar} className={cx('avatar-image')}></Image>
+                                        <Image src={images.chatAvatar} className={cx('avatar-image')} />
                                     </div>
                                 </div>
                             )}
@@ -102,6 +114,17 @@ function CustomerChat() {
                         </div>
                     ))}
                 </div>
+
+                {/* Login Button in Center */}
+                {!auth?.isAuthenticated && (
+                    <div className={cx('centered-login')}>
+                        <Button primary onClick={() => handleLogin()}>
+                            Đăng nhập
+                        </Button>
+                    </div>
+                )}
+
+                {/* Input box */}
                 <div className={cx('chat-footer')}>
                     <MessageInput />
                 </div>

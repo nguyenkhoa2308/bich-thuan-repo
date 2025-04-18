@@ -18,7 +18,7 @@ function ProductList({
     selectedBrands,
     selectedPrices,
     currentPage,
-    paginate,
+    setCurrentPage,
 }) {
     const [products, setProducts] = useState([]);
 
@@ -99,7 +99,7 @@ function ProductList({
                     );
                 })
             )}
-            <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={paginate} />
+            <CustomPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
     );
 }

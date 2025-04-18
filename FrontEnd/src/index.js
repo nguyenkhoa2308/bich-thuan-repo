@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import reportWebVitals from './reportWebVitals'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import reportWebVitals from './reportWebVitals'
+import 'react-quill/dist/quill.snow.css'
 
 import GlobalStyles from '~/components/GlobalStyles'
 import { AuthProvider } from './contexts/AuthContext'

@@ -13,6 +13,7 @@ import Search from '../Search'
 import DropDownMenu from '~/components/DropDownMenu'
 import { AuthContext } from '~/contexts/AuthContext'
 import { CartContext } from '~/contexts/CartContext'
+import { ChatContext } from '~/contexts/ChatContext'
 
 const cx = classnames.bind(styles)
 
@@ -31,6 +32,7 @@ const HEADER_TAB = [
 
 function Header() {
     const { auth, setAuth } = useContext(AuthContext)
+    const { setMessages } = useContext(ChatContext)
     const { cartItems, countItems, deleteCartItem, updateQuantityOfCartItem } = useContext(CartContext)
     const navigate = useNavigate()
 
@@ -163,6 +165,7 @@ function Header() {
                         role: '',
                     },
                 })
+                setMessages([])
                 setAccountOpen(false)
                 navigate('/')
             },

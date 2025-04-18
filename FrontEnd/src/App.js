@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
 
+import ScrollToTop from '~/components/ScrollToTop'
+
 //User
 import DefaultLayout from '~/layouts/DefaultLayout'
 import Home from '~/pages/Customer/Home'
@@ -34,6 +36,7 @@ import AdminChat from '~/pages/Admin/AdminChat'
 function App() {
     return (
         <Router>
+            <ScrollToTop />
             <Routes>
                 <Route path="" element={<DefaultLayout />}>
                     <Route path="/" element={<Home />} />

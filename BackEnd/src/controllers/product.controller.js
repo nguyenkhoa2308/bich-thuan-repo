@@ -3,6 +3,7 @@ const Product = require('~/models/product.model')
 // const removeAccents = require('remove-accents')
 const slugify = require('slugify')
 const Category = require('~/models/category.model')
+import Review from '~/models/review.model'
 
 const getProducts = async (req, res) => {
     try {
@@ -138,19 +139,27 @@ const getProductById = async (req, res) => {
 const getProductBySlug = async (req, res) => {
     const slug = req.params.slug
     try {
-        const product = await Product.findOne({ slug: slug }).populate('category').lean()
-        // .populate('author', '_id slug fullName avatar')
-        // .populate({
-        //     path: 'reviews',
-        //     populate: {
-        //         path: 'user',
-        //     },
-        // })
-        if (product) {
-            res.status(200).json(product)
-        } else {
-            res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
+        const product = await Product.findOne({ slug })
+            .populate('category')
+            .populate({ path: 'reviews', populate: { path: 'user', select: 'displayName avatar' } })
+            .lean()
+
+        if (!product) {
+            return res.status(404).json({ message: 'Không tìm thấy sản phẩm' })
         }
+
+        // Lấy sản phẩm liên quan cùng category (hoặc rooms)
+        const relatedProducts = await Product.find({
+            _id: { $ne: product._id }, // loại trừ sản phẩm hiện tại
+            $or: [{ category: product.category?._id }, { rooms: { $in: product.rooms } }],
+        })
+            .limit(8)
+            .lean()
+
+        res.status(200).json({
+            product,
+            relatedProducts,
+        })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -220,6 +229,57 @@ const deleteProduct = async (req, res) => {
     }
 }
 
+const addReview = async (req, res) => {
+    try {
+        if (req.user && req.user.id) {
+            const { slug } = req.params
+            const { content, rating } = req.body
+
+            // Kiểm tra xem nội dung và đánh giá có hợp lệ không
+            if (!content || !rating) {
+                return res.status(400).json({ message: 'Nội dung và đánh giá không thể để trống.' })
+            }
+
+            // Kiểm tra rating có trong khoảng từ 1 đến 5 không
+            if (rating < 1 || rating > 5) {
+                return res.status(400).json({ message: 'Đánh giá phải từ 1 đến 5 sao.' })
+            }
+
+            const product = await Product.findOne({ slug }).populate({
+                path: 'reviews',
+                populate: { path: 'user', select: 'displayName avatar' },
+            })
+
+            if (!product) {
+                return res.status(404).json({ message: 'Không tìm thấy sản phẩm.' })
+            }
+
+            // Tạo review mới
+            const review = new Review({
+                content,
+                rating,
+                user: req.user.id,
+            })
+
+            // Lưu review vào cơ sở dữ liệu
+            await review.save()
+
+            // Thêm review vào mảng reviews của sản phẩm
+            product.reviews.push(review)
+            await product.save()
+
+            // Lấy thông tin review đã được populate người dùng
+            const populatedReview = await review.populate({ path: 'user', select: 'displayName avatar' })
+
+            return res.status(200).json({ review: populatedReview })
+        } else {
+            return res.status(401).json({ message: 'Không tìm thấy thông tin người dùng.' })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
 module.exports = {
     getProducts,
     getProductById,
@@ -230,4 +290,5 @@ module.exports = {
     updateProductById,
     searchProduct,
     deleteProduct,
+    addReview,
 }
