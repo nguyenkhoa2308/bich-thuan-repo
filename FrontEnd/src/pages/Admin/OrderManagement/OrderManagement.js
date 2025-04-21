@@ -4,7 +4,7 @@ import { Table, Button, Form, Row, Col } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { Zoom, toast, ToastContainer } from 'react-toastify'
+import { Zoom, toast } from 'react-toastify'
 
 import { useDebounce } from '~/hooks'
 import styles from './OrderManagement.module.scss'
@@ -113,7 +113,6 @@ const OrderManagement = () => {
     return (
         <div>
             <h2>Quản lý đơn hàng</h2>
-
             {/* Bộ lọc và tìm kiếm */}
             <Row className="mb-3">
                 <Col md={4}>
@@ -141,7 +140,6 @@ const OrderManagement = () => {
                     />
                 </Col>
             </Row>
-
             {/* Bảng danh sách đơn hàng */}
             {loading ? (
                 <p>Đang tải...</p>
@@ -234,7 +232,6 @@ const OrderManagement = () => {
                 onClose={() => setShowConfirmDialog(false)}
                 title="Bạn có chắc chắn xóa đơn hàng này không?"
             />
-            <ToastContainer />
         </div>
     )
 }

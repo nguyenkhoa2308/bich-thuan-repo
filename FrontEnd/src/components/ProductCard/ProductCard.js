@@ -1,39 +1,66 @@
-import classnames from 'classnames/bind';
-import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import classnames from 'classnames/bind'
+import { useState, useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { toast, Zoom } from 'react-toastify'
 
-import styles from './ProductCard.module.scss';
-import { CartIcon } from '~/components/Icons';
-import Button from '~/components/Button';
-import ProductDialog from '~/components/Dialog/ProductDialog';
-import { CartContext } from '~/contexts/CartContext';
-// import { ToastContainer } from 'react-toastify';
+import styles from './ProductCard.module.scss'
+import Button from '~/components/Button'
+import ProductDialog from '~/components/Dialog/ProductDialog'
+import httpRequest from '~/utils/httpRequest'
+import { CartIcon } from '~/components/Icons'
+import { CartContext } from '~/contexts/CartContext'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function ProductCard({ product, handleClick, isHome = false, openDialog }) {
-    const [isProductDialogOpen, setIsProductDialogOpen] = useState(false);
-    const [currentProduct, setCurrentProduct] = useState();
+    const [isProductDialogOpen, setIsProductDialogOpen] = useState(false)
+    const [currentProduct, setCurrentProduct] = useState()
+    const [isClick, setIsClick] = useState(false)
 
-    const { addToCart } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext)
 
     const handleDragStart = (e) => {
-        e.preventDefault();
-    };
+        e.preventDefault()
+    }
 
     const handleAddToCart = async (product) => {
         if (isHome) {
-            openDialog(product);
+            openDialog(product)
         } else {
-            setIsProductDialogOpen(true);
-            setCurrentProduct(product);
+            setIsProductDialogOpen(true)
+            setCurrentProduct(product)
 
             if (product.variant.length <= 1) {
-                setIsProductDialogOpen(false);
-                await addToCart(product._id, 1, product.variant[0]?._id);
+                setIsProductDialogOpen(false)
+                await addToCart(product._id, 1, product.variant[0]?._id)
             }
         }
-    };
+    }
+
+    const handleWishlist = async () => {
+        try {
+            const response = await httpRequest.post(`/user/wishlists/${product._id}`)
+
+            if (response.status === 200) {
+                toast.success('Đã thêm vào danh sách yêu thích!', {
+                    position: 'top-right',
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light',
+                    transition: Zoom,
+                })
+            }
+            setIsClick(!isClick)
+        } catch {
+            console.log('Lỗi nè')
+        }
+    }
 
     return (
         <div className={cx('product-container')}>
@@ -42,6 +69,15 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
                     <Link to={`/products/${product.slug}`} onClick={handleClick}>
                         <img src={product.image} alt={product.name} className={cx('product-image')} />
                     </Link>
+                    <div className={cx('wishlist-btn')}>
+                        <FontAwesomeIcon
+                            icon={faHeart}
+                            className={cx('heart-icon', {
+                                active: isClick,
+                            })}
+                            onClick={() => handleWishlist()}
+                        />
+                    </div>
                 </div>
                 <div className={cx('product-detail')}>
                     <Link
@@ -96,13 +132,12 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
                     isOpen={isProductDialogOpen}
                     onClose={() => setIsProductDialogOpen(false)}
                     onConfirm={() => {
-                        setIsProductDialogOpen(false);
+                        setIsProductDialogOpen(false)
                     }}
                 />
             )}
-            {/* <ToastContainer /> */}
         </div>
-    );
+    )
 }
 
-export default ProductCard;
+export default ProductCard

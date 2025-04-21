@@ -14,6 +14,8 @@ import {
     changePassword,
     verifyPassword,
     deleteAccount,
+    getWishlists,
+    addWishlist,
 } from '~/controllers/user.controller'
 
 // const { getCart, addToCart } = require('~/controllers/user.controller')
@@ -25,10 +27,12 @@ router.post('/login', login)
 router.post('/forgot-password', forgotPassword)
 router.post('/reset-password', resetPassword)
 router.post('/verify', auth, verifyPassword)
+router.post('/wishlists/:productId', auth, addWishlist)
 
 router.get('/', getUser)
 router.get('/getUserById/:id', getUserById)
 router.get('/account', auth, getAccount)
+router.get('/wishlists', auth, getWishlists)
 
 router.put('/change-password', auth, changePassword)
 router.put('/update', auth, updateUser)

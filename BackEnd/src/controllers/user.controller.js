@@ -217,6 +217,33 @@ const deleteAccount = async (req, res) => {
     }
 }
 
+const addWishlist = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        const productId = req.params.productId
+
+        if (user.wishlists.includes(productId)) {
+            user.wishlists.pull(productId)
+        } else {
+            user.wishlists.push(productId)
+        }
+
+        await user.save()
+        return res.status(200).json({ status: 200 })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+const getWishlists = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).populate('wishlists')
+        return res.status(200).json({ wishlists: user.wishlists })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 module.exports = {
     createUser,
     login,
@@ -230,4 +257,6 @@ module.exports = {
     changePassword,
     verifyPassword,
     deleteAccount,
+    getWishlists,
+    addWishlist,
 }

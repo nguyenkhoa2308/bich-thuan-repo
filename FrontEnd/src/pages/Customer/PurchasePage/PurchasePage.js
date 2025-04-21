@@ -1,22 +1,21 @@
-import classNames from 'classnames/bind';
-import { useContext, useEffect, useState } from 'react';
+import classNames from 'classnames/bind'
+import { useContext, useEffect, useState } from 'react'
 
-import styles from './PurchasePage.module.scss';
-import httpRequest from '~/utils/httpRequest';
-import Button from '~/components/Button';
-import OrderDetailDialog from '~/components/Dialog/OrderDetailDialog';
-import { CartContext } from '~/contexts/CartContext';
-import { ToastContainer } from 'react-toastify';
+import styles from './PurchasePage.module.scss'
+import httpRequest from '~/utils/httpRequest'
+import Button from '~/components/Button'
+import OrderDetailDialog from '~/components/Dialog/OrderDetailDialog'
+import { CartContext } from '~/contexts/CartContext'
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 function PurchasePage() {
-    const [orders, setOrders] = useState([]);
-    const [selectedOrder, setSelectedOrder] = useState(null);
-    const [updated, setUpdated] = useState(true);
-    const [showDialog, setShowDialog] = useState(false);
+    const [orders, setOrders] = useState([])
+    const [selectedOrder, setSelectedOrder] = useState(null)
+    const [updated, setUpdated] = useState(true)
+    const [showDialog, setShowDialog] = useState(false)
 
-    const { addMultipleToCart } = useContext(CartContext);
+    const { addMultipleToCart } = useContext(CartContext)
 
     const statusMapping = {
         Pending: { text: 'Chờ duyệt', className: 'pending' },
@@ -25,27 +24,27 @@ function PurchasePage() {
         Delivered: { text: 'Đã giao', className: 'delivered' },
         Received: { text: 'Đã nhận', className: 'received' },
         Cancelled: { text: 'Đã hủy', className: 'cancelled' },
-    };
+    }
 
     useEffect(() => {
-        if (!updated) return;
+        if (!updated) return
 
         const fetchOrder = async () => {
             try {
-                const response = await httpRequest.get('/order/user');
-                setOrders(response.orders);
+                const response = await httpRequest.get('/order/user')
+                setOrders(response.orders)
             } catch (error) {
-                setOrders([]);
+                setOrders([])
             }
-        };
-        fetchOrder();
-        setUpdated(false);
-    }, [updated]);
+        }
+        fetchOrder()
+        setUpdated(false)
+    }, [updated])
 
     const handleViewDetail = (order) => {
-        setShowDialog(true);
-        setSelectedOrder(order);
-    };
+        setShowDialog(true)
+        setSelectedOrder(order)
+    }
 
     const handleBuyAgain = async (items) => {
         try {
@@ -55,22 +54,22 @@ function PurchasePage() {
                     quantity: 1,
                     variantId: item.variant._id,
                 })),
-            );
+            )
         } catch (error) {
-            console.error('Lỗi khi thêm sản phẩm: ', error);
+            console.error('Lỗi khi thêm sản phẩm: ', error)
         }
-    };
+    }
 
     const handleCancelOrder = async (id, status) => {
         try {
             await httpRequest.put(`/order/${id}/status`, {
                 status,
-            });
-            setUpdated(true);
+            })
+            setUpdated(true)
         } catch (error) {
-            console.error('Lỗi khi duyệt đơn hàng:', error);
+            console.error('Lỗi khi duyệt đơn hàng:', error)
         }
-    };
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -162,9 +161,8 @@ function PurchasePage() {
                 )}
             </div>
             <OrderDetailDialog show={showDialog} handleClose={() => setShowDialog(false)} order={selectedOrder} />
-            <ToastContainer />
         </div>
-    );
+    )
 }
 
-export default PurchasePage;
+export default PurchasePage

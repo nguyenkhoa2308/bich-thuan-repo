@@ -15,6 +15,7 @@ const UserSchema = mongoose.Schema(
         // status: { type: Number, require: false },
         resetPasswordToken: { type: String, require: false },
         resetPasswordExpires: { type: Date, require: false },
+        wishlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
     },
     { timestamps: true, versionKey: false },
 )

@@ -1,76 +1,76 @@
-import classNames from 'classnames/bind';
-import React, { useState, useEffect, useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faLocationDot, faPlus } from '@fortawesome/free-solid-svg-icons';
+import classNames from 'classnames/bind'
+import React, { useState, useEffect, useContext } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faLocationDot, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 // eslint-disable-next-line
-import { ToastContainer, toast, Zoom } from 'react-toastify';
+import { ToastContainer, toast, Zoom } from 'react-toastify'
 
-import styles from './CheckOut.module.scss';
-import { CartContext } from '~/contexts/CartContext';
-import Button from '~/components/Button';
-import httpRequest from '~/utils/httpRequest';
-import { useAddress } from '~/contexts/AddressContext';
-import ListAddressesDialog from '~/components/Dialog/ListAddressesDialog';
-import AddressDialog from '~/components/Dialog/AddressDialog';
-import { useNavigate } from 'react-router-dom';
+import styles from './CheckOut.module.scss'
+import { CartContext } from '~/contexts/CartContext'
+import Button from '~/components/Button'
+import httpRequest from '~/utils/httpRequest'
+import { useAddress } from '~/contexts/AddressContext'
+import ListAddressesDialog from '~/components/Dialog/ListAddressesDialog'
+import AddressDialog from '~/components/Dialog/AddressDialog'
+import { useNavigate } from 'react-router-dom'
 
 // import AddressDialog from '~/components/Dialog/AddressDialog';
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 export default function CheckOut() {
-    const { cartItems, getCart } = useContext(CartContext);
-    const { addresses, getAddresses } = useAddress();
+    const { cartItems, getCart } = useContext(CartContext)
+    const { addresses, getAddresses } = useAddress()
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const [updateAddress, setUpdateAddress] = useState({});
-    const [currentAddress, setCurrentAddress] = useState({});
-    const [updated, setUpdated] = useState(false);
-    const [showDialog, setShowDialog] = useState(false);
-    const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false); // Dialog chỉnh sửa
-    const [typeAction, setTypeAction] = useState(''); // Hành động (edit/add)
+    const [updateAddress, setUpdateAddress] = useState({})
+    const [currentAddress, setCurrentAddress] = useState({})
+    const [updated, setUpdated] = useState(false)
+    const [showDialog, setShowDialog] = useState(false)
+    const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false) // Dialog chỉnh sửa
+    const [typeAction, setTypeAction] = useState('') // Hành động (edit/add)
 
-    const [isBanking, setIsBanking] = useState(1);
-    const [note, setNote] = useState('');
+    const [isBanking, setIsBanking] = useState(1)
+    const [note, setNote] = useState('')
 
     function formatPhoneNumber(phone) {
-        if (!phone?.startsWith('0')) return phone; // Nếu không bắt đầu bằng 0, trả về nguyên gốc
+        if (!phone?.startsWith('0')) return phone // Nếu không bắt đầu bằng 0, trả về nguyên gốc
 
-        const newPrefix = '+84';
-        const formattedNumber = phone.slice(0); // Thay 0 đầu tiên bằng +84
+        const newPrefix = '+84'
+        const formattedNumber = phone.slice(0) // Thay 0 đầu tiên bằng +84
 
         return `(${newPrefix}) ${formattedNumber.slice(1, 4)} ${formattedNumber.slice(4, 7)} ${formattedNumber.slice(
             7,
-        )}`;
+        )}`
     }
 
     useEffect(() => {
-        if (!updated) return;
+        if (!updated) return
 
-        getAddresses();
+        getAddresses()
 
-        setUpdated(false);
+        setUpdated(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [updated]);
+    }, [updated])
 
     useEffect(() => {
         if (addresses.length > 0) {
-            setCurrentAddress(addresses.find((address) => address.isDefault));
+            setCurrentAddress(addresses.find((address) => address.isDefault))
         }
-    }, [addresses]);
+    }, [addresses])
 
     // const defaultAddress = addresses?.find((address) => address.isDefault === true);
     const handlePaymentMethodSelect = (method) => {
-        setIsBanking(method);
-    };
+        setIsBanking(method)
+    }
 
     const handleAdd = () => {
-        setTypeAction('add');
-        setUpdateAddress({});
-        setIsAddressDialogOpen(true);
-    };
+        setTypeAction('add')
+        setUpdateAddress({})
+        setIsAddressDialogOpen(true)
+    }
 
     const handleSubmit = async () => {
         if (isBanking === 1) {
@@ -83,12 +83,12 @@ export default function CheckOut() {
                     shippingFee: 0,
                     note: note,
                     banking: isBanking,
-                });
+                })
 
-                const link_payment = response.order.link_payment;
-                window.location.href = link_payment;
+                const link_payment = response.order.link_payment
+                window.location.href = link_payment
             } catch (error) {
-                console.error('Error creating orderId:', error);
+                console.error('Error creating orderId:', error)
             }
         } else {
             //Nếu người dùng chọn thanh toán khi nhận hàng
@@ -101,7 +101,7 @@ export default function CheckOut() {
                     shippingFee: 0,
                     note: note,
                     banking: isBanking,
-                });
+                })
                 if (response.status === 200) {
                     toast.success(
                         <div>
@@ -118,22 +118,21 @@ export default function CheckOut() {
                             theme: 'light',
                             transition: Zoom,
                         },
-                    );
+                    )
 
                     setTimeout(() => {
-                        navigate('/');
-                        getCart();
-                    }, 2500);
+                        navigate('/')
+                        getCart()
+                    }, 2500)
                 }
             } catch (error) {
-                console.error('Error add to order', error);
+                console.error('Error add to order', error)
             }
         }
-    };
+    }
 
     return (
         <div className={cx('main-content', 'container')}>
-            <ToastContainer />
             <div className={cx('main')}>
                 <div className={cx('header')}>
                     <p className={cx('header-title')}>Thông tin giao hàng</p>
@@ -340,7 +339,7 @@ export default function CheckOut() {
                                 primary
                                 className={cx('submit-btn')}
                                 onClick={() => {
-                                    handleSubmit();
+                                    handleSubmit()
                                 }}
                             >
                                 Tiến hành đặt hàng
@@ -364,19 +363,19 @@ export default function CheckOut() {
                 currentAddress={updateAddress}
                 isOpen={isAddressDialogOpen}
                 onClose={() => {
-                    setIsAddressDialogOpen(false);
+                    setIsAddressDialogOpen(false)
                     if (Object.keys(currentAddress).length !== 0) {
-                        setShowDialog(true);
+                        setShowDialog(true)
                     }
                 }}
                 onConfirm={() => {
-                    setIsAddressDialogOpen(false);
+                    setIsAddressDialogOpen(false)
                     if (Object.keys(currentAddress).length !== 0) {
-                        setShowDialog(true);
+                        setShowDialog(true)
                     }
-                    setTimeout(() => setUpdated(true), 100); // Đợi dialog đóng hẳn rồi mới fetch API
+                    setTimeout(() => setUpdated(true), 100) // Đợi dialog đóng hẳn rồi mới fetch API
                 }}
             />
         </div>
-    );
+    )
 }

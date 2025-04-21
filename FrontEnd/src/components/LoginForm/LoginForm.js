@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
-import { ToastContainer, Zoom, toast } from 'react-toastify'
+import { Zoom, toast } from 'react-toastify'
 import { Spinner } from 'react-bootstrap'
 
 // Material UI Imports
@@ -298,7 +298,6 @@ function LoginForm() {
                     </div>
                 )}
             </div>
-            <ToastContainer />
         </div>
     )
 }

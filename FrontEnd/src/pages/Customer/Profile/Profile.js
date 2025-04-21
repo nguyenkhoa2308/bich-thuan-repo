@@ -1,52 +1,52 @@
-import classnames from 'classnames/bind';
-import { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { ToastContainer, Zoom, toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classnames from 'classnames/bind'
+import { useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
+import { Zoom, toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 
-import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
-import styles from './Profile.module.scss';
-import { AuthContext } from '~/contexts/AuthContext';
-import httpRequest from '~/utils/httpRequest';
-import Button from '~/components/Button';
+import styles from './Profile.module.scss'
+import { AuthContext } from '~/contexts/AuthContext'
+import httpRequest from '~/utils/httpRequest'
+import Button from '~/components/Button'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function Profile() {
-    const { auth, setAuth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext)
     // eslint-disable-next-line
-    const navigate = useNavigate();
-    const [user, setUser] = useState();
-    const [lastName, setLastName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [displayName, setDisplayName] = useState('');
-    const [gender, setGender] = useState('');
-    const [birthdayInput, setBirthdayInput] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate()
+    const [user, setUser] = useState()
+    const [lastName, setLastName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [displayName, setDisplayName] = useState('')
+    const [gender, setGender] = useState('')
+    const [birthdayInput, setBirthdayInput] = useState(null)
+    const [errorMessage, setErrorMessage] = useState('')
 
-    const userId = auth.user.id;
+    const userId = auth.user.id
 
     const handleChange = (event) => {
-        setGender(event.target.value);
-        console.log(auth);
-    };
+        setGender(event.target.value)
+        console.log(auth)
+    }
 
     const handleSubmit = async (firstName, lastName, displayName, gender, birthdayInput) => {
-        const formattedDate = dayjs(birthdayInput).format('DD/MM/YYYY');
-        const formattedGender = gender === 'male' ? true : false;
+        const formattedDate = dayjs(birthdayInput).format('DD/MM/YYYY')
+        const formattedGender = gender === 'male' ? true : false
 
         if (dayjs(birthdayInput).isAfter(dayjs(), 'day')) {
-            setErrorMessage('Ngày sinh phải trước ngày hiện tại.');
-            return;
+            setErrorMessage('Ngày sinh phải trước ngày hiện tại.')
+            return
         } else {
-            setErrorMessage('');
+            setErrorMessage('')
         }
 
         const response = await httpRequest.put('/user/update', {
@@ -55,11 +55,11 @@ function Profile() {
             displayName: displayName,
             gender: formattedGender,
             birthDate: formattedDate,
-        });
+        })
 
         if (response.EC === 0) {
-            console.log('Success');
-            localStorage.setItem('access_token', response.access_token);
+            console.log('Success')
+            localStorage.setItem('access_token', response.access_token)
             setAuth({
                 isAuthenticated: true,
                 user: {
@@ -68,7 +68,7 @@ function Profile() {
                     name: response?.updateUser?.displayName ?? '',
                     role: response?.updateUser?.role ?? '',
                 },
-            });
+            })
             // getCart();
             // navigate('/');
             toast.success('Sửa thông tin người dùng thành công!', {
@@ -81,9 +81,9 @@ function Profile() {
                 progress: undefined,
                 theme: 'light',
                 transition: Zoom,
-            });
+            })
         } else {
-            console.log('Error');
+            console.log('Error')
             toast.error('Sửa thông tin người dùng thất bại!', {
                 position: 'top-right',
                 autoClose: 1500,
@@ -94,29 +94,29 @@ function Profile() {
                 progress: undefined,
                 theme: 'light',
                 transition: Zoom,
-            });
+            })
         }
-    };
+    }
 
     useEffect(() => {
         const fetchUser = async () => {
-            const response = await httpRequest.get(`/user/getUserById/${userId}`);
-            setUser(response);
-        };
-        if (userId) {
-            fetchUser();
+            const response = await httpRequest.get(`/user/getUserById/${userId}`)
+            setUser(response)
         }
-    }, [userId]);
+        if (userId) {
+            fetchUser()
+        }
+    }, [userId])
 
     useEffect(() => {
         if (user) {
-            setLastName(user.lastName || '');
-            setFirstName(user.firstName || '');
-            setDisplayName(user.displayName || '');
-            setGender(user.gender ? 'male' : 'female');
-            setBirthdayInput(dayjs(user.birthDate, 'DD/MM/YYYY'));
+            setLastName(user.lastName || '')
+            setFirstName(user.firstName || '')
+            setDisplayName(user.displayName || '')
+            setGender(user.gender ? 'male' : 'female')
+            setBirthdayInput(dayjs(user.birthDate, 'DD/MM/YYYY'))
         }
-    }, [user]);
+    }, [user])
 
     return (
         <div className={cx('wrapper')}>
@@ -302,10 +302,9 @@ function Profile() {
                         </div>
                     </div>
                 </div>
-                <ToastContainer />
             </div>
         </div>
-    );
+    )
 }
 
-export default Profile;
+export default Profile

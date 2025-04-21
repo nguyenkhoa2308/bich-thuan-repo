@@ -2,7 +2,7 @@ import classnames from 'classnames/bind'
 import { useState, useEffect, useContext } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressBook, faTrashCan, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faAddressBook, faHeart, faTrashCan, faUser } from '@fortawesome/free-regular-svg-icons'
 import { MenuItem } from '@mui/material'
 import { faAngleDown, faArrowRightFromBracket, faMinus, faPlus, faGauge } from '@fortawesome/free-solid-svg-icons'
 
@@ -123,6 +123,14 @@ function Header() {
             },
         },
         {
+            title: 'Đơn mua',
+            icon: <ClipBoardListIcon />,
+            value: 'purchase',
+            clickAction: () => {
+                navigate('/account/purchase')
+            },
+        },
+        {
             title: 'Danh sách địa chỉ',
             icon: <FontAwesomeIcon icon={faAddressBook} />,
             value: 'address-list',
@@ -131,11 +139,11 @@ function Header() {
             },
         },
         {
-            title: 'Đơn mua',
-            icon: <ClipBoardListIcon />,
-            value: 'purchase',
+            title: 'Danh sách yêu thích',
+            icon: <FontAwesomeIcon icon={faHeart} />,
+            value: 'wishlist',
             clickAction: () => {
-                navigate('/account/purchase')
+                navigate('/account/wishlist')
             },
         },
         ...(auth?.user?.role === 'admin'

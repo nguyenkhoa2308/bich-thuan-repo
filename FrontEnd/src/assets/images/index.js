@@ -10,6 +10,7 @@ const images = {
     noImage: require('~/assets/images/no-image.png'),
     chatAvatar: require('~/assets/images/chat-avatar.png'),
     defaultAvatar: require('~/assets/images/default-avatar.jpg'),
+    heart: require('~/assets/images/heart.png'),
     // banner2: require('~/assets/images/banner2.jng'),
     // banner3: require('~/assets/images/banner3.png'),
 }

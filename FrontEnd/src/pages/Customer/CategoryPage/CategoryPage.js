@@ -8,7 +8,7 @@ import styles from './CategoryPage.module.scss'
 import Button from '~/components/Button'
 import ProductList from '~/components/ProductList'
 import httpRequest from '~/utils/httpRequest'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import { Spinner } from 'react-bootstrap'
 
 const cx = classnames.bind(styles)
@@ -313,7 +313,6 @@ function CategoryPage() {
                     </>
                 )}
             </div>
-            <ToastContainer />
         </div>
     )
 }

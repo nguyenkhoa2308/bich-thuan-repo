@@ -82,7 +82,7 @@ export const HiddenPasswordIcon = ({ width = '2rem', height = '2rem', className 
     </svg>
 )
 
-export const ClipBoardListIcon = ({ width = '2rem', height = '2rem', className }) => (
+export const ClipBoardListIcon = ({ width = '1.8rem', height = '1.8rem', className }) => (
     <svg
         className={className}
         viewBox="0 0 503.607 503.607"

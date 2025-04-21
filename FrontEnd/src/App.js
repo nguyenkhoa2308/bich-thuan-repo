@@ -16,6 +16,7 @@ import AccountLayout from '~/layouts/AccountLayout'
 import Profile from '~/pages/Customer/Profile'
 import PurchasePage from '~/pages/Customer/PurchasePage'
 import Addresses from '~/pages/Customer/Addresses'
+import Wishlists from '~/pages/Customer/Wishlists'
 import ChangePassword from '~/pages/Customer/ChangePassword'
 import Cart from '~/pages/Customer/Cart'
 import CheckOut from '~/pages/Customer/CheckOut'
@@ -32,6 +33,7 @@ import ProductManagement from '~/pages/Admin/ProductManagement'
 import OrderManagement from '~/pages/Admin/OrderManagement'
 import CategoryManagement from '~/pages/Admin/CategoryManagement'
 import AdminChat from '~/pages/Admin/AdminChat'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
     return (
@@ -71,6 +73,7 @@ function App() {
                 <Route path="account" element={<AccountLayout />}>
                     <Route path="" element={<Profile />}></Route>
                     <Route path="addresses" element={<Addresses />}></Route>
+                    <Route path="wishlist" element={<Wishlists />}></Route>
                     <Route path="password" element={<ChangePassword />}></Route>
                     <Route path="purchase" element={<PurchasePage />}></Route>
                 </Route>
@@ -94,6 +97,7 @@ function App() {
                     <Route path="orders" element={<OrderManagement />} />
                 </Route>
             </Routes>
+            <ToastContainer />
         </Router>
     )
 }

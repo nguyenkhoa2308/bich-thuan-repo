@@ -1,76 +1,76 @@
-import classnames from 'classnames/bind';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer, Zoom, toast } from 'react-toastify';
+import classnames from 'classnames/bind'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { Zoom, toast } from 'react-toastify'
 
 // Material UI Imports
-import { InputAdornment, FormControl, InputLabel, IconButton, OutlinedInput } from '@mui/material';
+import { InputAdornment, FormControl, InputLabel, IconButton, OutlinedInput } from '@mui/material'
 
 // Material UI Icon Imports
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-import styles from './PasswordForm.module.scss';
-import Button from '~/components/Button';
-import httpRequest from '~/utils/httpRequest';
+import styles from './PasswordForm.module.scss'
+import Button from '~/components/Button'
+import httpRequest from '~/utils/httpRequest'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function PasswordForm({ params }) {
     // const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const [error, setError] = useState('');
+    const [error, setError] = useState('')
 
     //Inputs
-    const [passwordInput, setPasswordInput] = useState('');
-    const [confirmPasswordInput, setConfirmPasswordInput] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [passwordInput, setPasswordInput] = useState('')
+    const [confirmPasswordInput, setConfirmPasswordInput] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     // Handles Display and Hide Password
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowPassword = () => setShowPassword((show) => !show)
     const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleMouseUpPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     // Handles Display and Hide Confirm Password
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show)
     const handleMouseDownConfirmPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleMouseUpConfirmPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleSave = async () => {
         if (passwordInput !== confirmPasswordInput) {
-            setError('Mật khẩu không trùng khớp!');
+            setError('Mật khẩu không trùng khớp!')
         } else {
             if (params) {
                 try {
                     const response = await httpRequest.post('/user/reset-password', {
                         token: params.token,
                         newPassword: passwordInput,
-                    });
+                    })
                     if (response.status === 200) {
-                        navigate('/login');
+                        navigate('/login')
                     }
                 } catch (error) {
-                    setError(error.response.data.message);
+                    setError(error.response.data.message)
                 }
             } else {
                 try {
                     const response = await httpRequest.put('/user/change-password', {
                         newPassword: passwordInput,
-                    });
+                    })
                     if (response.status === 200) {
                         toast.success(
                             <div>
@@ -87,24 +87,24 @@ function PasswordForm({ params }) {
                                 theme: 'light',
                                 transition: Zoom,
                             },
-                        );
+                        )
                         setTimeout(() => {
-                            navigate('/');
-                        }, 2000);
+                            navigate('/')
+                        }, 2000)
                     }
                 } catch (error) {
-                    setError(error.response.data.message);
+                    setError(error.response.data.message)
                 }
             }
         }
-    };
+    }
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter' && confirmPasswordInput && passwordInput) {
-            event.preventDefault(); // Ngừng hành động mặc định của Enter
-            handleSave();
+            event.preventDefault() // Ngừng hành động mặc định của Enter
+            handleSave()
         }
-    };
+    }
 
     return (
         <div className={cx('login-inner')} onKeyDown={handleKeyDown}>
@@ -153,7 +153,7 @@ function PasswordForm({ params }) {
                     label="Mật khẩu mới"
                     value={passwordInput}
                     onChange={(event) => {
-                        setPasswordInput(event.target.value);
+                        setPasswordInput(event.target.value)
                     }}
                 />
             </FormControl>
@@ -202,7 +202,7 @@ function PasswordForm({ params }) {
                     label="Xác nhận mật khẩu"
                     value={confirmPasswordInput}
                     onChange={(event) => {
-                        setConfirmPasswordInput(event.target.value);
+                        setConfirmPasswordInput(event.target.value)
                     }}
                 />
             </FormControl>
@@ -212,7 +212,6 @@ function PasswordForm({ params }) {
                     <span className={cx('error-message')}>{error}</span>
                 </div>
             )}
-
             <Button
                 primary
                 className={cx('save-btn', {
@@ -222,9 +221,8 @@ function PasswordForm({ params }) {
             >
                 Lưu
             </Button>
-            <ToastContainer />
         </div>
-    );
+    )
 }
 
-export default PasswordForm;
+export default PasswordForm

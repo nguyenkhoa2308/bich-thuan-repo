@@ -73,7 +73,6 @@ function NewProducts({ products }) {
             },
         ],
     }
-    // console.log(bestSellingProducts);
 
     return (
         <div className={cx('wrapper')}>
@@ -99,7 +98,6 @@ function NewProducts({ products }) {
                         setShowProductDialogOpen(false)
                     }}
                 />
-                {/* <ToastContainer /> */}
             </div>
         </div>
     )

@@ -1,7 +1,6 @@
 import classnames from 'classnames/bind'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 
 import styles from './ProductDetail.module.scss'
 import ProductInfo from '~/components/ProductInfo'
@@ -87,14 +86,13 @@ function ProductDetail() {
                         </div>
                         <div className={cx('review-container', 'mt-5', 'mb-4')}>
                             <h2 className={cx('heading-title')}>Đánh giá sản phẩm</h2>
-                            <ReviewForm slug={slug.slug} setReviews={setReviews}/>
+                            <ReviewForm slug={slug.slug} setReviews={setReviews} />
 
                             <ReviewList reviews={reviews} />
                         </div>
                     </div>
                 </div>
             </div>
-            <ToastContainer />
         </div>
     )
 }

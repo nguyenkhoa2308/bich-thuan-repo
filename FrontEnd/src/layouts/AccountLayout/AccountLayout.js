@@ -1,47 +1,39 @@
-import classnames from 'classnames/bind';
-import { useContext, useState, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import classnames from 'classnames/bind'
+import { useContext, useState, useEffect, useMemo } from 'react'
+import { Outlet, Link, useLocation } from 'react-router-dom'
 
-import styles from './AccountLayout.module.scss';
-import Header from '~/layouts/components/Header';
-import Footer from '../components/Footer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faPen, faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '~/contexts/AuthContext';
-import { ClipBoardListIcon } from '~/components/Icons';
+import styles from './AccountLayout.module.scss'
+import Header from '~/layouts/components/Header'
+import Footer from '../components/Footer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faPen, faCircleUser } from '@fortawesome/free-solid-svg-icons'
+import { AuthContext } from '~/contexts/AuthContext'
+import { ClipBoardListIcon } from '~/components/Icons'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
+
+const PROFILE_OPTION = [
+    { title: 'Hồ Sơ', to: '/account' },
+    { title: 'Địa Chỉ', to: '/account/addresses' },
+    { title: 'Danh sách yêu thích', to: '/account/wishlist' },
+    { title: 'Đổi Mật Khẩu', to: '/account/password' },
+]
 
 function AccountLayout() {
-    const { auth } = useContext(AuthContext);
-    const location = useLocation();
-    const [activeMenu, setActiveMenu] = useState();
+    const { auth } = useContext(AuthContext)
+    const location = useLocation()
+    const [activeMenu, setActiveMenu] = useState()
 
-    const PROFILE_OPTION = [
-        {
-            title: 'Hồ Sơ',
-            to: '/account',
-        },
-        {
-            title: 'Địa Chỉ',
-            to: '/account/addresses',
-        },
-        {
-            title: 'Đổi Mật Khẩu',
-            to: '/account/password',
-        },
-    ];
+    const userPaths = useMemo(() => PROFILE_OPTION.map((item) => item.to), [])
 
     useEffect(() => {
-        const userPaths = ['/account', '/account/addresses', '/account/password'];
-        // Mở menu "Account" nếu URL chứa /account mà KHÔNG PHẢI /account/purchase
         if (userPaths.includes(location.pathname)) {
-            setActiveMenu(true);
+            setActiveMenu(true)
         } else {
-            setActiveMenu(false); // Đóng menu nếu là /account/purchase hoặc các trang khác
+            setActiveMenu(false)
         }
-    }, [location.pathname]); // Chạy lại mỗi khi URL thay đổi
+    }, [location.pathname, userPaths])
 
     return (
         <div className={cx('wrapper')}>
@@ -116,7 +108,7 @@ function AccountLayout() {
             </div>
             <Footer />
         </div>
-    );
+    )
 }
 
-export default AccountLayout;
+export default AccountLayout
