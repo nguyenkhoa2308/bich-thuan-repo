@@ -9,7 +9,7 @@
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     // margin: 10px;
 }
@@ -42,11 +42,14 @@
         font-size: 1.8rem;
         transform: translate(5px, 6px);
         color: var(--dark-charcoal);
-    }
 
-    & .heart-icon.active {
-        color: var(--primary);
-        animation: heart-anim 0.7s ease;
+        &.active {
+            color: var(--primary);
+        }
+
+        &.clicked {
+            animation: heart-anim 0.7s ease;
+        }
     }
 }
 

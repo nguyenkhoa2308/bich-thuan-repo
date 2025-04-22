@@ -10,10 +10,19 @@
 .heading {
     padding: 1.8rem 0;
     border-bottom: 1px solid #efefef;
+    margin-bottom: 16px;
 }
 
 .title {
     font-size: 1.8rem;
     color: var(--shop-color-text);
     margin-bottom: 0;
+}
+
+.wishlist-container {
+    margin-bottom: 32px;
+}
+
+.product-item {
+    margin-bottom: 16px;
 }

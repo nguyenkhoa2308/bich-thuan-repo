@@ -1,10 +1,10 @@
-import classnames from 'classnames/bind';
-import { Menu } from '@mui/material';
+import classnames from 'classnames/bind'
+import { Menu } from '@mui/material'
 
-import styles from './DropDownMenu.module.scss';
+import styles from './DropDownMenu.module.scss'
 
 // eslint-disable-next-line
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function DropDownMenu({ anchorEl, open, handleClose, width, children }) {
     // return <div className={cx('wrapper', { [className]: className })}>{children}</div>;
@@ -16,6 +16,7 @@ function DropDownMenu({ anchorEl, open, handleClose, width, children }) {
             sx={{
                 overflow: 'visible',
                 mt: 2,
+                position: 'absolute',
                 '& .MuiPaper-root': {
                     overflow: 'visible',
 
@@ -43,10 +44,15 @@ function DropDownMenu({ anchorEl, open, handleClose, width, children }) {
             }}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            MenuListProps={{
+                autoFocusItem: false,
+            }}
+            aria-hidden={false}
+            disableScrollLock
         >
             {children}
         </Menu>
-    );
+    )
 }
 
-export default DropDownMenu;
+export default DropDownMenu

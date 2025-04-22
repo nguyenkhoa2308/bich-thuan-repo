@@ -7,8 +7,6 @@ import { useEffect, useState, useCallback } from 'react'
 import styles from './CategoryPage.module.scss'
 import Button from '~/components/Button'
 import ProductList from '~/components/ProductList'
-import httpRequest from '~/utils/httpRequest'
-// import { ToastContainer } from 'react-toastify'
 import { Spinner } from 'react-bootstrap'
 
 const cx = classnames.bind(styles)
@@ -50,6 +48,14 @@ const ROOM_MAP = {
     office: 'Nội thất văn phòng',
     bathroom: 'Phòng tắm',
     kitchen: 'Phòng bếp',
+}
+const CATEGORY_MAP = {
+    sofa: 'Sofa',
+    desk: 'Bàn',
+    chair: 'Ghế',
+    beds: 'Giường',
+    'store-organization': 'Tủ kệ',
+    decor: 'Trang trí',
 }
 
 const priceOptions = [
@@ -104,26 +110,12 @@ function CategoryPage() {
         setCurrentPage(1)
         // setLoading(true);
 
-        if (ROOM_MAP[slug.slug]) {
-            // Nếu là room, setCategory thành tên tiếng Việt
-            setPageTitle(ROOM_MAP[slug.slug])
-            // setTimeout(() => {
-            //     setLoading(false);
-            // }, 350);
-        } else {
-            // Nếu không, gọi API để lấy category
-            const fetchData = async () => {
-                try {
-                    const res = await httpRequest.get(`categories/${slug.slug}`)
-                    setPageTitle(res.displayName)
-                    // setTimeout(() => {
-                    //     setLoading(false);
-                    // }, 300);
-                } catch (err) {
-                    console.log(err)
-                }
-            }
-            fetchData()
+        const slugValue = slug.slug
+
+        if (ROOM_MAP[slugValue]) {
+            setPageTitle(ROOM_MAP[slugValue])
+        } else if (CATEGORY_MAP[slugValue]) {
+            setPageTitle(CATEGORY_MAP[slugValue])
         }
     }, [slug])
 

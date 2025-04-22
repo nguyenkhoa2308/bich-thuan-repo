@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import DOMPurify from 'dompurify'
 
@@ -14,6 +14,7 @@ function ReviewList({ reviews }) {
     const reviewList = Array.isArray(reviews) ? reviews : []
     const [currentPage, setCurrentPage] = useState(1)
     const commentListRef = useRef(null)
+    // const hasInteracted = useRef(false)
     const reviewsPerPage = 5
 
     // Khởi tạo biến đếm số sao
@@ -44,12 +45,6 @@ function ReviewList({ reviews }) {
     // Cắt danh sách review theo trang
     const currentReviews = sortedReviews.slice(indexOfFirstReview, indexOfLastReview)
     const totalPages = Math.ceil(totalVotes / reviewsPerPage)
-
-    useEffect(() => {
-        if (commentListRef.current) {
-            commentListRef.current.scrollIntoView({ behavior: 'smooth' })
-        }
-    }, [currentPage])
 
     return (
         <div className={cx('wrapper')}>

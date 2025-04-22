@@ -20,6 +20,7 @@ import { AuthContext } from '~/contexts/AuthContext'
 import { CartContext } from '~/contexts/CartContext'
 import { useAddress } from '~/contexts/AddressContext'
 import httpRequest from '~/utils/httpRequest'
+import { WishlistContext } from '~/contexts/WishlistContext'
 
 const cx = classnames.bind(styles)
 
@@ -27,6 +28,7 @@ function LoginForm() {
     const navigate = useNavigate()
     const { setAuth } = useContext(AuthContext)
     const { getCart } = useContext(CartContext)
+    const { getWishlists } = useContext(WishlistContext)
     const { getAddresses } = useAddress()
     // const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
@@ -67,7 +69,7 @@ function LoginForm() {
             })
             getCart()
             getAddresses()
-            console.log(res.user.id)
+            getWishlists()
             navigate('/')
         } else {
             setError(res.EM)

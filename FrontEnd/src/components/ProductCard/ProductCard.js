@@ -3,23 +3,25 @@ import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { toast, Zoom } from 'react-toastify'
 
 import styles from './ProductCard.module.scss'
 import Button from '~/components/Button'
 import ProductDialog from '~/components/Dialog/ProductDialog'
-import httpRequest from '~/utils/httpRequest'
 import { CartIcon } from '~/components/Icons'
 import { CartContext } from '~/contexts/CartContext'
+import { WishlistContext } from '~/contexts/WishlistContext'
 
 const cx = classnames.bind(styles)
 
 function ProductCard({ product, handleClick, isHome = false, openDialog }) {
     const [isProductDialogOpen, setIsProductDialogOpen] = useState(false)
     const [currentProduct, setCurrentProduct] = useState()
-    const [isClick, setIsClick] = useState(false)
+    const [clicked, setClicked] = useState(false)
 
     const { addToCart } = useContext(CartContext)
+    const { wishlists, toggleWishlist } = useContext(WishlistContext)
+
+    const isLiked = wishlists.some((item) => item._id === product._id)
 
     const handleDragStart = (e) => {
         e.preventDefault()
@@ -40,26 +42,13 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
     }
 
     const handleWishlist = async () => {
-        try {
-            const response = await httpRequest.post(`/user/wishlists/${product._id}`)
+        setClicked(true)
+        await toggleWishlist(product._id)
 
-            if (response.status === 200) {
-                toast.success('Đã thêm vào danh sách yêu thích!', {
-                    position: 'top-right',
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                    transition: Zoom,
-                })
-            }
-            setIsClick(!isClick)
-        } catch {
-            console.log('Lỗi nè')
-        }
+        // reset lại clicked sau 500ms để animation không lặp lại
+        setTimeout(() => {
+            setClicked(false)
+        }, 500)
     }
 
     return (
@@ -73,7 +62,8 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
                         <FontAwesomeIcon
                             icon={faHeart}
                             className={cx('heart-icon', {
-                                active: isClick,
+                                active: isLiked,
+                                clicked: clicked,
                             })}
                             onClick={() => handleWishlist()}
                         />

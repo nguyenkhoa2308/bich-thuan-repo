@@ -222,6 +222,8 @@ const addWishlist = async (req, res) => {
         const user = await User.findById(req.user.id)
         const productId = req.params.productId
 
+        const isLiked = user.wishlists.includes(productId)
+
         if (user.wishlists.includes(productId)) {
             user.wishlists.pull(productId)
         } else {
@@ -229,7 +231,7 @@ const addWishlist = async (req, res) => {
         }
 
         await user.save()
-        return res.status(200).json({ status: 200 })
+        return res.status(200).json({ status: 200, isLiked: isLiked })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

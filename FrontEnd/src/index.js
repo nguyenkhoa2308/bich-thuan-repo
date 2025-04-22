@@ -13,6 +13,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import { AddressProvider } from './contexts/AddressContext'
 import { ChatProvider } from './contexts/ChatContext'
+import { WishlistProvider } from './contexts/WishlistContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -20,11 +21,13 @@ root.render(
         <GlobalStyles>
             <AuthProvider>
                 <CartProvider>
-                    <AddressProvider>
-                        <ChatProvider>
-                            <App />
-                        </ChatProvider>
-                    </AddressProvider>
+                    <WishlistProvider>
+                        <AddressProvider>
+                            <ChatProvider>
+                                <App />
+                            </ChatProvider>
+                        </AddressProvider>
+                    </WishlistProvider>
                 </CartProvider>
             </AuthProvider>
         </GlobalStyles>
