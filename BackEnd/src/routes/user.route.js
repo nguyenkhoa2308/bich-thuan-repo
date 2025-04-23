@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 import { auth, adminMiddleware } from '~/middlewares/auth'
+import upload from '~/middlewares/upload'
+
 import {
     createUser,
     login,
@@ -35,7 +37,7 @@ router.get('/account', auth, getAccount)
 router.get('/wishlists', auth, getWishlists)
 
 router.put('/change-password', auth, changePassword)
-router.put('/update', auth, updateUser)
+router.put('/update', auth, upload.single('avatar'), updateUser)
 router.put('/updateRole/:id', auth, adminMiddleware, updateRole)
 router.delete('/:id', auth, adminMiddleware, deleteAccount)
 

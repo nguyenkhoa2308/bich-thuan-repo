@@ -1,0 +1,18 @@
+.user-container {
+    border-radius: 10px;
+
+    &:hover {
+        background-color: rgba(146, 146, 146, 0.2);
+    }
+
+    &.selected {
+        background-color: rgb(186, 222, 236);
+    }
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}

@@ -12,6 +12,10 @@ const UserSchema = mongoose.Schema(
         gender: { type: Boolean, require: true },
         birthDate: { type: String, require: true },
         role: { type: String, enum: ['customer', 'admin'], default: 'customer' },
+        avatar: {
+            type: String,
+            default: 'https://res.cloudinary.com/dezywk7nm/image/upload/v1743777314/default-avatar_stq3ir.jpg',
+        },
         // status: { type: Number, require: false },
         resetPasswordToken: { type: String, require: false },
         resetPasswordExpires: { type: Date, require: false },

@@ -18,14 +18,21 @@
     margin-bottom: 0;
 }
 
+.heading-subtitle {
+    color: #555;
+    line-height: 1.7rem;
+    margin-top: 3px;
+}
+
 .profile-body {
     margin-top: 24px;
     display: flex;
-    justify-content: center;
+    align-items: flex-start;
 }
 
-// .profile-container {
-// }
+.profile-container {
+    flex: 1;
+}
 
 .profile-row {
     display: flex;
@@ -69,4 +76,60 @@
 
 .error-message {
     margin-left: 8px;
+}
+
+.upload-container {
+    border-left: 0.1rem solid #efefef;
+    overflow: hidden;
+    width: 28rem;
+}
+
+.upload-header {
+    height: 10rem;
+    margin: 2rem 0;
+    position: relative;
+    width: 10rem;
+}
+
+.upload-preview {
+    border-radius: 50%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+}
+
+.upload-btn {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.03);
+    // color: #555;
+    outline: 0;
+    overflow: visible;
+    position: relative;
+
+    height: 40px;
+    max-width: 220px;
+    min-width: 70px;
+    padding: 0 20px;
+
+    text-overflow: ellipsis;
+    align-items: center;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-direction: column;
+    font-size: 14px;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+.upload-input {
+    display: none;
+}
+
+.upload-info {
+    display: block;
+    margin-top: 1.2rem;
 }

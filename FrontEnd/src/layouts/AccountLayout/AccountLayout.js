@@ -1,13 +1,14 @@
 import classnames from 'classnames/bind'
 import { useContext, useState, useEffect, useMemo } from 'react'
 import { Outlet, Link, useLocation } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faPen, faCircleUser } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './AccountLayout.module.scss'
 import Header from '~/layouts/components/Header'
 import Footer from '../components/Footer'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-regular-svg-icons'
-import { faPen, faCircleUser } from '@fortawesome/free-solid-svg-icons'
+import CustomerChat from '~/layouts/components/CustomerChat'
 import { AuthContext } from '~/contexts/AuthContext'
 import { ClipBoardListIcon } from '~/components/Icons'
 
@@ -106,6 +107,7 @@ function AccountLayout() {
                 </div>
                 <Outlet />
             </div>
+            <CustomerChat />
             <Footer />
         </div>
     )

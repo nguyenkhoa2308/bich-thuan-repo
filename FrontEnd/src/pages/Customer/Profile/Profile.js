@@ -1,10 +1,9 @@
 import classnames from 'classnames/bind'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 import { Zoom, toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
@@ -16,6 +15,7 @@ import styles from './Profile.module.scss'
 import { AuthContext } from '~/contexts/AuthContext'
 import httpRequest from '~/utils/httpRequest'
 import Button from '~/components/Button'
+import { Spinner } from 'react-bootstrap'
 
 const cx = classnames.bind(styles)
 
@@ -31,6 +31,11 @@ function Profile() {
     const [birthdayInput, setBirthdayInput] = useState(null)
     const [errorMessage, setErrorMessage] = useState('')
 
+    const fileInputRef = useRef(null)
+    const [previewUrl, setPreviewUrl] = useState('')
+
+    const [loading, setLoading] = useState(false)
+
     const userId = auth.user.id
 
     const handleChange = (event) => {
@@ -39,8 +44,7 @@ function Profile() {
     }
 
     const handleSubmit = async (firstName, lastName, displayName, gender, birthdayInput) => {
-        const formattedDate = dayjs(birthdayInput).format('DD/MM/YYYY')
-        const formattedGender = gender === 'male' ? true : false
+        const formData = new FormData()
 
         if (dayjs(birthdayInput).isAfter(dayjs(), 'day')) {
             setErrorMessage('Ngày sinh phải trước ngày hiện tại.')
@@ -49,59 +53,104 @@ function Profile() {
             setErrorMessage('')
         }
 
-        const response = await httpRequest.put('/user/update', {
-            firstName: firstName,
-            lastName: lastName,
-            displayName: displayName,
-            gender: formattedGender,
-            birthDate: formattedDate,
-        })
+        formData.append('firstName', firstName)
+        formData.append('lastName', lastName)
+        formData.append('displayName', displayName)
+        formData.append('gender', gender === 'male' ? true : false)
+        formData.append('birthDate', dayjs(birthdayInput).format('DD/MM/YYYY'))
 
-        if (response.EC === 0) {
-            console.log('Success')
-            localStorage.setItem('access_token', response.access_token)
-            setAuth({
-                isAuthenticated: true,
-                user: {
-                    id: response?.updateUser?._id ?? '',
-                    email: response?.updateUser?.email ?? '',
-                    name: response?.updateUser?.displayName ?? '',
-                    role: response?.updateUser?.role ?? '',
+        if (fileInputRef.current.files[0]) {
+            formData.append('avatar', fileInputRef.current.files[0])
+            setLoading(true)
+        }
+
+        try {
+            const response = await httpRequest.put('/user/update', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Quan trọng khi gửi FormData
                 },
             })
-            // getCart();
-            // navigate('/');
-            toast.success('Sửa thông tin người dùng thành công!', {
-                position: 'top-right',
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-                transition: Zoom,
-            })
-        } else {
-            console.log('Error')
-            toast.error('Sửa thông tin người dùng thất bại!', {
-                position: 'top-right',
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-                transition: Zoom,
-            })
+
+            // Xử lý phản hồi ở đây
+            if (response.EC === 0) {
+                console.log('Success')
+                localStorage.setItem('access_token', response.access_token)
+                setAuth({
+                    isAuthenticated: true,
+                    user: {
+                        id: response?.user?._id ?? '',
+                        email: response?.user?.email ?? '',
+                        name: response?.user?.displayName ?? '',
+                        role: response?.user?.role ?? '',
+                    },
+                })
+                // getCart();
+                // navigate('/');
+                toast.success('Sửa thông tin người dùng thành công!', {
+                    position: 'top-right',
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light',
+                    transition: Zoom,
+                })
+            } else {
+                console.log('Error')
+                toast.error('Sửa thông tin người dùng thất bại!', {
+                    position: 'top-right',
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light',
+                    transition: Zoom,
+                })
+            }
+        } catch (error) {
+            console.error('Có lỗi khi gửi yêu cầu:', error)
+        } finally {
+            setLoading(false)
         }
+    }
+
+    const handleImageClick = () => {
+        fileInputRef.current.click()
+    }
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        const isValidType = ['image/jpeg', 'image/png'].includes(file.type)
+        const isValidSize = file.size <= 1024 * 1024
+
+        if (!isValidType) {
+            alert('Chỉ chấp nhận định dạng .JPEG hoặc .PNG')
+            return
+        }
+
+        if (!isValidSize) {
+            alert('Dung lượng ảnh phải nhỏ hơn hoặc bằng 1MB')
+            return
+        }
+
+        const reader = new FileReader()
+        reader.onloadend = () => {
+            setPreviewUrl(reader.result)
+        }
+        reader.readAsDataURL(file)
     }
 
     useEffect(() => {
         const fetchUser = async () => {
             const response = await httpRequest.get(`/user/getUserById/${userId}`)
             setUser(response)
+            setPreviewUrl(response.avatar)
         }
         if (userId) {
             fetchUser()
@@ -123,6 +172,7 @@ function Profile() {
             <div className={cx('container')}>
                 <div className={cx('profile-heading')}>
                     <h1 className={cx('heading-title')}>Hồ Sơ Của Tôi</h1>
+                    <div className={cx('heading-subtitle')}>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
                 </div>
                 <div className={cx('profile-body')}>
                     <div className={cx('profile-container')}>
@@ -297,8 +347,42 @@ function Profile() {
                                 primary
                                 onClick={() => handleSubmit(firstName, lastName, displayName, gender, birthdayInput)}
                             >
-                                Lưu
+                                {loading ? <Spinner animation="border" /> : 'Lưu'}
                             </Button>
+                        </div>
+                    </div>
+                    <div className={cx('upload-container', 'd-flex', 'justify-content-center')}>
+                        <div className={cx('upload-wrapper', 'd-flex', 'flex-column', 'align-items-center')}>
+                            <div
+                                className={cx(
+                                    'upload-header',
+                                    'd-flex',
+                                    'justify-content-center',
+                                    'align-items-center',
+                                )}
+                            >
+                                <div
+                                    className={cx('upload-preview')}
+                                    style={{
+                                        backgroundImage: `url(${previewUrl})`,
+                                    }}
+                                ></div>
+                            </div>
+                            <input
+                                className={cx('upload-input')}
+                                type="file"
+                                accept=".jpg,.jpeg,.png"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button type="button" className={cx('upload-btn')} onClick={handleImageClick}>
+                                Chọn ảnh
+                            </button>
+
+                            <div className={cx('upload-info')}>
+                                <div className={cx('upload-note')}>Dung lượng file tối đa 1 MB</div>
+                                <div className={cx('upload-note')}>Định dạng: .JPEG, .PNG</div>
+                            </div>
                         </div>
                     </div>
                 </div>

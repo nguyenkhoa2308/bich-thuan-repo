@@ -193,6 +193,20 @@
         background: var(--primary);
         border-radius: 13px 13px 13px 3px;
     }
+
+    & .message-block {
+        align-items: flex-end;
+    }
+}
+
+.message-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; // hoặc flex-end cho chat-end
+}
+
+.chat-end .message-block {
+    align-items: flex-end;
 }
 
 .message-content {
@@ -200,7 +214,7 @@
 }
 
 .time {
-    margin-top: 8px;
+    margin: 8px 0 4px 10px;
 }
 
 .message-text {

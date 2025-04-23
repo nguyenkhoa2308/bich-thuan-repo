@@ -34,13 +34,15 @@ function CustomerChat() {
         }
     }, [messages, showChat])
 
-    const formatMessageTime = (date) => {
-        return new Date(date).toLocaleTimeString('en-US', {
-            hour: '2-digit',
+    const formatMessageTime = (date) =>
+        new Date(date).toLocaleString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: 'numeric',
             minute: '2-digit',
-            hour12: false,
+            hour12: true,
         })
-    }
 
     const handleLogin = () => {
         navigate('/login')
@@ -95,20 +97,23 @@ function CustomerChat() {
                         >
                             {message.senderId !== auth.user.id && (
                                 <div className="chat-image avatar">
-                                    <div className="size-10 rounded-full">
+                                    <div className="avt">
                                         <Image src={images.chatAvatar} className={cx('avatar-image')} />
                                     </div>
                                 </div>
                             )}
 
-                            <div className={cx('message-content')}>
-                                <div className={cx('time')}>
-                                    <time className="text-xs opacity-50 ml-1">
-                                        {formatMessageTime(message.createdAt)}
-                                    </time>
-                                </div>
-                                <div className="chat-bubble flex flex-col">
-                                    {message.text && <p className={cx('message-text')}>{message.text}</p>}
+                            <div className={cx('message-block')}>
+                                <span className={cx('time')}>
+                                    <time className="text-xs opacity-50">{formatMessageTime(message.createdAt)}</time>
+                                </span>
+
+                                <div className={cx('message-content')}>
+                                    {message.text && (
+                                        <div className="chat-bubble d-flex flex-column">
+                                            <div className={cx('message-text')}>{message.text}</div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

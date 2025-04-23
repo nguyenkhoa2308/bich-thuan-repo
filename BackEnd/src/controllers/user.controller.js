@@ -7,8 +7,10 @@ import bcrypt from 'bcrypt'
 import { createUserService, getUserService, loginService, getUserByIdService } from '~/services/userService'
 import User from '~/models/user.model'
 import sendEmail from '~/utils/sendEmail'
+import cloudinary from '~/utils/cloudinary'
 
 const saltRound = 10
+const DEFAULT_USER_AVATAR = 'https://res.cloudinary.com/dezywk7nm/image/upload/v1743777314/default-avatar_stq3ir.jpg'
 
 const createUser = async (req, res) => {
     const { email, password, firstName, lastName, displayName, gender, birthDate } = req.body
@@ -146,30 +148,36 @@ const updateUser = async (req, res) => {
     try {
         if (req.user.id) {
             const { firstName, lastName, displayName, gender, birthDate } = req.body
-            const updateUser = await User.findOneAndUpdate(
-                { _id: req.user.id },
-                {
-                    $set: {
-                        firstName: firstName,
-                        lastName: lastName,
-                        displayName: displayName,
-                        gender: gender,
-                        birthDate: birthDate,
-                    },
-                },
-                { new: true },
-            )
+            const avatar = req.file
+
+            const user = await User.findById(req.user.id).select('-password')
+
+            if (avatar) {
+                if (user.avatar && user.avatar !== DEFAULT_USER_AVATAR) {
+                    const publicId = user.avatar.split('/').pop().split('.')[0]
+                    await cloudinary.uploader.destroy(`avatars/${publicId}`)
+                }
+                user.avatar = req.file.path // Lấy URL từ ảnh đã upload lên Cloudinary
+            }
+
+            user.firstName = firstName
+            user.lastName = lastName
+            user.displayName = displayName
+            user.gender = gender
+            user.birthDate = birthDate
+
+            await user.save()
 
             const payload = {
-                id: updateUser._id,
-                email: updateUser.email,
-                name: updateUser.displayName,
-                role: updateUser.role,
+                id: user._id,
+                email: user.email,
+                name: user.displayName,
+                role: user.role,
             }
 
             const access_token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE })
 
-            return res.status(200).json({ updateUser, access_token, EC: 0 })
+            return res.status(200).json({ user, access_token, EC: 0 })
         } else {
             return res.status(401).json({ message: 'Không tìm thấy thông tin người dùng' })
         }
