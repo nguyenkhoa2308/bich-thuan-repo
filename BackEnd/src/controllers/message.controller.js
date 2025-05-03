@@ -3,25 +3,47 @@ import Message from '~/models/message.model'
 import { getReceiverSocketId, io } from '~/sockets/socket'
 
 export const getUsersForSidebar = async (req, res) => {
-    try {
-        const adminId = req.user.id // ID admin từ token đăng nhập
+    const adminId = req.user.id
 
-        // Tìm các tin nhắn liên quan đến admin (admin là sender hoặc receiver)
+    try {
         const messages = await Message.find({
             $or: [{ senderId: adminId }, { receiverId: adminId }],
-        }).select('senderId receiverId')
+        }).sort({ createdAt: -1 })
 
-        // Lấy danh sách userId từ tin nhắn, bỏ trùng và bỏ adminId
-        const userIds = [
-            ...new Set(messages.flatMap((msg) => [msg.senderId.toString(), msg.receiverId.toString()])),
-        ].filter((id) => id !== adminId.toString())
+        const map = new Map()
 
-        // Lấy thông tin user từ danh sách userId
-        const users = await User.find({ _id: { $in: userIds } }).select('-password')
+        messages.forEach((msg) => {
+            const otherUserId =
+                msg.senderId.toString() === adminId ? msg.receiverId.toString() : msg.senderId.toString()
 
-        res.status(200).json(users)
+            if (!map.has(otherUserId)) {
+                map.set(otherUserId, {
+                    userId: otherUserId,
+                    lastMessage: msg,
+                    unreadCount: 0,
+                })
+            }
+
+            if (msg.senderId.toString() === otherUserId && msg.receiverId.toString() === adminId && !msg.seen) {
+                map.get(otherUserId).unreadCount++
+            }
+        })
+
+        const userIds = [...map.keys()]
+        const users = await User.find({ _id: { $in: userIds } }).select('_id displayName avatar')
+
+        const results = users.map((user) => ({
+            user,
+            lastMessage: map.get(user._id.toString()).lastMessage,
+            unreadCount: map.get(user._id.toString()).unreadCount,
+        }))
+
+        // 🔄 Sắp xếp theo thời gian gửi mới nhất
+        results.sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt))
+
+        res.status(200).json(results)
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' })
+        res.status(500).json({ error: 'Failed to get conversations' })
     }
 }
 
@@ -65,9 +87,15 @@ const sendMessage = async (req, res) => {
 
         await newMessage.save()
 
+        const senderSocketId = getReceiverSocketId(senderId)
         const receiverSocketId = getReceiverSocketId(receiverId)
+
         if (receiverSocketId) {
             io.to(receiverSocketId).emit('newMessage', newMessage)
+        }
+
+        if (senderSocketId) {
+            io.to(senderSocketId).emit('newMessage', newMessage) // ✅ Emit lại cho người gửi
         }
 
         res.status(201).json(newMessage)

@@ -1,0 +1,46 @@
+.wrapper {
+    background: #fff;
+    padding: 10px 15px;
+    height: 100%;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.heading {
+    .text {
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin: 0 0 20px;
+        color: var(--primary);
+    }
+}
+
+.content {
+    margin-bottom: 40px;
+}
+
+.content-heading {
+    font-weight: bold;
+    color: var(--primary);
+    text-align: center;
+}
+
+.description {
+    font-size: 1.6rem;
+    line-height: 2;
+    font-style: italic;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: var(--primary);
+}
+
+.list {
+    list-style: inside;
+    margin-bottom: 10px;
+
+    .list-item {
+        margin-left: 24px;
+    }
+}

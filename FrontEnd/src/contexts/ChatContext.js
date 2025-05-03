@@ -10,13 +10,14 @@ export const ChatProvider = ({ children }) => {
     const [selectedUser, setSelectedUser] = useState(null)
     const [messages, setMessages] = useState([])
 
+    const isAdmin = auth?.user?.id === '67df90b43899a512b6e0a47f'
+
     const getUsers = useCallback(async () => {
         try {
             const res = await httpRequest.get(`/messages/users`)
-            // console.log(res)
             setUsers(res)
         } catch (error) {
-            console.log(error)
+            console.error('getUsers error:', error)
         }
     }, [])
 
@@ -25,52 +26,82 @@ export const ChatProvider = ({ children }) => {
             const res = await httpRequest.get(`/messages/${userId}`)
             setMessages(res)
         } catch (error) {
-            console.log(error)
+            console.error('getMessages error:', error)
         }
     }, [])
 
     const sendMessage = async (messageText) => {
-        // if (!selectedUser) return
         try {
-            let receiverId
+            const receiverId = isAdmin ? selectedUser?.user._id : '67df90b43899a512b6e0a47f'
 
-            if (auth.user.id === '67df90b43899a512b6e0a47f') {
-                if (!selectedUser) return console.log('Chọn khách hàng để nhắn tin!')
-                receiverId = selectedUser._id // Admin gửi cho khách hàng
-            } else {
-                receiverId = '67df90b43899a512b6e0a47f' // Khách hàng luôn gửi cho admin
-            }
+            if (!receiverId) return console.warn('Người nhận không xác định!')
 
-            // const messageData = {
-            //     senderId: auth.user.id,
-            //     message: messageText,
-            // }
-            const res = await httpRequest.post(`/messages/send/${receiverId}`, messageText)
-            setMessages((prev) => [...prev, res])
+            await httpRequest.post(`/messages/send/${receiverId}`, messageText)
+            // setMessages((prev) => [...prev, res])
         } catch (error) {
-            console.log(error)
+            console.error('sendMessage error:', error)
         }
     }
 
-    // 🟢 Lắng nghe tin nhắn mới từ WebSocket
     useEffect(() => {
         if (!socket || !auth.user) return
 
         socket.on('newMessage', (newMessage) => {
-            if (auth.user.id === '67df90b43899a512b6e0a47f') {
-                // Chỉ cập nhật tin nhắn nếu tin nhắn thuộc về khách hàng đang chọn
-                if (selectedUser && newMessage.senderId === selectedUser._id) {
-                    setMessages((prevMessages) => [...prevMessages, newMessage])
-                }
+            const isChatOpen = selectedUser && newMessage.senderId === selectedUser.user._id
+
+            // ✅ Cập nhật tin nhắn nếu đang chat với người đó
+            if (isChatOpen) {
+                setMessages((prev) => [...prev, newMessage])
+
+                // ✅ Gửi sự kiện markAsRead nếu đang mở
+                socket.emit('markAsRead', {
+                    fromUserId: newMessage.senderId,
+                    toUserId: auth.user.id,
+                })
             } else {
-                setMessages((prevMessages) => [...prevMessages, newMessage])
+                // Nếu không mở, vẫn nhận tin nhắn nhưng sẽ tính là chưa đọc
+                setMessages((prev) => [...prev, newMessage])
             }
+
+            // Cập nhật lại users
+            setUsers((prevUsers) => {
+                const userExists = prevUsers.some(
+                    (item) => item.user._id === newMessage.senderId || item.user._id === newMessage.receiverId,
+                )
+
+                if (!userExists) {
+                    getUsers()
+                    return prevUsers
+                }
+
+                // Cập nhật từng user
+                const updatedUsers = prevUsers.map((item) => {
+                    const userId = item.user._id
+                    const isFromUser = newMessage.senderId === userId
+                    const isToUser = newMessage.receiverId === userId
+
+                    if (!isFromUser && !isToUser) return item
+
+                    const isUnread = isFromUser && !isChatOpen
+
+                    return {
+                        ...item,
+                        lastMessage: newMessage,
+                        unreadCount: isUnread ? item.unreadCount + 1 : item.unreadCount,
+                    }
+                })
+
+                // ✅ Sort lại theo thời gian gửi tin mới nhất
+                return updatedUsers.sort(
+                    (a, b) => new Date(b.lastMessage?.createdAt) - new Date(a.lastMessage?.createdAt),
+                )
+            })
         })
 
         return () => {
             socket.off('newMessage')
         }
-    }, [socket, selectedUser, auth.user])
+    }, [socket, selectedUser, auth.user, getUsers])
 
     return (
         <ChatContext.Provider
@@ -78,8 +109,6 @@ export const ChatProvider = ({ children }) => {
                 users,
                 messages,
                 selectedUser,
-                // isUsersLoading,
-                // isMessagesLoading,
                 setMessages,
                 getUsers,
                 getMessages,

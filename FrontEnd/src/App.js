@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
 import './App.css'
 
@@ -22,18 +23,19 @@ import Cart from '~/pages/Customer/Cart'
 import CheckOut from '~/pages/Customer/CheckOut'
 import SearchPage from '~/pages/Customer/SearchPage/SearchPage'
 
+import StaticPageLayout from '~/layouts/StaticPageLayout'
 import About from '~/pages/Customer/About/About'
+import Contact from '~/pages/Customer/Contact'
 
 //Admin
+import AdminLayout from '~/layouts/AdminLayout'
 import ProtectedRoute from '~/routes/ProtectedRoute'
 import AdminDashboard from '~/pages/Admin/AdminDashboard'
-import AdminLayout from '~/layouts/AdminLayout'
 import UserManagement from '~/pages/Admin/UserManagement'
 import ProductManagement from '~/pages/Admin/ProductManagement'
 import OrderManagement from '~/pages/Admin/OrderManagement'
 import CategoryManagement from '~/pages/Admin/CategoryManagement'
 import AdminChat from '~/pages/Admin/AdminChat'
-import { ToastContainer } from 'react-toastify'
 
 function App() {
     return (
@@ -50,25 +52,25 @@ function App() {
                     <Route path="cart" element={<Cart />} />
                     <Route path="checkout" element={<CheckOut />} />
                     <Route path="search" element={<SearchPage />} />
-                    <Route path="pages">
-                        <Route path="about" element={<About />} />
-                        <Route path="contact" element={<About />} />
-                        <Route path="blog" element={<About />} />
+                </Route>
+                <Route path="pages" element={<StaticPageLayout />}>
+                    <Route path="about" element={<About />} />
+                    <Route path="contact" element={<Contact />} />
+                    <Route path="blog" element={<About />} />
 
-                        {/* <Route path="faq" element={<FAQ />} /> */}
+                    {/* <Route path="faq" element={<FAQ />} /> */}
 
-                        {/* Purchase Guide */}
-                        {/* <Route path="order-guide" element={<OrderGuide />} />
+                    {/* Purchase Guide */}
+                    {/* <Route path="order-guide" element={<OrderGuide />} />
                         <Route path="momo-payment-guide" element={<MomoPaymentGuide />} /> */}
 
-                        {/* Policy & Shipping */}
-                        {/* <Route path="warranty-policy" element={<WarrantyPolicy />} />
+                    {/* Policy & Shipping */}
+                    {/* <Route path="warranty-policy" element={<WarrantyPolicy />} />
                         <Route path="shipping-cost" element={<ShippingCost />} />
                         <Route path="return-and-refund-policy" element={<ReturnAndRefundPolicy />} />
                         <Route path="shipping-policy" element={<ShippingPolicy />} />
                         <Route path="payment-methods" element={<PaymentMethods />} />
                         <Route path="privacy-policy" element={<PrivacyPolicy />} /> */}
-                    </Route>
                 </Route>
                 <Route path="account" element={<AccountLayout />}>
                     <Route path="" element={<Profile />}></Route>

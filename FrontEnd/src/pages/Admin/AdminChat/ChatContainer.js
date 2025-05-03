@@ -40,10 +40,10 @@ const ChatContainer = () => {
     }
 
     useEffect(() => {
-        if (selectedUser?._id) {
-            getMessages(selectedUser._id)
+        if (selectedUser?.user._id) {
+            getMessages(selectedUser.user._id)
         }
-    }, [selectedUser?._id, getMessages])
+    }, [getMessages, selectedUser.user._id])
 
     useEffect(() => {
         const container = containerRef.current
@@ -74,10 +74,10 @@ const ChatContainer = () => {
             <div className={cx('chat-header', 'd-flex', 'justify-content-between', 'align-items-center')}>
                 <div className={cx('header-info', 'd-flex')}>
                     <div className={cx('user-avatar')}>
-                        <Image src={selectedUser.avatar} className={cx('avatar-image')} />
+                        <Image src={selectedUser.user.avatar} className={cx('avatar-image')} />
                     </div>
                     <div className={cx('user-info', 'd-flex', 'flex-column', 'justify-content-center')}>
-                        <h3 className={cx('user-name')}>{selectedUser.displayName}</h3>
+                        <h3 className={cx('user-name')}>{selectedUser.user.displayName}</h3>
                     </div>
                 </div>
                 <div className={cx('close-button')} onClick={() => handleCloseChat()}>
@@ -99,7 +99,7 @@ const ChatContainer = () => {
                             {message.senderId !== auth.user.id && (
                                 <div className="chat-image avatar">
                                     <div className="avt">
-                                        <Image src={selectedUser.avatar} className={cx('avatar-image')} />
+                                        <Image src={selectedUser.user.avatar} className={cx('avatar-image')} />
                                     </div>
                                 </div>
                             )}
@@ -111,7 +111,7 @@ const ChatContainer = () => {
 
                                 <div className={cx('message-content')}>
                                     {message.text && (
-                                        <div className="chat-bubble d-flex flex-column">
+                                        <div className={cx('chat-bubble', 'd-flex', 'flex-column')}>
                                             <div className={cx('message-text')}>{message.text}</div>
                                         </div>
                                     )}

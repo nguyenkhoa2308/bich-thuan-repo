@@ -3,6 +3,7 @@
 import { Server } from 'socket.io'
 import http from 'http'
 import express from 'express'
+import Message from '~/models/message.model'
 
 const app = express()
 const server = http.createServer(app)
@@ -24,6 +25,10 @@ io.on('connection', (socket) => {
 
     // io.emit() is used to send events to all the connected clients
     io.emit('getOnlineUsers', Object.keys(userSocketMap))
+
+    socket.on('markAsRead', async ({ fromUserId, toUserId }) => {
+        await Message.updateMany({ senderId: fromUserId, receiverId: toUserId, seen: false }, { $set: { seen: true } })
+    })
 
     socket.on('disconnect', () => {
         // console.log('A user disconnected', socket.id)
