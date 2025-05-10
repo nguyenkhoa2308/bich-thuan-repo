@@ -7,7 +7,6 @@ import styles from './DropDownMenu.module.scss'
 const cx = classnames.bind(styles)
 
 function DropDownMenu({ anchorEl, open, handleClose, width, children }) {
-    // return <div className={cx('wrapper', { [className]: className })}>{children}</div>;
     return (
         <Menu
             anchorEl={anchorEl}
@@ -31,6 +30,18 @@ function DropDownMenu({ anchorEl, open, handleClose, width, children }) {
                         bgcolor: '#fff',
                         transform: 'translateY(-50%) rotate(45deg)',
                         zIndex: 0,
+                    },
+
+                    // Media query cho mobile
+                    '@media (max-width: 992px)': {
+                        width: '100%',
+                        maxWidth: '100%',
+                        left: '0 !important',
+                        top: '76px !important',
+
+                        '&::before': {
+                            right: '85px',
+                        },
                     },
                 },
 

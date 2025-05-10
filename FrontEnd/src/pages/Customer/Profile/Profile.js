@@ -82,8 +82,10 @@ function Profile() {
                         email: response?.user?.email ?? '',
                         name: response?.user?.displayName ?? '',
                         role: response?.user?.role ?? '',
+                        avatar: response?.user?.avatar ?? '',
                     },
                 })
+
                 // getCart();
                 // navigate('/');
                 toast.success('Sửa thông tin người dùng thành công!', {

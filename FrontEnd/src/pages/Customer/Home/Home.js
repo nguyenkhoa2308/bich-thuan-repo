@@ -12,6 +12,29 @@ import Image from '~/components/Image'
 
 const cx = classnames.bind(styles)
 
+const ROOM_MENU = [
+    {
+        title: 'Phòng khách',
+        slug: 'living-room',
+        image: images.livingroom,
+    },
+    {
+        title: 'Phòng ngủ',
+        slug: 'bedroom',
+        image: images.bedroom,
+    },
+    {
+        title: 'Phòng ăn và bếp',
+        slug: 'kitchen',
+        image: images.kitchen,
+    },
+    {
+        title: 'Phòng làm việc',
+        slug: 'office',
+        image: images.office,
+    },
+]
+
 function Home() {
     const [products, setProducts] = useState(null)
     const [newProducts, setNewProducts] = useState(null)
@@ -51,8 +74,8 @@ function Home() {
             </div>
             <div className={cx('home-category')}>
                 <div className={cx('category-container')}>
-                    <div className={cx('category-list')}>
-                        <div className={cx('category-item')}>
+                    <div className={cx('category-list', 'flex-wrap', 'row')}>
+                        {/* <div className={cx('category-item')}>
                             <div className={cx('category-block')}>
                                 <div className={cx('category-block--image')}>
                                     <Link to="/category/living-room">
@@ -127,7 +150,35 @@ function Home() {
                                     </Link>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+
+                        {ROOM_MENU.map((item, index) => {
+                            return (
+                                <div className={cx('category-item', 'col-lg-3', 'col-md-6', 'col-12')} key={index}>
+                                    <div className={cx('category-block')}>
+                                        <div className={cx('category-block--image')}>
+                                            <Link to={`/category/${item.slug}`}>
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.title}
+                                                    className={cx('w-100', 'h-100')}
+                                                />
+                                            </Link>
+                                        </div>
+                                        <div className={cx('category-block--content')}>
+                                            <h3 className={cx('block-title')}>
+                                                <Link to={`/category/${item.slug}`} className={cx('title-link')}>
+                                                    {item.title}
+                                                </Link>
+                                            </h3>
+                                            <Link to={`/category/${item.slug}`} className={cx('view-btn')}>
+                                                Xem ngay
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>

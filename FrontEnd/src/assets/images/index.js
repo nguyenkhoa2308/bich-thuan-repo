@@ -1,5 +1,6 @@
 const images = {
-    logo: require('~/assets/images/logo.png'),
+    logo: require('~/assets/images/image.png'),
+    logoTrans: require('~/assets/images/logo-transparent.png'),
     banner: require('~/assets/images/banner.jpeg'),
     bedroom: require('~/assets/images/bedroom.png'),
     kitchen: require('~/assets/images/kitchen.png'),

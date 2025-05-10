@@ -2,13 +2,24 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 32px;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .product-item {
-    width: 25%;
-    flex: 0 0 25%;
+    // width: 25%;
+    // flex: 0 0 25%;
     position: relative;
     padding-left: 7px;
     padding-right: 7px;
     margin-bottom: 14px;
+}
+
+@media (max-width: 767px) {
+    .product-item {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+        margin-bottom: 4px;
+    }
 }

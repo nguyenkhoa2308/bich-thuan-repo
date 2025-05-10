@@ -1,70 +1,85 @@
-import classnames from 'classnames/bind';
-import { useEffect, useState, useContext } from 'react';
+import classnames from 'classnames/bind'
+import { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus, faPlus, faHeart } from '@fortawesome/free-solid-svg-icons'
 
-import styles from './ProductInfo.module.scss';
-import ProductImagesSlider from '~/components/ProductImagesSlider';
-import Button from '~/components/Button';
-import { CartContext } from '~/contexts/CartContext';
-import { useNavigate } from 'react-router-dom';
+import styles from './ProductInfo.module.scss'
+import ProductImagesSlider from '~/components/ProductImagesSlider'
+import Button from '~/components/Button'
+import { CartContext } from '~/contexts/CartContext'
+import { WishlistContext } from '~/contexts/WishlistContext'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function ProductInfo({ data, onClose = () => {} }) {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const [productImages, setProductImages] = useState([]);
+    const [productImages, setProductImages] = useState([])
 
-    const [showVariant, setShowVariant] = useState();
-    const [variantSelect, setVariantSelect] = useState(0);
-    const [variantImage, setVariantImage] = useState();
-    const [count, setCount] = useState(1);
+    const [showVariant, setShowVariant] = useState()
+    const [variantSelect, setVariantSelect] = useState(0)
+    const [variantImage, setVariantImage] = useState()
+    const [count, setCount] = useState(1)
+    const [clicked, setClicked] = useState(false)
 
-    const { addToCart } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext)
+    const { wishlists, toggleWishlist } = useContext(WishlistContext)
+
+    const isLiked = wishlists.some((item) => item._id === data._id)
 
     const handleIncreaseQuantity = () => {
         if (count < data?.stock) {
-            setCount((prev) => prev + 1);
+            setCount((prev) => prev + 1)
         }
-    };
+    }
 
     const handleDecreaseQuantity = () => {
         if (count > 1) {
-            setCount((prev) => prev - 1);
+            setCount((prev) => prev - 1)
         }
-    };
+    }
 
     const handleInputChange = (e) => {
-        let value = Number(e.target.value);
+        let value = Number(e.target.value)
         if (isNaN(value) || value < 1) {
-            value = 1;
+            value = 1
         } else if (value > data?.stock) {
-            value = data?.stock;
+            value = data?.stock
         }
-        setCount(value);
-    };
+        setCount(value)
+    }
 
     const handleAddToCart = async (productId, quantity, variantId) => {
-        await addToCart(productId, quantity, variantId);
-        onClose();
-    };
+        await addToCart(productId, quantity, variantId)
+        onClose()
+    }
 
     const handleBuyNow = async (productId, quantity, variantId) => {
-        await addToCart(productId, quantity, variantId);
-        navigate('/cart');
-    };
+        await addToCart(productId, quantity, variantId)
+        navigate('/cart')
+    }
+
+    const handleWishlist = async () => {
+        setClicked(true)
+        await toggleWishlist(data?._id)
+
+        // reset lại clicked sau 500ms để animation không lặp lại
+        setTimeout(() => {
+            setClicked(false)
+        }, 500)
+    }
 
     useEffect(() => {
-        const images = data.variant.flatMap((variant) => variant.images);
-        setProductImages(images);
+        const images = data.variant.flatMap((variant) => variant.images)
+        setProductImages(images)
         if (data.variant.length === 1 && data.variant[0].name === 'default') {
-            setShowVariant(false);
+            setShowVariant(false)
         } else {
-            setShowVariant(true);
+            setShowVariant(true)
         }
-    }, [data]);
+    }, [data])
 
     return (
         <div className={cx('wrapper')}>
@@ -80,7 +95,19 @@ function ProductInfo({ data, onClose = () => {} }) {
             <div className={cx('content', 'col-sm-7')}>
                 <div className={cx('wrapbox-detail')}>
                     <div className={cx('heading')}>
-                        <h2 className={cx('heading-title')}>{data?.name}</h2>
+                        <div className={cx('heading-title')}>
+                            <h2 className={cx('title')}>{data?.name}</h2>
+                            <div className={cx('wishlist-btn')}>
+                                <FontAwesomeIcon
+                                    icon={faHeart}
+                                    className={cx('heart-icon', {
+                                        active: isLiked,
+                                        clicked: clicked,
+                                    })}
+                                    onClick={() => handleWishlist()}
+                                />
+                            </div>
+                        </div>
                         <span className={cx('status')}>
                             {'Tình trạng: '}{' '}
                             <strong className={cx('strong-text')}>{data?.stock > 0 ? 'Còn hàng' : 'Hết hàng'}</strong>
@@ -125,13 +152,13 @@ function ProductInfo({ data, onClose = () => {} }) {
                                                 active: variantSelect === index,
                                             })}
                                             onClick={() => {
-                                                setVariantSelect(index);
-                                                setVariantImage(productImages.indexOf(item.images[0]));
+                                                setVariantSelect(index)
+                                                setVariantImage(productImages.indexOf(item.images[0]))
                                             }}
                                         >
                                             {item.name}
                                         </Button>
-                                    );
+                                    )
                                 })}
                             </div>
                         </div>
@@ -186,7 +213,7 @@ function ProductInfo({ data, onClose = () => {} }) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default ProductInfo;
+export default ProductInfo

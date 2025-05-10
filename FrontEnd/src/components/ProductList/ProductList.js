@@ -1,15 +1,15 @@
-import classnames from 'classnames/bind';
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import classnames from 'classnames/bind'
+import { useState, useEffect, useRef } from 'react'
+import { useParams } from 'react-router-dom'
 
-import styles from './ProductList.module.scss';
+import styles from './ProductList.module.scss'
 
-import httpRequest from '~/utils/httpRequest';
-import ProductCard from '~/components/ProductCard';
-import CustomPagination from '~/components/CustomPagination';
+import httpRequest from '~/utils/httpRequest'
+import ProductCard from '~/components/ProductCard'
+import CustomPagination from '~/components/CustomPagination'
 // import { Spinner } from 'react-bootstrap';
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function ProductList({
     onProductCountChange,
@@ -19,72 +19,73 @@ function ProductList({
     selectedPrices,
     currentPage,
     setCurrentPage,
+    // previousCategory,
 }) {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([])
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const category = useParams();
-    const firstLoad = useRef(true);
-    const previousCategory = useRef(null);
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const category = useParams()
+    const firstLoad = useRef(true)
+    const previousCategory = useRef(null)
 
     // const [currentProduct, setCurrentProduct] = useState(null);
-    const itemsPerPage = 12;
+    const itemsPerPage = 12
 
     useEffect(() => {
-        setLoading(true);
+        setLoading(true)
         const fetchData = async () => {
             try {
-                let queryParams = new URLSearchParams();
-
-                // Thêm nhiều brand vào query
-                selectedBrands.forEach((brand) => queryParams.append('brand', brand));
-
-                selectedPrices.forEach((range) => queryParams.append('priceRanges', range));
-
-                if (sortBy) queryParams.append('sortBy', sortBy);
-                const res = await httpRequest.get(`/products/category/${category.slug}?${queryParams.toString()}`);
-                setProducts(res);
+                let queryParams = new URLSearchParams()
 
                 if (previousCategory.current !== category.slug) {
-                    firstLoad.current = true;
-                    previousCategory.current = category.slug;
+                    firstLoad.current = true
+                    previousCategory.current = category.slug
                 }
 
-                onProductCountChange(res.length);
+                // Thêm nhiều brand vào query
+                selectedBrands.forEach((brand) => queryParams.append('brand', brand))
+
+                selectedPrices.forEach((range) => queryParams.append('priceRanges', range))
+
+                if (sortBy) queryParams.append('sortBy', sortBy)
+                const res = await httpRequest.get(`/products/category/${category.slug}?${queryParams.toString()}`)
+                setProducts(res)
+
+                onProductCountChange(res.length)
 
                 if (firstLoad.current) {
-                    const brands = Array.from(new Set(res.map((product) => product.brand))); // Lấy các brand duy nhất
-                    onBrandChange(brands);
-                    firstLoad.current = false;
+                    const brands = Array.from(new Set(res.map((product) => product.brand))) // Lấy các brand duy nhất
+                    onBrandChange(brands)
+                    firstLoad.current = false
                 }
             } catch (err) {
-                setError('Failed to fetch products');
+                setError('Failed to fetch products')
             } finally {
                 // setTimeout(() => {
-                setLoading(false);
+                setLoading(false)
                 // }, 200);
             }
-        };
+        }
 
-        fetchData();
+        fetchData()
         // eslint-disable-next-line
-    }, [category, sortBy, selectedBrands, selectedPrices]);
+    }, [previousCategory.current, sortBy, selectedBrands, selectedPrices])
 
     if (loading) {
-        return <></>;
+        return <></>
         // <Spinner animation="border" className={cx('loading-spinner')} />;
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div>{error}</div>
     }
 
-    const indexOfLastProduct = currentPage * itemsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const indexOfLastProduct = currentPage * itemsPerPage
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct)
 
-    const totalPages = Math.ceil(products.length / itemsPerPage);
+    const totalPages = Math.ceil(products.length / itemsPerPage)
 
     return (
         <div className={cx('wrapper', 'row')}>
@@ -93,15 +94,15 @@ function ProductList({
             ) : (
                 currentProducts.map((product, index) => {
                     return (
-                        <div key={index} className={cx('product-item', 'col-md-3', 'col-6')}>
+                        <div key={index} className={cx('product-item', 'col-xxl-3', 'col-lg-4', 'col-md-6', 'col-6')}>
                             <ProductCard product={product} />
                         </div>
-                    );
+                    )
                 })
             )}
             <CustomPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
-    );
+    )
 }
 
-export default ProductList;
+export default ProductList

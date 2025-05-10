@@ -42,7 +42,7 @@ function StaticPageLayout() {
                                 </div>
                                 <div
                                     className={cx('sidebox-content', {
-                                        'sidebox-content-togged': !open,
+                                        'sidebox-content-toggled': !open,
                                     })}
                                 >
                                     <ul className={cx('menu-list')}>

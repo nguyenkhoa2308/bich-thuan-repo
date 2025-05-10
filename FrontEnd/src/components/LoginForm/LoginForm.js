@@ -65,8 +65,12 @@ function LoginForm() {
                     email: res?.user?.email ?? '',
                     name: res?.user?.name ?? '',
                     role: res?.user?.role ?? '',
+                    avatar: res?.user?.avatar ?? '',
                 },
             })
+
+            console.log(res)
+
             getCart()
             getAddresses()
             getWishlists()

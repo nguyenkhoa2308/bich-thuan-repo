@@ -10,6 +10,7 @@ export const AuthContext = createContext({
         email: '',
         name: '',
         role: '',
+        avatar: '',
     },
     socket: null,
 })
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }) => {
             email: '',
             name: '',
             role: '',
+            avatar: '',
         },
     })
     const [socket, setSocket] = useState(null)
@@ -46,8 +48,11 @@ export const AuthProvider = ({ children }) => {
                             email: res.email,
                             name: res.name,
                             role: res.role,
+                            avatar: res.avatar,
                         },
                     })
+
+                    console.log(res)
                 } else {
                     setAuth({ isAuthenticated: false, user: null })
                 }

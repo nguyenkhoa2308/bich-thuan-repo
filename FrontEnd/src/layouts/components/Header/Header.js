@@ -4,7 +4,14 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressBook, faHeart, faTrashCan, faUser } from '@fortawesome/free-regular-svg-icons'
 import { MenuItem } from '@mui/material'
-import { faAngleDown, faArrowRightFromBracket, faMinus, faPlus, faGauge } from '@fortawesome/free-solid-svg-icons'
+import {
+    faAngleDown,
+    faArrowRightFromBracket,
+    faMinus,
+    faPlus,
+    faGauge,
+    faXmark,
+} from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Header.module.scss'
 import { AccountIcon, CartIcon, ClipBoardListIcon, ShoppingCartIcon } from '~/components/Icons/Icons'
@@ -14,6 +21,8 @@ import DropDownMenu from '~/components/DropDownMenu'
 import { AuthContext } from '~/contexts/AuthContext'
 import { CartContext } from '~/contexts/CartContext'
 import { ChatContext } from '~/contexts/ChatContext'
+import Image from '~/components/Image'
+import images from '~/assets/images'
 
 const cx = classnames.bind(styles)
 
@@ -46,6 +55,8 @@ function Header() {
     const [cartOpen, setCartOpen] = useState(false)
     const [cartQuantities, setCartQuantities] = useState({})
     const [pendingUpdate, setPendingUpdate] = useState(null)
+    const [isMobile, setIsMobile] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const USER_MENU = [
         {
@@ -105,6 +116,7 @@ function Header() {
                         email: '',
                         name: '',
                         role: '',
+                        avatar: '',
                     },
                 })
                 setMessages([])
@@ -126,13 +138,23 @@ function Header() {
     }
 
     const handleCartClick = (event) => {
-        setCartAnchorEl(event.currentTarget)
-        setCartOpen(true)
+        if (isMobile) {
+            // Nếu là mobile, chuyển thẳng đến trang giỏ hàng
+            navigate('/cart')
+        } else {
+            // Nếu là desktop, hiển thị dropdown như bình thường
+            setCartAnchorEl(event.currentTarget)
+            setCartOpen(true)
+        }
     }
 
     const handleClose = () => {
         setAccountOpen(false)
         setCartOpen(false)
+    }
+
+    const handleOpenMenu = () => {
+        setIsMenuOpen(!isMenuOpen)
     }
 
     const handleUpdate = (quantity, cartItemId) => {
@@ -201,6 +223,22 @@ function Header() {
     }, [])
 
     useEffect(() => {
+        const checkScreenSize = () => {
+            // Thường lấy 768px làm mốc phân biệt mobile/desktop
+            setIsMobile(window.innerWidth < 992)
+        }
+
+        // Kiểm tra ngay khi component mount
+        checkScreenSize()
+
+        // Thêm event listener khi resize
+        window.addEventListener('resize', checkScreenSize)
+
+        // Cleanup
+        return () => window.removeEventListener('resize', checkScreenSize)
+    }, [])
+
+    useEffect(() => {
         if (location.pathname === '/') {
             // Kiểm tra nếu trang hiện tại là trang chủ
             setActiveTab(-1) // Đặt lại activeTab thành -1 khi về trang chủ
@@ -209,16 +247,102 @@ function Header() {
         setCartOpen(false)
     }, [location.pathname])
 
+    useEffect(() => {
+        document.body.classList.toggle('no-scroll', isMenuOpen)
+    }, [isMenuOpen])
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('header-bar')}>
-                    <Link to="/">
-                        <span className={cx('header-logo')}>BichThuan</span>
+                    <div className="d-block d-lg-none pe-2">
+                        <div className={cx('header-hamburger-menu')} onClick={() => handleOpenMenu()}>
+                            <span className={cx('line')}></span>
+                            <span className={cx('line')}></span>
+                            <span className={cx('line')}></span>
+                        </div>
+                        <div
+                            className={cx(
+                                'menu-wrapper',
+                                'd-flex',
+                                'position-fixed',
+                                'top-0',
+                                'start-0',
+                                'bottom-0',
+                                'w-100',
+                                'vh-100',
+                                {
+                                    show: isMenuOpen,
+                                },
+                            )}
+                        >
+                            <div
+                                className={cx('menu-overlay', 'position-fixed', 'top-0', 'start-0', 'w-100', 'h-100', {
+                                    show: isMenuOpen,
+                                })}
+                                onClick={() => setIsMenuOpen(false)}
+                            />
+                            <div
+                                className={cx(
+                                    'menu-container',
+                                    'position-fixed',
+                                    'top-0',
+                                    'start-0',
+                                    'd-flex',
+                                    'flex-column',
+                                    'flex-grow-1',
+                                    'flex-shrink-1',
+                                    'bg-white',
+                                    'w-100',
+                                    'h-100',
+                                    { show: isMenuOpen },
+                                )}
+                            >
+                                <div
+                                    className={cx(
+                                        'menu-header',
+                                        'd-flex',
+                                        'justify-content-between',
+                                        'align-items-center',
+                                        'p-3',
+                                    )}
+                                >
+                                    <h3 className={cx('header-text')}>Danh mục</h3>
+                                    <FontAwesomeIcon
+                                        icon={faXmark}
+                                        className={cx('close-icon')}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    />
+                                </div>
+                                <div className={cx('nav-menu', 'd-flex', 'flex-column')}>
+                                    {HEADER_TAB.map((item, index) => {
+                                        return (
+                                            <nav
+                                                key={index}
+                                                className={cx('menu-item')}
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                <Link to={`/category/${item.slug}`} className={cx('menu-link')}>
+                                                    {item.title}
+                                                </Link>
+                                            </nav>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <Link to="/" className={cx('header-wrap-logo')}>
+                        <span className={cx('header-logo')}>
+                            <Image src={images.logoTrans} className={cx('logo')} />
+                            {/* BichThuan */}
+                        </span>
                     </Link>
 
                     <div className={cx('header-action')}>
-                        <Search />
+                        <div className={cx('d-none', 'd-lg-block', 'search-container')}>
+                            <Search />
+                        </div>
                         <div className={cx('header-action_account', 'header-action_item')}>
                             <div onClick={auth.isAuthenticated ? handleAccountClick : null}>
                                 <div
@@ -249,7 +373,7 @@ function Header() {
                                 anchorEl={accountAnchorEl}
                                 open={accountOpen}
                                 handleClose={handleClose}
-                                width={205}
+                                width={isMobile ? '100%' : 205}
                             >
                                 {USER_MENU.map((item, index) => (
                                     <MenuItem
@@ -278,176 +402,193 @@ function Header() {
                                     <span className={cx('text-blow')}>Giỏ hàng</span>
                                 </span>
                             </div>
-                            <DropDownMenu anchorEl={cartAnchorEl} open={cartOpen} handleClose={handleClose} width={480}>
-                                <div className={cx('header-dropdown_content')}>
-                                    <p className={cx('box-title')}>Giỏ hàng</p>
-                                    <div className={cx('cart-view')}>
-                                        <div className={cx('cart-view-scroll')}>
-                                            <div className={cx('cart-view_item')}>
-                                                <table>
-                                                    {cartItems?.items?.length > 0 ? (
-                                                        <tbody>
-                                                            {cartItems?.items?.map((cartItem, index) => (
-                                                                <tr className={cx('mini-cart__item')} key={index}>
-                                                                    <td className={cx('mini-cart__left')}>
-                                                                        <Link
-                                                                            to={`/products/${cartItem?.product?.slug}`}
-                                                                        >
-                                                                            <img
-                                                                                src={`${cartItem?.product?.image}`}
-                                                                                alt={`${cartItem?.product?.name}`}
-                                                                            />
-                                                                        </Link>
-                                                                    </td>
-                                                                    <td className={cx('mini-cart__right')}>
-                                                                        <p className={cx('mini-cart__title')}>
+                            {!isMobile && (
+                                <DropDownMenu
+                                    anchorEl={cartAnchorEl}
+                                    open={cartOpen}
+                                    handleClose={handleClose}
+                                    width={480}
+                                >
+                                    <div className={cx('header-dropdown_content')}>
+                                        <p className={cx('box-title')}>Giỏ hàng</p>
+                                        <div className={cx('cart-view')}>
+                                            <div className={cx('cart-view-scroll')}>
+                                                <div className={cx('cart-view_item')}>
+                                                    <table>
+                                                        {cartItems?.items?.length > 0 ? (
+                                                            <tbody>
+                                                                {cartItems?.items?.map((cartItem, index) => (
+                                                                    <tr className={cx('mini-cart__item')} key={index}>
+                                                                        <td className={cx('mini-cart__left')}>
                                                                             <Link
-                                                                                className={cx('mnc-link')}
                                                                                 to={`/products/${cartItem?.product?.slug}`}
                                                                             >
-                                                                                {cartItem?.product?.name}
+                                                                                <img
+                                                                                    src={`${cartItem?.product?.image}`}
+                                                                                    alt={`${cartItem?.product?.name}`}
+                                                                                />
                                                                             </Link>
-                                                                            {!(
-                                                                                cartItem?.variant?.name === 'default'
-                                                                            ) && (
-                                                                                <span className={cx('mnc-variant')}>
-                                                                                    {cartItem?.variant?.name}
-                                                                                </span>
-                                                                            )}
-                                                                        </p>
-                                                                        <div className="d-flex justify-content-between align-items-center">
-                                                                            <div className={cx('mini-cart__quantity')}>
+                                                                        </td>
+                                                                        <td className={cx('mini-cart__right')}>
+                                                                            <p className={cx('mini-cart__title')}>
+                                                                                <Link
+                                                                                    className={cx('mnc-link')}
+                                                                                    to={`/products/${cartItem?.product?.slug}`}
+                                                                                >
+                                                                                    {cartItem?.product?.name}
+                                                                                </Link>
+                                                                                {!(
+                                                                                    cartItem?.variant?.name ===
+                                                                                    'default'
+                                                                                ) && (
+                                                                                    <span className={cx('mnc-variant')}>
+                                                                                        {cartItem?.variant?.name}
+                                                                                    </span>
+                                                                                )}
+                                                                            </p>
+                                                                            <div className="d-flex justify-content-between align-items-center">
                                                                                 <div
                                                                                     className={cx(
-                                                                                        'quantity',
-                                                                                        'd-flex',
-                                                                                        'align-items-center',
+                                                                                        'mini-cart__quantity',
                                                                                     )}
                                                                                 >
                                                                                     <div
-                                                                                        className={cx('count-btn')}
-                                                                                        onClick={() =>
-                                                                                            handleDecreaseQuantity(
-                                                                                                cartItem?.quantity,
-                                                                                                cartItem?._id,
-                                                                                            )
-                                                                                        }
+                                                                                        className={cx(
+                                                                                            'quantity',
+                                                                                            'd-flex',
+                                                                                            'align-items-center',
+                                                                                        )}
                                                                                     >
-                                                                                        <FontAwesomeIcon
-                                                                                            icon={faMinus}
-                                                                                        />
-                                                                                    </div>
-                                                                                    <p className={cx('number')}>
-                                                                                        {cartQuantities[
-                                                                                            cartItem?._id
-                                                                                        ] || cartItem?.quantity}
-                                                                                    </p>
+                                                                                        <div
+                                                                                            className={cx('count-btn')}
+                                                                                            onClick={() =>
+                                                                                                handleDecreaseQuantity(
+                                                                                                    cartItem?.quantity,
+                                                                                                    cartItem?._id,
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            <FontAwesomeIcon
+                                                                                                icon={faMinus}
+                                                                                            />
+                                                                                        </div>
+                                                                                        <p className={cx('number')}>
+                                                                                            {cartQuantities[
+                                                                                                cartItem?._id
+                                                                                            ] || cartItem?.quantity}
+                                                                                        </p>
 
-                                                                                    <div
-                                                                                        className={cx('count-btn')}
-                                                                                        onClick={() =>
-                                                                                            handleIncreaseQuantity(
-                                                                                                cartItem?.product
-                                                                                                    ?.stock,
-                                                                                                cartItem?.quantity,
-                                                                                                cartItem?._id,
-                                                                                            )
-                                                                                        }
-                                                                                    >
-                                                                                        <FontAwesomeIcon
-                                                                                            icon={faPlus}
-                                                                                        />
+                                                                                        <div
+                                                                                            className={cx('count-btn')}
+                                                                                            onClick={() =>
+                                                                                                handleIncreaseQuantity(
+                                                                                                    cartItem?.product
+                                                                                                        ?.stock,
+                                                                                                    cartItem?.quantity,
+                                                                                                    cartItem?._id,
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            <FontAwesomeIcon
+                                                                                                icon={faPlus}
+                                                                                            />
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                <div className={cx('mini-cart__price')}>
+                                                                                    {new Intl.NumberFormat(
+                                                                                        'en-US',
+                                                                                    ).format(
+                                                                                        cartItem?.product?.priceFinal *
+                                                                                            1000,
+                                                                                    )}
+                                                                                    ₫
+                                                                                    {cartItem?.product?.priceFinal !==
+                                                                                        cartItem?.product
+                                                                                            ?.priceOriginal && (
+                                                                                        <del
+                                                                                            className={cx(
+                                                                                                'original-price',
+                                                                                            )}
+                                                                                        >
+                                                                                            {new Intl.NumberFormat(
+                                                                                                'en-US',
+                                                                                            ).format(
+                                                                                                cartItem?.product
+                                                                                                    ?.priceOriginal *
+                                                                                                    1000,
+                                                                                            )}
+                                                                                            ₫
+                                                                                        </del>
+                                                                                    )}
+                                                                                </div>
                                                                             </div>
-                                                                            <div className={cx('mini-cart__price')}>
-                                                                                {new Intl.NumberFormat('en-US').format(
-                                                                                    cartItem?.product?.priceFinal *
-                                                                                        1000,
-                                                                                )}
-                                                                                ₫
-                                                                                {cartItem?.product?.priceFinal !==
-                                                                                    cartItem?.product
-                                                                                        ?.priceOriginal && (
-                                                                                    <del
-                                                                                        className={cx('original-price')}
-                                                                                    >
-                                                                                        {new Intl.NumberFormat(
-                                                                                            'en-US',
-                                                                                        ).format(
-                                                                                            cartItem?.product
-                                                                                                ?.priceOriginal * 1000,
-                                                                                        )}
-                                                                                        ₫
-                                                                                    </del>
-                                                                                )}
+                                                                            <div className={cx('mini-cart__remove')}>
+                                                                                <Button
+                                                                                    onlyIcon
+                                                                                    leftIcon={
+                                                                                        <FontAwesomeIcon
+                                                                                            icon={faTrashCan}
+                                                                                        />
+                                                                                    }
+                                                                                    onClick={() =>
+                                                                                        handleRemoveItem(cartItem)
+                                                                                    }
+                                                                                ></Button>
                                                                             </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        ) : (
+                                                            <tbody>
+                                                                <tr className={cx('mini-cart__empty')}>
+                                                                    <td>
+                                                                        <div className={cx('shopping-cart-icon')}>
+                                                                            <ShoppingCartIcon />
                                                                         </div>
-                                                                        <div className={cx('mini-cart__remove')}>
-                                                                            <Button
-                                                                                onlyIcon
-                                                                                leftIcon={
-                                                                                    <FontAwesomeIcon
-                                                                                        icon={faTrashCan}
-                                                                                    />
-                                                                                }
-                                                                                onClick={() =>
-                                                                                    handleRemoveItem(cartItem)
-                                                                                }
-                                                                            ></Button>
-                                                                        </div>
+                                                                        Hiện chưa có sản phẩm
                                                                     </td>
                                                                 </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    ) : (
-                                                        <tbody>
-                                                            <tr className={cx('mini-cart__empty')}>
-                                                                <td>
-                                                                    <div className={cx('shopping-cart-icon')}>
-                                                                        <ShoppingCartIcon />
-                                                                    </div>
-                                                                    Hiện chưa có sản phẩm
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    )}
-                                                </table>
+                                                            </tbody>
+                                                        )}
+                                                    </table>
+                                                </div>
                                             </div>
+                                            <div className={cx('cart-view-line')}></div>
                                         </div>
-                                        <div className={cx('cart-view-line')}></div>
+                                        <div className={cx('cart-view-total')}>
+                                            <table className={cx('table-total')}>
+                                                <tbody>
+                                                    <tr>
+                                                        <td className={cx('total-title')}>TỔNG TIỀN:</td>
+                                                        <td className={cx('total-text')}>
+                                                            {cartItems?.items?.length > 0
+                                                                ? new Intl.NumberFormat('en-US').format(
+                                                                      cartItems?.totalPriceFinal * 1000,
+                                                                  )
+                                                                : 0}
+                                                            ₫
+                                                        </td>
+                                                    </tr>
+                                                    <tr className={cx('mini-cart__button')}>
+                                                        <td colSpan="2">
+                                                            <Button
+                                                                to="/cart"
+                                                                primary
+                                                                small
+                                                                className={cx('view-cart-btn')}
+                                                            >
+                                                                Xem giỏ hàng
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                    <div className={cx('cart-view-total')}>
-                                        <table className={cx('table-total')}>
-                                            <tbody>
-                                                <tr>
-                                                    <td className={cx('total-title')}>TỔNG TIỀN:</td>
-                                                    <td className={cx('total-text')}>
-                                                        {cartItems?.items?.length > 0
-                                                            ? new Intl.NumberFormat('en-US').format(
-                                                                  cartItems?.totalPriceFinal * 1000,
-                                                              )
-                                                            : 0}
-                                                        ₫
-                                                    </td>
-                                                </tr>
-                                                <tr className={cx('mini-cart__button')}>
-                                                    <td colSpan="2">
-                                                        <Button
-                                                            to="/cart"
-                                                            primary
-                                                            small
-                                                            className={cx('view-cart-btn')}
-                                                        >
-                                                            Xem giỏ hàng
-                                                        </Button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </DropDownMenu>
+                                </DropDownMenu>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -468,6 +609,9 @@ function Header() {
                             )
                         })}
                     </div>
+                </div>
+                <div className={cx('search-mobile', 'd-block', 'd-lg-none')}>
+                    <Search />
                 </div>
             </div>
         </div>

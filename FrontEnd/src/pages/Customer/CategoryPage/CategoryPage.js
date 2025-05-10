@@ -1,7 +1,8 @@
 import classnames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilter, faCheck, faX } from '@fortawesome/free-solid-svg-icons'
+import { faFilter, faCheck, faX, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom'
+// import { faFilter } from '@fortawesome/free-regular-svg-icons'
 import { useEffect, useState, useCallback } from 'react'
 
 import styles from './CategoryPage.module.scss'
@@ -75,6 +76,12 @@ function CategoryPage() {
     const [pageTitle, setPageTitle] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
 
+    const [isOpenSort, setIsOpenSort] = useState(true)
+    const [isOpenBrand, setIsOpenBrand] = useState(true)
+    const [isOpenPrice, setIsOpenPrice] = useState(true)
+
+    const [openFilterMenu, setOpenFilterMenu] = useState(false)
+
     // eslint-disable-next-line
     const [loading, setLoading] = useState(false)
     const slug = useParams()
@@ -107,8 +114,15 @@ function CategoryPage() {
     }
 
     useEffect(() => {
+        document.body.classList.toggle('no-scroll', openFilterMenu)
+    }, [openFilterMenu])
+
+    useEffect(() => {
         setCurrentPage(1)
         // setLoading(true);
+        setSelectedValue('price_asc')
+        setSelectedBrands([])
+        setSelectedPrices([])
 
         const slugValue = slug.slug
 
@@ -147,81 +161,203 @@ function CategoryPage() {
                     </div>
                 ) : (
                     <>
-                        <div className={cx('filter')}>
-                            {/* filter brand */}
-                            <div className={cx('filter-group')}>
-                                <div className={cx('filter-group-block')}>
-                                    <div className={cx('filter-group-title')}>
-                                        <span className={cx('text')}>Nhà cung cấp</span>
+                        <div
+                            className={cx('filter', 'col-12', 'col-md-12', 'col-lg-3', 'd-lg-block', {
+                                'd-none': !openFilterMenu,
+                            })}
+                        >
+                            <div
+                                className={cx('filter-wrapper', {
+                                    'd-block': openFilterMenu,
+                                })}
+                            >
+                                <div
+                                    className={cx('filter-container', {
+                                        'show-filter': openFilterMenu,
+                                    })}
+                                >
+                                    <div className={cx('filter-title', 'd-block', 'd-lg-none')}>
+                                        <p className={cx('filter-heading')}>
+                                            <FontAwesomeIcon icon={faFilter} className={cx('heading-icon')} />
+                                            Bộ lọc
+                                        </p>
+                                        <div className={cx('close-filter')}>
+                                            <FontAwesomeIcon
+                                                icon={faXmark}
+                                                className={cx('close-icon')}
+                                                onClick={() => {
+                                                    setOpenFilterMenu(false)
+                                                    setSelectedValue('price_asc')
+                                                    setSelectedBrands([])
+                                                    setSelectedPrices([])
+                                                }}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className={cx('filter-group-content')}>
-                                        <ul className={cx('checkbox-list')}>
-                                            {brands.map((item, index) => {
-                                                return (
-                                                    <li className={cx('checkbox-item')} key={index}>
-                                                        <input
-                                                            type="checkbox"
-                                                            id={`data-brand-${index}`}
-                                                            value={item}
-                                                            className={cx('input-field')}
-                                                            checked={selectedBrands.includes(item)}
-                                                            onChange={() => handleBrandSelect(item)}
-                                                        />
-                                                        <label
-                                                            className={cx('checkbox-label')}
-                                                            htmlFor={`data-brand-${index}`}
-                                                        >
-                                                            {item}
-                                                        </label>
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
+                                    <div className={cx('filter-group-container')}>
+                                        {/*filter sortby*/}
+                                        <div className={cx('filter-group', 'd-block', 'd-lg-none')}>
+                                            <div className={cx('filter-group-block')}>
+                                                <div
+                                                    className={cx('filter-group-title')}
+                                                    onClick={() => setIsOpenSort(!isOpenSort)}
+                                                >
+                                                    <span className={cx('text')}>Sắp xếp</span>
+                                                </div>
+                                                <div
+                                                    className={cx('filter-group-content', {
+                                                        'sidebox-content-toggled': !isOpenSort,
+                                                    })}
+                                                >
+                                                    <ul className={cx('checkbox-list')}>
+                                                        {SORT_MENU.map((item, index) => {
+                                                            return (
+                                                                <li className={cx('checkbox-item')} key={index}>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id={`data-sort-${index}`}
+                                                                        value={item.value}
+                                                                        className={cx('input-field')}
+                                                                        checked={selectedValue === item.value}
+                                                                        onChange={() => setSelectedValue(item.value)}
+                                                                    />
+                                                                    <label
+                                                                        className={cx('checkbox-label')}
+                                                                        htmlFor={`data-sort-${index}`}
+                                                                    >
+                                                                        {item.title}
+                                                                    </label>
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* filter brand */}
+                                        <div className={cx('filter-group')}>
+                                            <div className={cx('filter-group-block')}>
+                                                <div
+                                                    className={cx('filter-group-title')}
+                                                    onClick={() => setIsOpenBrand(!isOpenBrand)}
+                                                >
+                                                    <span className={cx('text')}>Nhà cung cấp</span>
+                                                </div>
+                                                <div
+                                                    className={cx('filter-group-content', {
+                                                        'sidebox-content-toggled': !isOpenBrand,
+                                                    })}
+                                                >
+                                                    <ul className={cx('checkbox-list')}>
+                                                        {brands.map((item, index) => {
+                                                            return (
+                                                                <li className={cx('checkbox-item')} key={index}>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id={`data-brand-${index}`}
+                                                                        value={item}
+                                                                        className={cx('input-field')}
+                                                                        checked={selectedBrands.includes(item)}
+                                                                        onChange={() => handleBrandSelect(item)}
+                                                                    />
+                                                                    <label
+                                                                        className={cx('checkbox-label')}
+                                                                        htmlFor={`data-brand-${index}`}
+                                                                    >
+                                                                        {item}
+                                                                    </label>
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* filter price */}
+                                        <div className={cx('filter-group')}>
+                                            <div className={cx('filter-group-block')}>
+                                                <div
+                                                    className={cx('filter-group-title')}
+                                                    onClick={() => setIsOpenPrice(!isOpenPrice)}
+                                                >
+                                                    <span className={cx('text')}>Giá</span>
+                                                </div>
+                                                <div
+                                                    className={cx('filter-group-content', {
+                                                        'sidebox-content-toggled': !isOpenPrice,
+                                                    })}
+                                                >
+                                                    <ul className={cx('checkbox-list')}>
+                                                        {priceOptions.map((price, index) => (
+                                                            <li className={cx('checkbox-item')} key={index}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    id={`price-${index}`}
+                                                                    value={price.value}
+                                                                    className={cx('input-field')}
+                                                                    checked={selectedPrices.includes(price.value)}
+                                                                    onChange={() => handlePriceSelect(price.value)}
+                                                                />
+                                                                <label
+                                                                    className={cx('checkbox-label')}
+                                                                    htmlFor={`price-${index}`}
+                                                                >
+                                                                    {price.label}
+                                                                </label>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* filter color */}
+                                    {/* filter size */}
+
+                                    <div className={cx('filter-footer', 'd-lg-none')}>
+                                        <Button
+                                            outline
+                                            className={cx('col-5', 'action-btn')}
+                                            onClick={() => {
+                                                setOpenFilterMenu(false)
+                                                setSelectedValue('price_asc')
+                                                setSelectedBrands([])
+                                                setSelectedPrices([])
+                                            }}
+                                        >
+                                            Huỷ
+                                        </Button>
+                                        <Button
+                                            primary
+                                            className={cx('col-5', 'action-btn')}
+                                            onClick={() => setOpenFilterMenu(false)}
+                                        >
+                                            Áp dụng
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
-                            {/* filter price */}
-                            <div className={cx('filter-group')}>
-                                <div className={cx('filter-group-block')}>
-                                    <div className={cx('filter-group-title')}>
-                                        <span className={cx('text')}>Giá</span>
-                                    </div>
-                                    <div className={cx('filter-group-content')}>
-                                        <ul className={cx('checkbox-list')}>
-                                            {priceOptions.map((price, index) => (
-                                                <li className={cx('checkbox-item')} key={index}>
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`price-${index}`}
-                                                        className={cx('input-field')}
-                                                        checked={selectedPrices.includes(price.value)}
-                                                        onChange={() => handlePriceSelect(price.value)}
-                                                    />
-                                                    <label className={cx('checkbox-label')} htmlFor={`price-${index}`}>
-                                                        {price.label}
-                                                    </label>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* filter color */}
-                            {/* filter size */}
                         </div>
-                        <div className={cx('content')}>
+                        <div className={cx('content', 'col-12', 'col-md-12', 'col-lg-9')}>
                             <div className={cx('heading')}>
-                                <div className={cx('heading-content')}>
+                                <div className={cx('heading-content', 'd-block', 'd-lg-flex')}>
                                     <div className={cx('heading-box')}>
                                         <h1 className={cx('heading-title')}>{pageTitle}</h1>
                                         <div className={cx('filter-box')}>
                                             <span className={cx('title-count')}>
                                                 <b>{productCount}</b> sản phẩm
                                             </span>
+                                            <p
+                                                className={cx('title-filter', 'd-sm-flex', 'd-lg-none')}
+                                                onClick={() => setOpenFilterMenu(!openFilterMenu)}
+                                            >
+                                                <span>Bộ lọc</span>
+                                                <FontAwesomeIcon icon={faFilter} className={cx('filter-icon')} />
+                                            </p>
                                         </div>
                                     </div>
 
-                                    <div className={cx('heading-sortby')}>
+                                    <div className={cx('heading-sortby', 'd-none', 'd-lg-block')}>
                                         <div className={cx('sortby-container')}>
                                             <p className={cx('sortby-title')}>
                                                 <span className={cx('sortby-icon')}>

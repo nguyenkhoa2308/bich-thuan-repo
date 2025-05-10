@@ -33,6 +33,11 @@ body {
     text-rendering: optimizeSpeed;
     overflow-y: overlay;
     background-color: #f7f7f7;
+    min-height: 100vh;
+
+    &.no-scroll {
+        overflow: hidden !important;
+    }
 }
 
 button,

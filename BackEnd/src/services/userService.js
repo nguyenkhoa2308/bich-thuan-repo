@@ -60,6 +60,7 @@ const loginService = async (email, password) => {
                     email: user.email,
                     name: user.displayName,
                     role: user.role,
+                    avatar: user.avatar,
                 }
 
                 const access_token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE })
@@ -71,6 +72,7 @@ const loginService = async (email, password) => {
                         email: user.email,
                         name: user.displayName,
                         role: user.role,
+                        avatar: user.avatar,
                     },
                 }
             }

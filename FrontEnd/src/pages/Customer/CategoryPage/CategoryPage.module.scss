@@ -1,6 +1,5 @@
 .wrapper {
     max-width: 1400px;
-    padding: 0 15px;
     margin: auto;
 }
 
@@ -23,10 +22,62 @@
 }
 
 .filter {
-    flex: 0 0 25%;
-    width: 25%;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+.filter-container {
+    margin-bottom: 5px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.filter-title {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 50px 12px 15px;
+    background: var(--primary);
+}
+
+.filter-heading {
+    font-size: 16px;
+    color: var(--white);
+    margin: 0;
+    font-weight: 600;
+}
+
+.heading-icon {
+    width: 22px;
+    height: 22px;
+    margin-top: -6px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.close-filter {
+    // display: none;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 15px);
+    z-index: 5;
+    border: 0;
+    background: transparent;
+    text-align: center;
+    outline: none;
+
+    svg {
+        color: var(--white);
+        width: 16px;
+        height: 30px;
+    }
+}
+
+.filter-group-container {
+    width: 100%;
 }
 
 .filter-group-block {
@@ -45,12 +96,41 @@
     font-size: 1.6rem;
     font-weight: 600;
     cursor: pointer;
+
+    &::after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 13px;
+        margin: auto;
+        height: 8px;
+        width: 8px;
+        border-color: #666;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        transform: translateY(-50%) rotate(45deg);
+        transition: transform 0.2s ease;
+    }
 }
 
 .filter-group-content {
     background: var(--white);
-    padding: 10px;
+    padding-left: 10px;
     border-top: 1px solid var(--shop-color-border);
+    transition: all 0.4s ease-in;
+    max-height: 300px;
+    overflow: auto;
+
+    &.sidebox-content-toggled {
+        overflow: hidden;
+        max-height: 0;
+        transition: all 0.4s ease-in;
+    }
+}
+
+.checkbox-list {
+    margin-top: 10px;
 }
 
 .checkbox-item {
@@ -127,8 +207,6 @@
 }
 
 .content {
-    flex: 0 0 75%;
-    width: 75%;
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -159,6 +237,20 @@
 
 .filter-box {
     padding-left: 30px;
+    margin-top: 5px;
+}
+
+.title-filter {
+    margin: 0;
+    padding: 3px 12px;
+    background: #fff;
+    border: 1px solid var(--shop-color-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-bottom: 0;
 }
 
 .heading-sortby {
@@ -306,5 +398,104 @@
 .brand-tags {
     &.opened {
         display: inline-block;
+    }
+}
+
+@media (max-width: 991px) {
+    .filter-wrapper {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        overflow: hidden;
+    }
+
+    .filter-container {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        max-height: 100%;
+        background: #ffffff;
+        margin: 0;
+        overflow: hidden;
+        transform: translateY(100%);
+        flex-direction: column;
+        transition: transform 1s ease-in-out;
+        z-index: 999;
+        padding: 0;
+
+        &.show-filter {
+            transform: translateY(0%);
+            transition: transform 1s ease-in-out;
+        }
+    }
+
+    .filter-group-container {
+        flex: 1 1 auto;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        overflow-x: hidden;
+        padding: 10px 15px 10px;
+        border-top: 1px solid var(--shop-color-border);
+        border-bottom: 1px solid var(--shop-color-border);
+    }
+
+    .filter-group-block {
+        margin-bottom: 0;
+    }
+
+    .filter-group-content {
+        padding-bottom: 0;
+        border-top: 0;
+        border-bottom: 1px solid var(--shop-color-border);
+    }
+
+    .filter-footer {
+        width: 100%;
+        padding: 10px 5px 12px;
+        display: flex;
+        justify-content: space-around;
+
+        .action-btn {
+            border-radius: 4px;
+        }
+    }
+
+    .content {
+        padding: 0;
+    }
+
+    .heading-content {
+        padding: 10px 15px;
+    }
+
+    .heading-box {
+        flex-direction: column;
+        align-items: unset;
+    }
+
+    .heading-title {
+        font-size: 22px;
+        margin-bottom: 0px;
+    }
+
+    .filter-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 0;
+
+        .filter-icon {
+            width: 16px;
+            height: 16px;
+            stroke: var(--shop-color-text);
+            margin-left: 5px;
+        }
     }
 }

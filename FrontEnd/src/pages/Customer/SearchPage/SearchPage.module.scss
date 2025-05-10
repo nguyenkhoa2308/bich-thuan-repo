@@ -1,6 +1,7 @@
 .wrapper {
     margin-top: 32px;
     margin-bottom: 32px;
+    padding: 0 15px;
 }
 
 .product-wrapper {
@@ -89,5 +90,13 @@
             color: #fff;
             box-shadow: none;
         }
+    }
+}
+
+@media (max-width: 767px) {
+    .product-item {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+        margin-bottom: 4px;
     }
 }

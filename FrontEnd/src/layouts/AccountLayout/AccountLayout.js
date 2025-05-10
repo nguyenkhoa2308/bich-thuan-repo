@@ -3,7 +3,7 @@ import { useContext, useState, useEffect, useMemo } from 'react'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
-import { faPen, faCircleUser } from '@fortawesome/free-solid-svg-icons'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './AccountLayout.module.scss'
 import Header from '~/layouts/components/Header'
@@ -11,6 +11,7 @@ import Footer from '../components/Footer'
 import CustomerChat from '~/layouts/components/CustomerChat'
 import { AuthContext } from '~/contexts/AuthContext'
 import { ClipBoardListIcon } from '~/components/Icons'
+import Image from '~/components/Image'
 
 const cx = classnames.bind(styles)
 
@@ -36,16 +37,18 @@ function AccountLayout() {
         }
     }, [location.pathname, userPaths])
 
+    console.log(auth)
+
     return (
         <div className={cx('wrapper')}>
             <Header />
             <div className={cx('container')}>
                 <div className={cx('sidebar')}>
                     <div className={cx('sidebar-header')}>
-                        <Link to="/account" className={cx('sidebar-header-left')}>
-                            <span className={cx('avt-icon')}>
-                                <FontAwesomeIcon icon={faCircleUser} />
-                            </span>
+                        <Link to="/account" className={cx('sidebar-header-left', 'd-flex', 'align-items-center')}>
+                            <div className={cx('avatar-container')}>
+                                <Image src={auth?.user.avatar} className={cx('user-avatar')} />
+                            </div>
                         </Link>
                         <div className={cx('sidebar-header-right')}>
                             <div className={cx('sidebar-name')}>{auth.user.name}</div>

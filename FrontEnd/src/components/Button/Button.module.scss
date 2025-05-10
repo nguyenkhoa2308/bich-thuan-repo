@@ -146,3 +146,14 @@
     min-width: 148px;
     padding: 14px 16px;
 }
+
+@media (max-width: 375px) {
+    .small {
+        font-size: 1.1rem;
+        padding: 0 35px 0 0;
+
+        .title {
+            padding-right: 0 !important;
+        }
+    }
+}

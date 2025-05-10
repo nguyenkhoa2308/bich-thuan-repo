@@ -26,12 +26,45 @@
 }
 
 .heading-title {
-    font-size: 2.4rem;
-    margin-bottom: 5px;
-    color: var(--primary);
-    margin: 0 0 13px 0;
-    font-weight: 700;
-    line-height: 1.2;
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+        max-width: 90%;
+        font-size: 2.4rem;
+        margin-bottom: 5px;
+        color: var(--primary);
+        margin: 0 0 13px 0;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .wishlist-btn {
+        // position: absolute;
+        // top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        background-color: var(--white);
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        -webkit-user-select: none;
+        user-select: none;
+
+        & .heart-icon {
+            font-size: 1.8rem;
+            transform: translate(5px, 6px);
+            color: var(--dark-charcoal);
+
+            &.active {
+                color: var(--primary);
+            }
+
+            &.clicked {
+                animation: heart-anim 0.7s ease;
+            }
+        }
+    }
 }
 
 .brand::before {
@@ -241,4 +274,16 @@
     color: #929292;
     pointer-events: none;
     border-color: #929292;
+}
+
+@keyframes heart-anim {
+    0% {
+        transform: scale(1) translate(5px, 6px);
+    }
+    50% {
+        transform: scale(1.2) translate(4px, 5px);
+    }
+    100% {
+        transform: scale(1) translate(5px, 6px);
+    }
 }

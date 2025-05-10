@@ -1,7 +1,7 @@
-import classnames from 'classnames/bind';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import dayjs from 'dayjs';
+import classnames from 'classnames/bind'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import dayjs from 'dayjs'
 
 // Material UI Imports
 import {
@@ -14,84 +14,84 @@ import {
     OutlinedInput,
     Radio,
     RadioGroup,
-} from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+} from '@mui/material'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 
 // Material UI Icon Imports
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-import styles from './RegisterForm.module.scss';
-import Button from '~/components/Button';
-import * as authService from '~/services/authService';
+import styles from './RegisterForm.module.scss'
+import Button from '~/components/Button'
+import * as authService from '~/services/authService'
 
-const cx = classnames.bind(styles);
+const cx = classnames.bind(styles)
 
 function RegisterForm() {
-    const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-    const navigate = useNavigate();
+    const isEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+    const navigate = useNavigate()
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     //Inputs
-    const [lastName, setLastName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [gender, setGender] = useState(false);
-    const [birthdayInput, setBirthdayInput] = useState(null);
-    const [emailInput, setEmailInput] = useState('');
-    const [passwordInput, setPasswordInput] = useState('');
-    const [confirmPasswordInput, setConfirmPasswordInput] = useState('');
-    const [isDefaultSet, setIsDefaultSet] = useState(false); // Cờ để kiểm tra nếu giá trị mặc định đã được gán
-    const [errorMessage, setErrorMessage] = useState('');
+    const [lastName, setLastName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [gender, setGender] = useState(false)
+    const [birthdayInput, setBirthdayInput] = useState(null)
+    const [emailInput, setEmailInput] = useState('')
+    const [passwordInput, setPasswordInput] = useState('')
+    const [confirmPasswordInput, setConfirmPasswordInput] = useState('')
+    const [isDefaultSet, setIsDefaultSet] = useState(false) // Cờ để kiểm tra nếu giá trị mặc định đã được gán
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleOpen = () => {
         if (!isDefaultSet) {
-            setBirthdayInput(dayjs()); // Gán giá trị mặc định là ngày hiện tại
-            setIsDefaultSet(true); // Đánh dấu đã gán giá trị
+            setBirthdayInput(dayjs()) // Gán giá trị mặc định là ngày hiện tại
+            setIsDefaultSet(true) // Đánh dấu đã gán giá trị
         }
-    };
+    }
 
     // Handles Display and Hide Password
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowPassword = () => setShowPassword((show) => !show)
     const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleMouseUpPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     // Handles Display and Hide Confirm Password
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show)
     const handleMouseDownConfirmPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleMouseUpConfirmPassword = (event) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     const handleRegister = async () => {
         // Gọi API để đăng ký
-        const formattedDate = dayjs(birthdayInput).format('DD/MM/YYYY');
+        const formattedDate = dayjs(birthdayInput).format('DD/MM/YYYY')
 
         if (!isEmail(emailInput)) {
-            setErrorMessage('Email không đúng định dạng');
-            return;
+            setErrorMessage('Email không đúng định dạng')
+            return
         } else {
-            setErrorMessage('');
+            setErrorMessage('')
         }
 
         if (dayjs(birthdayInput).isAfter(dayjs(), 'day')) {
-            setErrorMessage('Ngày sinh phải trước ngày hiện tại.');
-            return;
+            setErrorMessage('Ngày sinh phải trước ngày hiện tại.')
+            return
         } else {
-            setErrorMessage('');
+            setErrorMessage('')
         }
 
         if (passwordInput === confirmPasswordInput) {
@@ -102,19 +102,19 @@ function RegisterForm() {
                 lastName,
                 gender,
                 formattedDate,
-            );
+            )
 
             if (res.EC === 1) {
-                setErrorMessage(res.EM);
+                setErrorMessage(res.EM)
             } else {
-                console.log('Success');
-                navigate('/login');
-                setErrorMessage('');
+                console.log('Success')
+                navigate('/login')
+                setErrorMessage('')
             }
         } else {
-            setErrorMessage('Mật khẩu không khớp');
+            setErrorMessage('Mật khẩu không khớp')
         }
-    };
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -144,7 +144,7 @@ function RegisterForm() {
                             },
                         }}
                         onChange={(event) => {
-                            setLastName(event.target.value);
+                            setLastName(event.target.value)
                         }}
                     />
                     <TextField
@@ -171,7 +171,7 @@ function RegisterForm() {
                             },
                         }}
                         onChange={(event) => {
-                            setFirstName(event.target.value);
+                            setFirstName(event.target.value)
                         }}
                     />
                     <FormControl sx={{ mb: 2 }}>
@@ -331,7 +331,7 @@ function RegisterForm() {
                             },
                         }}
                         onChange={(event) => {
-                            setEmailInput(event.target.value);
+                            setEmailInput(event.target.value)
                         }}
                     />
                     <FormControl
@@ -379,7 +379,7 @@ function RegisterForm() {
                             label="Mật khẩu"
                             value={passwordInput}
                             onChange={(event) => {
-                                setPasswordInput(event.target.value);
+                                setPasswordInput(event.target.value)
                             }}
                         />
                     </FormControl>
@@ -428,7 +428,7 @@ function RegisterForm() {
                             label="Xác nhận mật khẩu"
                             value={confirmPasswordInput}
                             onChange={(event) => {
-                                setConfirmPasswordInput(event.target.value);
+                                setConfirmPasswordInput(event.target.value)
                             }}
                         />
                     </FormControl>
@@ -443,7 +443,8 @@ function RegisterForm() {
                             primary
                             xLarge
                             className={cx('register-btn', {
-                                disabled: !emailInput || !passwordInput || !confirmPasswordInput,
+                                disabled:
+                                    !emailInput || !passwordInput || !confirmPasswordInput || !firstName || !lastName,
                             })}
                             onClick={() => handleRegister()}
                         >
@@ -459,7 +460,7 @@ function RegisterForm() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default RegisterForm;
+export default RegisterForm

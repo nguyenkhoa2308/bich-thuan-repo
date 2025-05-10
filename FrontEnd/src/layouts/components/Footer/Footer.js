@@ -36,7 +36,7 @@ function Footer() {
                             </form>
                         </div>
                     </div>
-                    <div className={cx('newsletter-block')}>
+                    <div className={cx('newsletter-block', 'newsletter-social', 'd-none', 'd-md-flex')}>
                         <div className={cx('newsletter-title')}>
                             <h3>Kết nối với chúng tôi</h3>
                         </div>
@@ -55,9 +55,9 @@ function Footer() {
                 </div>
             </div>
             <div className={cx('footer-container')}>
-                <div className={cx('container')}>
+                <div className={cx('container-fluid')}>
                     <div className={cx('row')}>
-                        <div className={cx('col-lg-3', 'col-md-12', 'col-12')}>
+                        <div className={cx('col-lg-3', 'col-md-12', 'col-12', 'd-none', 'd-lg-block')}>
                             <h4 className={cx('footer-title')}></h4>
                             <div className={cx('footer-content')}>
                                 <div className={cx('address-footer')}>
@@ -164,13 +164,13 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className={cx('footer-copyright')}>
-                    <p>
-                        Copyright © 2025 <Link to="/"> BichThuanFurniture</Link>
-                        {'. '}
-                        <Link to="/">Powered by KhoaNee</Link>
-                    </p>
-                </div>
+            </div>
+            <div className={cx('footer-copyright')}>
+                <p>
+                    Copyright © 2025 <Link to="/"> BichThuanFurniture</Link>
+                    {'. '}
+                    <Link to="/">Powered by KhoaNee</Link>
+                </p>
             </div>
         </div>
     )

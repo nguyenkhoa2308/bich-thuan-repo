@@ -78,7 +78,7 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
                     >
                         <h3 className={cx('product-name')}>{product.name}</h3>
                     </Link>
-                    <div className={cx('product-price')}>
+                    <p className={cx('product-price')}>
                         <span
                             className={cx('price-final', {
                                 sale: product.priceFinal !== product.priceOriginal,
@@ -91,7 +91,7 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
                                 {new Intl.NumberFormat('en-US').format(product.priceOriginal * 1000)}₫
                             </span>
                         )}
-                    </div>
+                    </p>
                     <div className={cx('product-action')}>
                         <div className={cx('action-btn')}>
                             <Button
@@ -109,7 +109,7 @@ function ProductCard({ product, handleClick, isHome = false, openDialog }) {
                                         disabled: product.stock === 0,
                                     })}
                                 >
-                                    <CartIcon width="1.6rem" height="3.1rem" />
+                                    <CartIcon width="1.6rem" height="3.1rem" className={cx('icon')} />
                                 </span>
                             </Button>
                         </div>

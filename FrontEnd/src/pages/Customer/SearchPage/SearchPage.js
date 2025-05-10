@@ -51,7 +51,7 @@ function SearchPage() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
+            <div className={cx('container', 'p-0')}>
                 {loading ? (
                     <div className={cx('loading-container')}>
                         <Spinner animation="border" />
@@ -70,7 +70,7 @@ function SearchPage() {
                         <div className={cx('product-wrapper', 'row')}>
                             {currentProducts.map((product, index) => {
                                 return (
-                                    <div key={index} className={cx('product-item', 'col-md-2', 'col-6')}>
+                                    <div key={index} className={cx('product-item', 'col-lg-3', 'col-md-6', 'col-6')}>
                                         <ProductCard product={product} />
                                     </div>
                                 )

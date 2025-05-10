@@ -24,6 +24,7 @@ const auth = (req, res, next) => {
                 email: decoded.email,
                 name: decoded.name,
                 role: decoded.role,
+                avatar: decoded.avatar,
             }
             // console.log('>>> check token: ', decoded)
             next()
