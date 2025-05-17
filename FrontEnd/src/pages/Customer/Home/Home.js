@@ -219,10 +219,9 @@ function Home() {
                     </div>
                 </div>
 
-                <div className={cx('blogs-container')}>
+                {/* <div className={cx('blogs-container')}>
                     <h2 className={cx('heading-title')}>Bài viết mới nhất</h2>
-                    {/* <BestSellerProducts products={products} /> */}
-                </div>
+                </div> */}
             </div>
         </div>
     )
