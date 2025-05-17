@@ -37,8 +37,6 @@ function AccountLayout() {
         }
     }, [location.pathname, userPaths])
 
-    console.log(auth)
-
     return (
         <div className={cx('wrapper')}>
             <Header />

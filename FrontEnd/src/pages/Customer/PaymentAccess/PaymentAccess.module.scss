@@ -1,0 +1,26 @@
+.wrapper {
+    margin-top: 64px;
+    background-color: var(--white);
+    border-radius: 20px;
+}
+
+.page-heading {
+    margin-bottom: 24px;
+    margin-top: 20px;
+    color: green;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    .success-icon {
+        font-size: 4.8rem;
+    }
+}
+
+.page-body {
+    margin-bottom: 16px;
+}
+
+.page-footer {
+    margin-bottom: 32px;
+}

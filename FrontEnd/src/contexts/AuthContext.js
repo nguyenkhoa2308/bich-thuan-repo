@@ -51,8 +51,6 @@ export const AuthProvider = ({ children }) => {
                             avatar: res.avatar,
                         },
                     })
-
-                    console.log(res)
                 } else {
                     setAuth({ isAuthenticated: false, user: null })
                 }

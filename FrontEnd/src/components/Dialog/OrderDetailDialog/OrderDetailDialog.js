@@ -1,14 +1,14 @@
-import classNames from 'classnames/bind';
-import { Modal, Button, Table } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import classNames from 'classnames/bind'
+import { Modal, Button, Table } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 
-import styles from './OrderDetailDialog.module.scss';
+import styles from './OrderDetailDialog.module.scss'
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 const OrderDetailDialog = ({ show, handleClose, order }) => {
-    const location = useLocation();
-    const isAdminPage = location.pathname.startsWith('/admin');
+    const location = useLocation()
+    const isAdminPage = location.pathname.startsWith('/admin')
 
     const getOrderStatusLabel = (status) => {
         const statusMap = {
@@ -18,11 +18,11 @@ const OrderDetailDialog = ({ show, handleClose, order }) => {
             Delivered: 'Đã giao hàng',
             Received: 'Đã nhận',
             Cancelled: 'Đã hủy',
-        };
-        return statusMap[status] || status;
-    };
+        }
+        return statusMap[status] || status
+    }
 
-    if (!order) return null; // Nếu chưa có đơn hàng, không hiển thị gì
+    if (!order) return null // Nếu chưa có đơn hàng, không hiển thị gì
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -114,12 +114,12 @@ const OrderDetailDialog = ({ show, handleClose, order }) => {
                 </Table>
             </Modal.Body>
             <Modal.Footer>
-                {order.status === 'Pending' && !isAdminPage && (
+                {order.status === 'Pending' && order.banking === 1 && !isAdminPage && (
                     <Button
                         variant="success"
                         onClick={() => {
-                            window.open(order.link_payment, '_blank');
-                            handleClose();
+                            window.open(order.link_payment, '_blank')
+                            handleClose()
                         }}
                         className={cx('custom-btn')}
                     >
@@ -131,7 +131,7 @@ const OrderDetailDialog = ({ show, handleClose, order }) => {
                 </Button>
             </Modal.Footer>
         </Modal>
-    );
-};
+    )
+}
 
-export default OrderDetailDialog;
+export default OrderDetailDialog

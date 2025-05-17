@@ -22,6 +22,7 @@ import ChangePassword from '~/pages/Customer/ChangePassword'
 import Cart from '~/pages/Customer/Cart'
 import CheckOut from '~/pages/Customer/CheckOut'
 import SearchPage from '~/pages/Customer/SearchPage/SearchPage'
+import PaymentAccess from '~/pages/Customer/PaymentAccess'
 
 import StaticPageLayout from '~/layouts/StaticPageLayout'
 import About from '~/pages/Customer/About/About'
@@ -52,6 +53,7 @@ function App() {
                     <Route path="cart" element={<Cart />} />
                     <Route path="checkout" element={<CheckOut />} />
                     <Route path="search" element={<SearchPage />} />
+                    <Route path="payment-success" element={<PaymentAccess />} />
                 </Route>
                 <Route path="pages" element={<StaticPageLayout />}>
                     <Route path="about" element={<About />} />
