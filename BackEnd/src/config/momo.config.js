@@ -6,5 +6,5 @@ module.exports = {
     secretKey: 'K951B6PE1waDMi640xX08PD3vg6EkVlz',
     apiUrl: 'https://test-payment.momo.vn/v2/gateway/api/create',
     returnUrl: 'http://localhost:2308/payment-success',
-    notifyUrl: 'https://3f5b-2405-4802-dbbb-f550-3df1-c477-71ae-948.ngrok-free.app/api/payment/webhook',
+    notifyUrl: 'https://c6d2-2001-ee0-1ae3-1eab-a91d-a4f4-edc7-7bca.ngrok-free.app/api/payment/webhook',
 }

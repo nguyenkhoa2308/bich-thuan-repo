@@ -20,9 +20,7 @@ function SideBar() {
 
     const menuItems = [
         { path: '/admin', name: 'Dashboard', icon: <FontAwesomeIcon icon={faChartLine} /> },
-        ...(auth.user.id === '67df90b43899a512b6e0a47f'
-            ? [{ path: '/admin/messages', name: 'Tin nhắn', icon: <FontAwesomeIcon icon={faFacebookMessenger} /> }]
-            : []),
+        { path: '/admin/messages', name: 'Tin nhắn', icon: <FontAwesomeIcon icon={faFacebookMessenger} /> },
         { path: '/admin/products', name: 'Sản phẩm', icon: <FontAwesomeIcon icon={faBoxOpen} /> },
         { path: '/admin/orders', name: 'Đơn hàng', icon: <FontAwesomeIcon icon={faTruck} /> },
         { path: '/admin/users', name: 'Người dùng', icon: <FontAwesomeIcon icon={faUser} /> },

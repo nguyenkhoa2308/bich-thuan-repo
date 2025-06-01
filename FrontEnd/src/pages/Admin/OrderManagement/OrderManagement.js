@@ -32,6 +32,10 @@ const OrderManagement = () => {
     const itemsPerPage = 12
     const totalPages = Math.ceil(orders.length / itemsPerPage)
 
+    const indexOfLastOrder = currentPage * itemsPerPage
+    const indexOfFirstOrder = indexOfLastOrder - itemsPerPage
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder)
+
     const statusMap = {
         Pending: { text: 'Duyệt đơn', next: 'Approved', variant: 'warning' },
         Approved: { text: 'Giao hàng', next: 'Shipping', variant: 'info' },
@@ -160,7 +164,7 @@ const OrderManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order) => (
+                        {currentOrders.map((order) => (p
                             <tr key={order._id}>
                                 <td>{order.orderCode}</td>
                                 <td>
