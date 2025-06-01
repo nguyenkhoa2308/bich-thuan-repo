@@ -10,7 +10,7 @@ export const ChatProvider = ({ children }) => {
     const [selectedUser, setSelectedUser] = useState(null)
     const [messages, setMessages] = useState([])
 
-    const isAdmin = auth?.user?.id === '67df90b43899a512b6e0a47f'
+    const isAdmin = auth?.user?.role === 'admin'
 
     const getUsers = useCallback(async () => {
         try {
@@ -56,7 +56,8 @@ export const ChatProvider = ({ children }) => {
                 // ✅ Gửi sự kiện markAsRead nếu đang mở
                 socket.emit('markAsRead', {
                     fromUserId: newMessage.senderId,
-                    toUserId: auth.user.id,
+                    // toUserId: auth.user.id,
+                    toUserId: '67df90b43899a512b6e0a47f',
                 })
             } else {
                 // Nếu không mở, vẫn nhận tin nhắn nhưng sẽ tính là chưa đọc

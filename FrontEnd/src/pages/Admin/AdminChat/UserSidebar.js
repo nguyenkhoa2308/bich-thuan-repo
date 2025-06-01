@@ -44,7 +44,7 @@ const UserSidebar = () => {
         setSelectedUser(user)
         socket.emit('markAsRead', {
             fromUserId: user.user._id,
-            toUserId: auth.user.id,
+            toUserId: '67df90b43899a512b6e0a47f',
         })
         getUsers()
     }

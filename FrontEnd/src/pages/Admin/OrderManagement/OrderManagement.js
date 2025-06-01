@@ -164,7 +164,7 @@ const OrderManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentOrders.map((order) => (p
+                        {currentOrders.map((order) => (
                             <tr key={order._id}>
                                 <td>{order.orderCode}</td>
                                 <td>

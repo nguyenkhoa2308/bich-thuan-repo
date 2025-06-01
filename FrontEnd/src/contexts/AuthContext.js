@@ -66,12 +66,18 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (auth.isAuthenticated && auth.user) {
             const newSocket = io(process.env.REACT_APP_SOCKET_URL, {
-                query: { userId: auth.user.id }, // Gửi userId lên server
+                query: { userId: auth.user.id },
+            })
+
+            newSocket.on('connect', () => {
+                if (auth.user.role === 'admin') {
+                    newSocket.emit('joinAdmin')
+                }
             })
 
             setSocket(newSocket)
 
-            return () => newSocket.disconnect() // Đóng kết nối khi user logout
+            return () => newSocket.disconnect()
         }
     }, [auth.isAuthenticated, auth.user])
 

@@ -14,28 +14,34 @@ const io = new Server(server, {
     },
 })
 
-// used to store online users
-const userSocketMap = {} // {userId: socketId}
+const userSocketMap = {} // { userId: socketId }
 
 io.on('connection', (socket) => {
-    // console.log('A user connected', socket.id)
-
     const userId = socket.handshake.query.userId
-    if (userId) userSocketMap[userId] = socket.id
+    if (!userId) return
 
-    // io.emit() is used to send events to all the connected clients
-    io.emit('getOnlineUsers', Object.keys(userSocketMap))
+    userSocketMap[userId] = socket.id
+    socket.join(userId) // join room riêng userId
+
+    // Nếu là admin (được frontend gửi event joinAdmin), join thêm admin-room
+    socket.on('joinAdmin', () => {
+        socket.join('admin-room')
+    })
 
     socket.on('markAsRead', async ({ fromUserId, toUserId }) => {
         await Message.updateMany({ senderId: fromUserId, receiverId: toUserId, seen: false }, { $set: { seen: true } })
     })
 
+    // Debug online users
+    io.emit('getOnlineUsers', Object.keys(userSocketMap))
+
     socket.on('disconnect', () => {
-        // console.log('A user disconnected', socket.id)
         delete userSocketMap[userId]
         io.emit('getOnlineUsers', Object.keys(userSocketMap))
     })
 })
+
+// export const getReceiverSocketId = (userId) => userSocketMap[userId]
 
 export { io, app, server }
 

@@ -92,11 +92,11 @@ const ChatContainer = () => {
                             key={message._id}
                             className={cx('message', {
                                 'chat-start': message.senderId !== auth.user.id,
-                                'chat-end': message.senderId === auth.user.id,
+                                'chat-end': message.senderId === '67df90b43899a512b6e0a47f',
                             })}
                             ref={messageEndRef}
                         >
-                            {message.senderId !== auth.user.id && (
+                            {message.senderId !== '67df90b43899a512b6e0a47f' && (
                                 <div className="chat-image avatar">
                                     <div className="avt">
                                         <Image src={selectedUser.user.avatar} className={cx('avatar-image')} />

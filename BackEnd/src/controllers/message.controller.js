@@ -2,8 +2,11 @@ import User from '~/models/user.model'
 import Message from '~/models/message.model'
 import { getReceiverSocketId, io } from '~/sockets/socket'
 
+const ADMIN_CSKH_ID = '67df90b43899a512b6e0a47f'
+
 export const getUsersForSidebar = async (req, res) => {
-    const adminId = req.user.id
+    // const adminId = req.user.id
+    const adminId = ADMIN_CSKH_ID
 
     try {
         const messages = await Message.find({
@@ -54,7 +57,8 @@ const getMessages = async (req, res) => {
         }
 
         const { id: userToChatId } = req.params
-        const myId = req.user.id
+        // const myId = req.user.id
+        const myId = req.user.role === 'admin' ? ADMIN_CSKH_ID : req.user.id
 
         const messages = await Message.find({
             $or: [
@@ -77,7 +81,7 @@ const sendMessage = async (req, res) => {
 
         const { text } = req.body
         const { id: receiverId } = req.params
-        const senderId = req.user.id
+        const senderId = req.user.role === 'admin' ? ADMIN_CSKH_ID : req.user.id
 
         const newMessage = new Message({
             senderId,
@@ -94,8 +98,16 @@ const sendMessage = async (req, res) => {
             io.to(receiverSocketId).emit('newMessage', newMessage)
         }
 
-        if (senderSocketId) {
-            io.to(senderSocketId).emit('newMessage', newMessage) // ✅ Emit lại cho người gửi
+        // Nếu sender là admin, phát message đến toàn bộ admin-room (để tất cả admin nhận được)
+        if (req.user.role === 'admin') {
+            io.to('admin-room').emit('newMessage', newMessage)
+        } else {
+            // Nếu sender là user, phát message đến sender socket
+            if (senderSocketId) {
+                io.to(senderSocketId).emit('newMessage', newMessage)
+            }
+
+            io.to('admin-room').emit('newMessage', newMessage)
         }
 
         res.status(201).json(newMessage)
